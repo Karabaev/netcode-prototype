@@ -17,16 +17,16 @@ namespace Motk.Client
       var appScope = LifetimeScope.Create(ConfigureAppScope);
       appScope.name = "Application";
 
-      appScope.Container.Resolve<ScopeState>().AppScope = appScope;
+      appScope.Container.Resolve<AppScopeState>().AppScope = appScope;
 
       var stateMachine = appScope.Container.Resolve<ApplicationStateMachine>();
       stateMachine.EnterAsync<ConnectionAppState, ConnectionAppState.Context>(new ConnectionAppState.Context(appScope));
     }
-
+    
     private void ConfigureAppScope(IContainerBuilder builder)
     {
       builder.RegisterInstance(FindObjectOfType<NetworkManager>());
-      builder.Register<ScopeState>(Lifetime.Singleton);
+      builder.Register<AppScopeState>(Lifetime.Singleton);
       builder.Register<InputState>(Lifetime.Singleton);
 
       RegisterAppStateMachine(builder);

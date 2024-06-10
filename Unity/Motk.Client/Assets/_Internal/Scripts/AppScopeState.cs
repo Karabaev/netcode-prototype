@@ -2,7 +2,7 @@ using VContainer.Unity;
 
 namespace Motk.Client
 {
-  public class ScopeState
+  public class AppScopeState
   {
     public LifetimeScope AppScope { get; set; } = null!;
   }
