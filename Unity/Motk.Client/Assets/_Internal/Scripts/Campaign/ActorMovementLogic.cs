@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using Game.Campaign.Actor;
+using Motk.Client.Campaign.Actor;
 using PrimeTween;
 using UnityEngine;
 
-namespace Game.Campaign
+namespace Motk.Client.Campaign
 {
   public class ActorMovementLogic
   {

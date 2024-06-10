@@ -781,7 +781,7 @@ GameObject:
   - component: {fileID: 1359430084}
   - component: {fileID: 1359430083}
   m_Layer: 0
-  m_Name: NetworkManager
+  m_Name: =====NetworkManager=====
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -859,7 +859,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1359430082}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1042,7 +1042,7 @@ GameObject:
   - component: {fileID: 1918296853}
   - component: {fileID: 1918296852}
   m_Layer: 0
-  m_Name: Bootstrap
+  m_Name: =====Bootstrap=====
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1060,7 +1060,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2256405b0b1b2a94b8ee73d530ddc24d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerPrefab: {fileID: 0}
 --- !u!4 &1918296853
 Transform:
   m_ObjectHideFlags: 0
@@ -1081,9 +1080,9 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1918296853}
+  - {fileID: 1359430085}
   - {fileID: 617125665}
   - {fileID: 330585546}
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 924289099}
-  - {fileID: 1359430085}

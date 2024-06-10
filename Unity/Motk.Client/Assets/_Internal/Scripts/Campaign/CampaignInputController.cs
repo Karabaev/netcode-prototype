@@ -1,8 +1,8 @@
 using System;
-using Game.Core.Input;
+using Motk.Client.Core.Input;
 using UnityEngine;
 
-namespace Game.Campaign
+namespace Motk.Client.Campaign
 {
   public class CampaignInputController : IDisposable
   {

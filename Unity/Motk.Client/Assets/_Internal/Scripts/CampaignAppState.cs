@@ -1,22 +1,21 @@
 using com.karabaev.applicationLifeCycle.StateMachine;
 using Cysharp.Threading.Tasks;
-using Game.Campaign;
+using JetBrains.Annotations;
+using Motk.Client.Campaign;
+using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-namespace Game
+namespace Motk.Client
 {
-  public class CampaignAppState : ApplicationState<DummyStateContext>
+  [UsedImplicitly]
+  public class CampaignAppState : ApplicationState<CampaignAppState.Context>
   {
     private LifetimeScope _scope = null!;
-    
-    public CampaignAppState(ApplicationStateMachine stateMachine) : base(stateMachine)
-    {
-    }
 
-    public override UniTask EnterAsync(DummyStateContext context)
+    public override UniTask EnterAsync(Context context)
     {
-      _scope = Resolve<ScopeState>().AppScope.CreateChild(ConfigureScope);
+      _scope = context.ParentScope.CreateChild(ConfigureScope);
 
       Resolve<CampaignInputController>();
       
@@ -32,8 +31,16 @@ namespace Game
     {
       builder.Register<CampaignInputState>(Lifetime.Singleton);
       builder.Register<CampaignInputController>(Lifetime.Singleton);
+
+      builder.RegisterInstance(Camera.main!);
     }
 
     private T Resolve<T>() => _scope.Container.Resolve<T>();
+
+    public CampaignAppState(ApplicationStateMachine stateMachine) : base(stateMachine)
+    {
+    }
+
+    public record Context(LifetimeScope ParentScope);
   }
 }

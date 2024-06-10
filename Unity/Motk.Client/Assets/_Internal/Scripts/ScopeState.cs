@@ -1,6 +1,6 @@
 using VContainer.Unity;
 
-namespace Game
+namespace Motk.Client
 {
   public class ScopeState
   {

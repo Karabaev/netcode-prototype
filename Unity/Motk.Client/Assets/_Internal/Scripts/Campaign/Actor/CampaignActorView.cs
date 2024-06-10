@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Game.Campaign.Actor
+namespace Motk.Client.Campaign.Actor
 {
   public class CampaignActorView : MonoBehaviour
   {

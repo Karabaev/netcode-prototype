@@ -1,7 +1,7 @@
 using com.karabaev.reactivetypes.Action;
 using UnityEngine;
 
-namespace Game.Campaign
+namespace Motk.Client.Campaign
 {
   public class CampaignInputState
   {

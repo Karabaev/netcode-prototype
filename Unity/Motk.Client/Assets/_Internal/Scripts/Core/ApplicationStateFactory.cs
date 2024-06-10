@@ -1,7 +1,7 @@
 ﻿using com.karabaev.applicationLifeCycle.StateMachine;
 using VContainer;
 
-namespace Game.Core
+namespace Motk.Client.Core
 {
   public class ApplicationStateFactory : IStateFactory
   {

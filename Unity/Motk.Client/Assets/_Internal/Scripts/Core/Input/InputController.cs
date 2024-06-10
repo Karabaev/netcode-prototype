@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Game.Core.Input
+namespace Motk.Client.Core.Input
 {
   public class InputController : MonoBehaviour
   {

@@ -1,7 +1,7 @@
 using com.karabaev.reactivetypes.Property;
 using UnityEngine;
 
-namespace Game.Campaign.Actor
+namespace Motk.Client.Campaign.Actor
 {
   public class CampaignActorState
   {

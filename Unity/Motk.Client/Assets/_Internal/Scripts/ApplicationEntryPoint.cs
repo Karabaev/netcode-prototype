@@ -1,24 +1,17 @@
 using com.karabaev.applicationLifeCycle.StateMachine;
-using Game.Campaign;
-using Game.Campaign.Actor;
-using Game.Core;
-using Game.Core.Input;
+using Motk.Client.Campaign;
+using Motk.Client.Campaign.Actor;
+using Motk.Client.Core;
+using Motk.Client.Core.Input;
+using Unity.Netcode;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-namespace Game
+namespace Motk.Client
 {
   public class ApplicationEntryPoint : MonoBehaviour
   {
-    private readonly InputState _inputState = new();
-    private readonly CampaignInputState _campaignInputState = new();
-
-    private readonly CampaignActorState _playerActorState = new();
-
-    [SerializeField]
-    private CampaignActorView _playerPrefab = null!;
-    
     private void Awake()
     {
       var appScope = LifetimeScope.Create(ConfigureAppScope);
@@ -27,21 +20,12 @@ namespace Game
       appScope.Container.Resolve<ScopeState>().AppScope = appScope;
 
       var stateMachine = appScope.Container.Resolve<ApplicationStateMachine>();
-      stateMachine.EnterAsync<CampaignAppState>();
-
-
-      // var inputController = FindObjectOfType<InputController>();
-      // inputController.Construct(_inputState);
-      //
-      // var campaignInputController = FindObjectOfType<CampaignInputController>();
-      // campaignInputController.Construct(_campaignInputState, _inputState, Camera.main);
-      //
-      // var actor = Instantiate(_playerPrefab);
-      // actor.Construct(_playerActorState);
+      stateMachine.EnterAsync<ConnectionAppState, ConnectionAppState.Context>(new ConnectionAppState.Context(appScope));
     }
 
     private void ConfigureAppScope(IContainerBuilder builder)
     {
+      builder.RegisterInstance(FindObjectOfType<NetworkManager>());
       builder.Register<ScopeState>(Lifetime.Singleton);
       builder.Register<InputState>(Lifetime.Singleton);
 
@@ -53,6 +37,7 @@ namespace Game
       builder.Register<ApplicationStateMachine>(Lifetime.Singleton);
       builder.Register<ApplicationStateFactory>(Lifetime.Singleton).As<IStateFactory>();
 
+      builder.Register<ConnectionAppState>(Lifetime.Transient);
       builder.Register<CampaignAppState>(Lifetime.Transient);
     }
   }

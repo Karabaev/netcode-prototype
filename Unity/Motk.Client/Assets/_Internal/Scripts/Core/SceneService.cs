@@ -4,7 +4,7 @@ using JetBrains.Annotations;
 using UnityEngine.SceneManagement;
 using VContainer.Unity;
 
-namespace Game.Core
+namespace Motk.Client.Core
 {
   [UsedImplicitly]
   public class SceneService
