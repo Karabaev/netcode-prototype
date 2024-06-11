@@ -1,6 +1,4 @@
 using com.karabaev.applicationLifeCycle.StateMachine;
-using Motk.Client.Campaign;
-using Motk.Client.Campaign.Actor;
 using Motk.Client.Core;
 using Motk.Client.Core.Input;
 using Unity.Netcode;
@@ -20,7 +18,7 @@ namespace Motk.Client
       appScope.Container.Resolve<AppScopeState>().AppScope = appScope;
 
       var stateMachine = appScope.Container.Resolve<ApplicationStateMachine>();
-      stateMachine.EnterAsync<ConnectionAppState, ConnectionAppState.Context>(new ConnectionAppState.Context(appScope));
+      stateMachine.EnterAsync<ConnectionAppState>();
     }
     
     private void ConfigureAppScope(IContainerBuilder builder)

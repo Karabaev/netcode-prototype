@@ -301,6 +301,12 @@
       "dependencies": {},
       "hash": "58610810240efebe27b982a3adfb8405c57320a2"
     },
+    "motk.shared": {
+      "version": "file:E:/Projects/MotK/Unity/Motk.Shared",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,

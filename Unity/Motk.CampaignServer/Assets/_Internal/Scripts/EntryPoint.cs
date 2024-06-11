@@ -1,3 +1,6 @@
+using Motk.CampaignServer.Locations;
+using Motk.CampaignServer.Matchmaking;
+using Motk.Shared.Locations;
 using Unity.Netcode;
 using UnityEngine;
 using VContainer;
@@ -7,6 +10,9 @@ namespace Motk.CampaignServer
 {
   public class EntryPoint : MonoBehaviour
   {
+    [SerializeField]
+    private LocationsRegistry _locationsRegistry = null!;
+    
     private LifetimeScope _scope = null!;
     
     private void Awake()
@@ -14,7 +20,8 @@ namespace Motk.CampaignServer
       _scope = LifetimeScope.Create(ConfigureScope);
       _scope.name = "Application";
 
-      _scope.Container.Resolve<NetworkManager>().OnClientConnectedCallback += SingletonOnOnClientConnectedCallback;
+      _scope.Container.Resolve<ClientConnectionListener>();
+      _scope.Container.Resolve<RoomLocationController>();
     }
 
     private void Start()
@@ -22,11 +29,16 @@ namespace Motk.CampaignServer
       _scope.Container.Resolve<NetworkManager>().StartServer();
     }
 
-    private void SingletonOnOnClientConnectedCallback(ulong clientId) => Debug.Log($"Client connected. {clientId}");
-
     private void ConfigureScope(IContainerBuilder builder)
     {
       builder.RegisterInstance(FindObjectOfType<NetworkManager>());
+      builder.Register<ClientConnectionListener>(Lifetime.Singleton);
+      builder.Register<RoomLocationController>(Lifetime.Singleton);
+      builder.RegisterInstance(_locationsRegistry);
+      builder.Register<CampaignLocationsState>(Lifetime.Singleton);
+      builder.Register<InMemoryPlayerLocationStorage>(Lifetime.Singleton).As<IPlayerLocationStorage>();
+      
+      builder.Register<MatchmakingService>(Lifetime.Singleton);
     }
   }
 }

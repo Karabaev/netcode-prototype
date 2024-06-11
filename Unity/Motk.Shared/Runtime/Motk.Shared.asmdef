@@ -1,14 +1,8 @@
 {
-    "name": "Motk.CampaignServer",
-    "rootNamespace": "Motk.CampaignServer",
+    "name": "Motk.Shared",
+    "rootNamespace": "Motk.Shared",
     "references": [
-        "VContainer",
-        "UniTask",
-        "Unity.Netcode.Runtime",
-        "com.karabaev.reactivetypes",
-        "com.karabaev.utilities",
-        "com.karabaev.utilities.unity",
-        "Motk.Shared"
+        "com.karabaev.reactivetypes"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

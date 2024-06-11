@@ -152,6 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25d0bbad1a643644d85ece85fb598594, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _locationsRegistry: {fileID: 11400000, guid: a9e94aa2e9763ec4eb9a4ff86d28952f, type: 2}
 --- !u!4 &217424180
 Transform:
   m_ObjectHideFlags: 0
@@ -229,8 +230,7 @@ MonoBehaviour:
     NetworkTransport: {fileID: 1600399125}
     PlayerPrefab: {fileID: 0}
     Prefabs:
-      NetworkPrefabsLists:
-      - {fileID: 11400000, guid: 22150eb6a70538446a9ce3c4b0d877e8, type: 2}
+      NetworkPrefabsLists: []
     TickRate: 30
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
@@ -238,7 +238,7 @@ MonoBehaviour:
     EnableTimeResync: 0
     TimeResyncInterval: 30
     EnsureNetworkVariableLengthSafety: 0
-    EnableSceneManagement: 1
+    EnableSceneManagement: 0
     ForceSamePrefabs: 1
     RecycleNetworkIds: 1
     NetworkIdRecycleDelay: 120

@@ -4,19 +4,17 @@ using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
-using UnityEngine;
-using VContainer.Unity;
 using Object = UnityEngine.Object;
 
 namespace Motk.Client
 {
   [UsedImplicitly]
-  public class ConnectionAppState : ApplicationState<ConnectionAppState.Context>
+  public class ConnectionAppState : ApplicationState<DummyStateContext>
   {
     private readonly NetworkManager _networkManager;
     private readonly AppScopeState _appScopeState;
 
-    public override async UniTask EnterAsync(Context context)
+    public override async UniTask EnterAsync(DummyStateContext context)
     {
       Object.FindObjectOfType<UnityTransport>().OnTransportEvent += OnTransportEvent;
 
@@ -26,16 +24,13 @@ namespace Motk.Client
       _networkManager.OnConnectionEvent += NetworkManagerOnOnConnectionEvent;
     }
 
-    private void NetworkManagerOnOnConnectionEvent(NetworkManager arg1, ConnectionEventData arg2)
+    private void NetworkManagerOnOnConnectionEvent(NetworkManager _, ConnectionEventData evt)
     {
-      Debug.Log($"{arg2.EventType}");
+      if (evt.EventType != ConnectionEvent.ClientConnected)
+        return;
       
-      if (arg2.EventType == ConnectionEvent.ClientConnected)
-      {
-        EnterNextStateAsync<CampaignAppState, CampaignAppState.Context>(new CampaignAppState.Context(_appScopeState.AppScope))
-          .Forget();
-      }
-
+      EnterNextStateAsync<CampaignAppState, CampaignAppState.Context>(new CampaignAppState.Context(_appScopeState.AppScope))
+        .Forget();
     }
 
     private void OnTransportEvent(NetworkEvent eventType, ulong clientId, ArraySegment<byte> payload, float receiveTime)
@@ -53,7 +48,5 @@ namespace Motk.Client
       _networkManager = networkManager;
       _appScopeState = appScopeState;
     }
-
-    public record Context(LifetimeScope ParentScope);
   }
 }
