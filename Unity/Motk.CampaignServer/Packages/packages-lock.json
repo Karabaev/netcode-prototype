@@ -262,6 +262,12 @@
       "dependencies": {},
       "hash": "1f611aa8b770ffc1697fbe3a67366734eb9584fa"
     },
+    "motk.matchmaking": {
+      "version": "file:E:/Projects/MotK/Unity/Motk.Matchmaking",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
     "motk.shared": {
       "version": "file:E:/Projects/MotK/Unity/Motk.Shared",
       "depth": 0,

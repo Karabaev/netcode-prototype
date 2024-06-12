@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Motk.CampaignServer.Matchmaking
+namespace Motk.Matchmaking
 {
   public class Room
   {

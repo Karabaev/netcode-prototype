@@ -1,0 +1,28 @@
+{
+    "name": "Motk.Client",
+    "rootNamespace": "Motk.Client",
+    "references": [
+        "com.karabaev.utilities",
+        "com.karabaev.utilities.unity",
+        "com.karabaev.reactivetypes",
+        "com.karabaev.applicationLifeCycle",
+        "com.karabaev.descriptors.abstractions",
+        "com.karabaev.descriptors.unity",
+        "UniTask",
+        "PrimeTween.Runtime",
+        "VContainer",
+        "Unity.Netcode.Runtime",
+        "Motk.Shared",
+        "Motk.Matchmaking",
+        "Unity.Networking.Transport"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

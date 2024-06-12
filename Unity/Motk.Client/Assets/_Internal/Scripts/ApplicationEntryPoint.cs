@@ -1,6 +1,8 @@
 using com.karabaev.applicationLifeCycle.StateMachine;
 using Motk.Client.Core;
 using Motk.Client.Core.Input;
+using Motk.Matchmaking;
+using Motk.Shared.Locations;
 using Unity.Netcode;
 using UnityEngine;
 using VContainer;
@@ -10,6 +12,9 @@ namespace Motk.Client
 {
   public class ApplicationEntryPoint : MonoBehaviour
   {
+    [SerializeField]
+    private LocationsRegistry _locationsRegistry = null!;
+    
     private void Awake()
     {
       var appScope = LifetimeScope.Create(ConfigureAppScope);
@@ -37,6 +42,9 @@ namespace Motk.Client
 
       builder.Register<ConnectionAppState>(Lifetime.Transient);
       builder.Register<CampaignAppState>(Lifetime.Transient);
+
+      builder.RegisterInstance(_locationsRegistry);
+      builder.Register<MatchmakingService>(Lifetime.Singleton);
     }
   }
 }

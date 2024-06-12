@@ -12,6 +12,7 @@
     "com.unity.textmeshpro": "3.0.6",
     "com.unity.ugui": "1.0.0",
     "jp.hadashikick.vcontainer": "https://github.com/hadashiA/VContainer.git?path=VContainer/Assets/VContainer",
+    "motk.matchmaking": "file:E:/Projects/MotK/Unity/Motk.Matchmaking",
     "motk.shared": "file:E:/Projects/MotK/Unity/Motk.Shared",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",

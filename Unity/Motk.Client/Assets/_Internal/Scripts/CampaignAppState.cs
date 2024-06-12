@@ -24,6 +24,7 @@ namespace Motk.Client
 
     public override UniTask ExitAsync()
     {
+      _scope.Dispose();
       return UniTask.CompletedTask;
     }
 
