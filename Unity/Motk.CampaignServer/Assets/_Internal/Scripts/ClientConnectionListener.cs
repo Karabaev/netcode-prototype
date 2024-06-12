@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Motk.CampaignServer.Locations;
-using Motk.CampaignServer.Matchmaking;
+using Motk.Matchmaking;
 using Motk.Shared.Actors;
 using Motk.Shared.Locations;
 using Unity.Netcode;

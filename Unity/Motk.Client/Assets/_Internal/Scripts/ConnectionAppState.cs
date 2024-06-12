@@ -11,13 +11,14 @@ namespace Motk.Client
   [UsedImplicitly]
   public class ConnectionAppState : ApplicationState<DummyStateContext>
   {
+    private const string ConnectingLocationId = "default";
+    
     private readonly NetworkManager _networkManager;
-    private readonly AppScopeState _appScopeState;
     private readonly MatchmakingService _matchmakingService;
 
     public override async UniTask EnterAsync(DummyStateContext context)
     {
-      var ticketId = await _matchmakingService.CreateTicketAsync("Player1", "default");
+      var ticketId = await _matchmakingService.CreateTicketAsync("Player1", ConnectingLocationId);
       var connectionParameters = await PollTicketAsync(ticketId);
       
       var transport = (UnityTransport)_networkManager.NetworkConfig.NetworkTransport;
@@ -30,9 +31,9 @@ namespace Motk.Client
     {
       if (evt.EventType != ConnectionEvent.ClientConnected)
         return;
-      
-      EnterNextStateAsync<CampaignAppState, CampaignAppState.Context>(new CampaignAppState.Context(_appScopeState.AppScope))
-        .Forget();
+
+      var context = new CampaignAppState.Context(ConnectingLocationId);
+      EnterNextStateAsync<CampaignAppState, CampaignAppState.Context>(context).Forget();
     }
     
     public override UniTask ExitAsync()
@@ -61,10 +62,9 @@ namespace Motk.Client
     }
 
     public ConnectionAppState(ApplicationStateMachine stateMachine, NetworkManager networkManager,
-      AppScopeState appScopeState, MatchmakingService matchmakingService) : base(stateMachine)
+      MatchmakingService matchmakingService) : base(stateMachine)
     {
       _networkManager = networkManager;
-      _appScopeState = appScopeState;
       _matchmakingService = matchmakingService;
     }
   }

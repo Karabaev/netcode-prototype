@@ -1,5 +1,5 @@
 using Motk.CampaignServer.Locations;
-using Motk.CampaignServer.Matchmaking;
+using Motk.Matchmaking;
 using Motk.Shared.Locations;
 using Unity.Netcode;
 using UnityEngine;
