@@ -2,6 +2,7 @@ using com.karabaev.applicationLifeCycle.StateMachine;
 using Motk.Client.Core;
 using Motk.Client.Core.Input;
 using Motk.Matchmaking;
+using Motk.Shared.Characters;
 using Motk.Shared.Locations;
 using Unity.Netcode;
 using UnityEngine;
@@ -14,6 +15,8 @@ namespace Motk.Client
   {
     [SerializeField]
     private LocationsRegistry _locationsRegistry = null!;
+    [SerializeField]
+    private CharactersRegistry _charactersRegistry = null!;
     
     private void Awake()
     {
@@ -44,6 +47,7 @@ namespace Motk.Client
       builder.Register<CampaignAppState>(Lifetime.Transient);
 
       builder.RegisterInstance(_locationsRegistry);
+      builder.RegisterInstance(_charactersRegistry);
       builder.Register<MatchmakingService>(Lifetime.Singleton);
     }
   }

@@ -9,13 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e149b83b3694ea8b328318fe35e50fe, type: 3}
-  m_Name: DR_Locations
+  m_Script: {fileID: 11500000, guid: d210f11d7a8e4b9baf786221d55658a6, type: 3}
+  m_Name: DR_Characters
   m_EditorClassIdentifier: 
   _entries:
   - <Id>k__BackingField: default
-    <Prefab>k__BackingField: {fileID: 5729570011254301590, guid: ef60ab67df7887949aeccd67e2d01b92,
-      type: 3}
-  - <Id>k__BackingField: second
-    <Prefab>k__BackingField: {fileID: 6248966341439841472, guid: 6570ea586b20e5842b164ef72acea155,
+    <Prefab>k__BackingField: {fileID: 1702576554220425866, guid: 218b969236e5cf34fa1ac4a1e26c8488,
       type: 3}

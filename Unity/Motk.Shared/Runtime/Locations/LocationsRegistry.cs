@@ -1,16 +1,10 @@
-using System.Collections.Generic;
-using System.Linq;
+using Motk.Shared.Descriptors;
 using UnityEngine;
 
 namespace Motk.Shared.Locations
 {
-  [CreateAssetMenu(menuName = "LocationsRegistry")]
-  public class LocationsRegistry : ScriptableObject
+  [CreateAssetMenu(menuName = "Motk/LocationsRegistry")]
+  public class LocationsRegistry : DescriptorRegistry<LocationDescriptor>
   {
-    [SerializeField]
-    private List<LocationDescriptor> _locations = null!;
-
-    public IReadOnlyDictionary<string, LocationDescriptor> Locations => 
-      _locations.ToDictionary(l => l.Id, l => l);
   }
 }

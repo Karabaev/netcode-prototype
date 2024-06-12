@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using Motk.Shared.Descriptors;
 using UnityEngine;
 
-namespace Motk.Shared.Locations
+namespace Motk.Shared.Characters
 {
   [Serializable]
-  public class LocationDescriptor : DescriptorBase
+  public class CharacterDescriptor : DescriptorBase
   {
     [field: SerializeField]
     public GameObject Prefab { get; private set; } = null!;

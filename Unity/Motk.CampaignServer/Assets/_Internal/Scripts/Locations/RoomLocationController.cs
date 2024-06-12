@@ -33,7 +33,7 @@ namespace Motk.CampaignServer.Locations
     private void State_OnRoomAdded(int roomId, CampaignLocationState newLocationState)
     {
       var locationId = newLocationState.LocationId;
-      var locationDescriptor = _locationsRegistry.Locations[locationId];
+      var locationDescriptor = _locationsRegistry.Entries[locationId];
       _locations[locationId] = Object.Instantiate(locationDescriptor.Prefab);
     }
 

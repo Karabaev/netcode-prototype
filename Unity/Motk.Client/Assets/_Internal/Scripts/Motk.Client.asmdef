@@ -14,7 +14,8 @@
         "Unity.Netcode.Runtime",
         "Motk.Shared",
         "Motk.Matchmaking",
-        "Unity.Networking.Transport"
+        "Unity.Networking.Transport",
+        "Cinemachine"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
