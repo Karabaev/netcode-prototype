@@ -5,7 +5,8 @@
         "com.karabaev.reactivetypes",
         "UniTask",
         "com.karabaev.utilities",
-        "com.karabaev.utilities.unity"
+        "com.karabaev.utilities.unity",
+        ""
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -3,31 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using com.karabaev.utilities.unity;
 using Cysharp.Threading.Tasks;
+using JetBrains.Annotations;
 
 namespace Motk.Matchmaking
 {
+  [UsedImplicitly]
   public class MatchmakingService
   {
-    private int _idCounter;
-
-    private readonly Dictionary<int, GameServerDescription> _gameServersRegistry = new();
+    private readonly MatchmakingStorage _matchmakingStorage;
     
-    private readonly Dictionary<int, Room> _roomsRegistry = new();
-    private readonly Dictionary<Guid, Ticket> _ticketsRegistry = new();
-    
-    private readonly Dictionary<string, string> _userIdToUserSecret = new();
-    private readonly Dictionary<Guid, AllocationInfo> _ticketIdsToAllocations = new();
-
-    public MatchmakingService()
+    public MatchmakingService(MatchmakingStorage matchmakingStorage)
     {
-      _gameServersRegistry.Add(1, new GameServerDescription(new ConnectionParameters("127.0.0.1", 7777)));
-      _gameServersRegistry.Add(2, new GameServerDescription(new ConnectionParameters("127.0.0.2", 7777)));
-      _gameServersRegistry.Add(3, new GameServerDescription(new ConnectionParameters("127.0.0.3", 7777)));
+      _matchmakingStorage = matchmakingStorage;
+      
+      using var registry = _matchmakingStorage.GameServersRegistry;
+      registry.Value.Clear();
+      registry.Value.Add(1, new GameServerDescription(new ConnectionParameters("127.0.0.1", 7777)));
+      registry.Value.Add(2, new GameServerDescription(new ConnectionParameters("127.0.0.2", 7777)));
+      registry.Value.Add(3, new GameServerDescription(new ConnectionParameters("127.0.0.3", 7777)));
+      
+      using var registry2 = _matchmakingStorage.RoomsRegistry;
+      registry2.Value.Clear();
+      using var registry3 = _matchmakingStorage.TicketsRegistry;
+      registry3.Value.Clear();
+      using var registry4 = _matchmakingStorage.UserIdToUserSecret;
+      registry4.Value.Clear();
+      using var registry5 = _matchmakingStorage.TicketIdsToAllocations;
+      registry5.Value.Clear();
     }
     
     public void Update()
     {
-      foreach (var (ticketId, ticket) in _ticketsRegistry)
+      using var ticketsRegistry = _matchmakingStorage.TicketsRegistry;
+      foreach (var (ticketId, ticket) in ticketsRegistry.Value)
       {
         if (ticket.Status != TicketStatus.InProgress)
           continue;
@@ -35,11 +43,15 @@ namespace Motk.Matchmaking
         if (!TryFindRoom(ticket, out var room))
           continue;
 
-        var newRoomId = _idCounter++;
-        _roomsRegistry[newRoomId] = room!;
+        var newRoomId = _matchmakingStorage.TicketIdCounter++;
         room!.UserIds.Add(ticket.UserId);
+
+        using var roomRegistry = _matchmakingStorage.RoomsRegistry;
+        roomRegistry.Value[newRoomId] = room;
         ticket.Status = TicketStatus.Found;
-        _ticketIdsToAllocations[ticketId] = new AllocationInfo(room!.ServerId, newRoomId);
+
+        using var ticketAllocationRegistry = _matchmakingStorage.TicketIdsToAllocations;
+        ticketAllocationRegistry.Value[ticketId] = new AllocationInfo(room.ServerId, newRoomId);
       }
     }
 
@@ -47,43 +59,47 @@ namespace Motk.Matchmaking
     {
       var ticketId = Guid.NewGuid();
       var ticket = new Ticket(userId, locationId);
-      _ticketsRegistry[ticketId] = ticket;
-      
-      _userIdToUserSecret[userId] = RandomUtils.RandomString();
+      using var ticketsRegistry = _matchmakingStorage.TicketsRegistry;
+      ticketsRegistry.Value[ticketId] = ticket;
+
+      using var userRegistry = _matchmakingStorage.UserIdToUserSecret; 
+      userRegistry.Value[userId] = RandomUtils.RandomString();
       return UniTask.FromResult(ticketId);
     }
 
     public async UniTask<TicketStatusResponse> GetTicketStatusAsync(Guid ticketId)
     {
       await UniTask.Yield();
-      var ticket = _ticketsRegistry[ticketId];
+      using var registry = _matchmakingStorage.TicketsRegistry;
+      var ticket = registry.Value[ticketId];
 
       ConnectionParameters? connectionParams = null;
       var roomId = -1;
       if (ticket.Status == TicketStatus.Found)
       {
-        var allocation = _ticketIdsToAllocations[ticketId];
-        connectionParams = _gameServersRegistry[allocation.ServerId].ConnectionParameters;
+        var allocation = _matchmakingStorage.TicketIdsToAllocations.Value[ticketId];
+        connectionParams = _matchmakingStorage.GameServersRegistry.Value[allocation.ServerId].ConnectionParameters;
         roomId = allocation.RoomId;
       }
 
-      var userSecret = _userIdToUserSecret[ticket.UserId];
+      var userSecret = _matchmakingStorage.UserIdToUserSecret.Value[ticket.UserId];
       
       return new TicketStatusResponse(userSecret, ticket.Status, connectionParams, roomId);
     }
 
     public UniTask DeleteRoomAsync(int roomId)
     {
-      _roomsRegistry.Remove(roomId);
+      using var registry = _matchmakingStorage.RoomsRegistry;
+      registry.Value.Remove(roomId);
       // todo удалить тикеты и освободить сервер
       return UniTask.CompletedTask;
     }
 
     public UniTask<int> GetRoomIdForUser(string userSecret)
     {
-      var userId = _userIdToUserSecret.First(u => u.Value == userSecret).Key;
+      var userId = _matchmakingStorage.UserIdToUserSecret.Value.First(u => u.Value == userSecret).Key;
       
-      foreach (var (roomId, room) in _roomsRegistry)
+      foreach (var (roomId, room) in _matchmakingStorage.RoomsRegistry.Value)
       {
         if (room.UserIds.Contains(userId))
         {
@@ -94,7 +110,10 @@ namespace Motk.Matchmaking
       return UniTask.FromResult(-1);
     }
 
-    public UniTask<string> GetLocationIdForRoom(int roomId) => UniTask.FromResult(_roomsRegistry[roomId].LocationId);
+    public UniTask<string> GetLocationIdForRoom(int roomId)
+    {
+      return UniTask.FromResult(_matchmakingStorage.RoomsRegistry.Value[roomId].LocationId);
+    }
 
     private bool TryFindRoom(Ticket ticket, out Room? result)
     {
@@ -107,7 +126,7 @@ namespace Motk.Matchmaking
     private bool TryFindExistingRoom(Ticket ticket, out Room? result)
     {
       result = null;
-      foreach (var (roomId, room) in _roomsRegistry)
+      foreach (var (roomId, room) in _matchmakingStorage.RoomsRegistry.Value)
       {
         if (ticket.LocationId == room.LocationId)
         {
@@ -122,7 +141,7 @@ namespace Motk.Matchmaking
     private bool TryCreateRoom(Ticket ticket, out Room? result)
     {
       result = null;
-      foreach (var (serverId, _) in _gameServersRegistry)
+      foreach (var (serverId, _) in _matchmakingStorage.GameServersRegistry.Value)
       {
         result = new Room(ticket.LocationId, serverId);
         return true;

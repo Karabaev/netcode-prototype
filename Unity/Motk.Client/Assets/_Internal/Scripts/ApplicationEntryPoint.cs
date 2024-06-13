@@ -1,10 +1,12 @@
 using com.karabaev.applicationLifeCycle.StateMachine;
 using Motk.Client.Campaign;
 using Motk.Client.Campaign.Actors;
+using Motk.Client.Connection;
 using Motk.Client.Core;
 using Motk.Client.Core.Input;
 using Motk.Matchmaking;
 using Motk.Shared.Core;
+using Motk.Shared.Core.Net;
 using Motk.Shared.Locations;
 using Unity.Netcode;
 using UnityEngine;
@@ -51,8 +53,12 @@ namespace Motk.Client
       builder.RegisterInstance(_locationsRegistry);
       builder.RegisterInstance(_charactersRegistry);
       builder.Register<MatchmakingService>(Lifetime.Singleton);
+      builder.Register<MatchmakingStorage>(Lifetime.Singleton);
       
       builder.Register<CurrentPlayerClientState>(Lifetime.Singleton);
+      
+      builder.Register<ClientMessageSender>(Lifetime.Singleton);
+      builder.Register<MessageSerializer>(Lifetime.Singleton);
     }
   }
 }

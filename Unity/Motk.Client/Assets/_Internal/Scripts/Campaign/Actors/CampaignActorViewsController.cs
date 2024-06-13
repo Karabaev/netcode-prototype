@@ -42,7 +42,7 @@ namespace Motk.Client.Campaign.Actors
       var view = _actorViewFactory.Create("default", newActor); 
       _actorViews.Add(playerId, view);
 
-      if (_playerState.PlayerId != playerId)
+      if (_playerState.ClientId != playerId)
         return;
 
       _gameCameraState.Target.Value = new CurrentPlayerActorCameraTarget(newActor);

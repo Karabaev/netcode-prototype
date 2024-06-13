@@ -3,7 +3,7 @@ using Unity.Netcode;
 
 namespace Motk.Shared.Core.Net
 {
-  // todokmo отрефачить на клиентский и серверный
+  // todokmo отрефачить так, чтобы любой класс мог подписаться на сообщение (например состояния приложения)
   public abstract class MessageReceiver<T> : IDisposable where T : INetworkSerializable, new()
   {
     private readonly NetworkManager _networkManager;

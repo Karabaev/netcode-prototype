@@ -5,6 +5,6 @@ namespace Motk.Client.Core
   [UsedImplicitly]
   public class CurrentPlayerClientState
   {
-    public ulong PlayerId { get; set; }
+    public ulong ClientId { get; set; }
   }
 }

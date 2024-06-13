@@ -16,14 +16,17 @@ namespace Motk.CampaignServer.Matches
     private readonly MatchesState _matchesState;
     private readonly MatchmakingService _matchmakingService;
     private readonly AppScopeState _appScopeState;
+    private readonly ServerMessageSender _messageSender;
 
     public PlayerToMatchConnector(NetworkManager networkManager, MatchesState matchesState,
-      MatchmakingService matchmakingService, AppScopeState appScopeState) : base(networkManager)
+      MatchmakingService matchmakingService, AppScopeState appScopeState,
+      ServerMessageSender messageSender) : base(networkManager)
     {
       _networkManager = networkManager;
       _matchesState = matchesState;
       _matchmakingService = matchmakingService;
       _appScopeState = appScopeState;
+      _messageSender = messageSender;
     }
 
     protected override async void OnMessageReceived(ulong senderId, AttachToMatchRequest message)
@@ -48,6 +51,7 @@ namespace Motk.CampaignServer.Matches
       }
       
       match.Users.Add(message.UserSecret, senderId);
+      _messageSender.Send(new AttachedToMatchCommand(), senderId);
     }
   }
 }
