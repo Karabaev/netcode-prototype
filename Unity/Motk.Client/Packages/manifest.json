@@ -2,6 +2,7 @@
   "dependencies": {
     "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
     "com.karabaev.applicationlifecycle": "https://git.jetbrains.space/rdds2/gk/com.karabaev.applicationLifeCycle.git?path=Assets",
+    "com.karabaev.camera.unity": "https://git.jetbrains.space/rdds2/gk/com.karabaev.camera.unity.git?path=Assets",
     "com.karabaev.descriptors.abstractions": "https://git.jetbrains.space/rdds2/gk/com.karabaev.descriptors.abstractions.git?path=Assets",
     "com.karabaev.descriptors.unity": "https://git.jetbrains.space/rdds2/gk/com.karabaev.descriptors.unity.git?path=Assets",
     "com.karabaev.reactivetypes": "https://git.jetbrains.space/rdds2/gk/com.karabaev.reactivetypes.git?path=Assets",
@@ -10,7 +11,6 @@
     "com.kyrylokuzyk.primetween": "file:../Assets/Plugins/PrimeTween/internal/com.kyrylokuzyk.primetween.tgz",
     "com.unity.addressables": "1.21.21",
     "com.unity.ai.navigation": "1.1.5",
-    "com.unity.cinemachine": "2.9.7",
     "com.unity.ide.rider": "3.0.28",
     "com.unity.ide.visualstudio": "2.0.22",
     "com.unity.ide.vscode": "1.2.5",

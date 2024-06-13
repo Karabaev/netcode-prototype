@@ -1,0 +1,23 @@
+using System;
+using com.karabaev.camera.unity.Views;
+using Motk.Shared.Campaign.Actors;
+using Motk.Shared.Campaign.Actors.States;
+using UnityEngine;
+
+namespace Motk.Client.Campaign.Camera
+{
+  public class CurrentPlayerActorCameraTarget : ICameraTarget
+  {
+    private readonly CampaignActorState _actor;
+    
+    public Func<Vector3> PositionFunc { get; }
+
+    public CurrentPlayerActorCameraTarget(CampaignActorState actor)
+    {
+      _actor = actor;
+      PositionFunc = GetActorPosition;
+    }
+
+    private Vector3 GetActorPosition() => _actor.Position.Value;
+  }
+}

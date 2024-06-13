@@ -14,6 +14,13 @@
       "dependencies": {},
       "hash": "252023eb6094418eeefe22bf21e4aaf1ac16446f"
     },
+    "com.karabaev.camera.unity": {
+      "version": "https://git.jetbrains.space/rdds2/gk/com.karabaev.camera.unity.git?path=Assets",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "5daf06eecca0a0a2c032eb4739fdaa6c0e7a6045"
+    },
     "com.karabaev.descriptors.abstractions": {
       "version": "https://git.jetbrains.space/rdds2/gk/com.karabaev.descriptors.abstractions.git?path=Assets",
       "depth": 0,
@@ -84,15 +91,6 @@
       "source": "registry",
       "dependencies": {
         "com.unity.mathematics": "1.2.1"
-      },
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.cinemachine": {
-      "version": "2.9.7",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.test-framework": "1.1.31"
       },
       "url": "https://packages.unity.com"
     },

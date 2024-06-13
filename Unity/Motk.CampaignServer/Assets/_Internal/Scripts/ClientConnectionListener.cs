@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using Motk.CampaignServer.Locations;
 using Motk.Matchmaking;
-using Motk.Shared.Actors;
+using Motk.Shared.Campaign.Actors;
+using Motk.Shared.Campaign.Actors.States;
 using Motk.Shared.Locations;
 using Unity.Netcode;
 
@@ -18,7 +19,7 @@ namespace Motk.CampaignServer
     private readonly CampaignLocationsState _locationsState;
 
     private readonly Dictionary<ulong, int> _playerToRoom = new();
-
+    
     public ClientConnectionListener(NetworkManager networkManager, IPlayerLocationStorage playerLocationStorage,
       MatchmakingService matchmakingService, CampaignLocationsState locationsState)
     {
@@ -38,20 +39,26 @@ namespace Motk.CampaignServer
 
     private void OnClientConnected(ulong clientId)
     {
-      var playerLocationId = _playerLocationStorage.GetLocationId(clientId);
-      if (string.IsNullOrEmpty(playerLocationId))
-        playerLocationId = "default";
+      // отправлять запрос с клиента на присоединение игрока к матчу
+      // от матчмейкинга у меня есть id юзера, id комнаты
       
-      var roomId = _matchmakingService.FindRoom(clientId, playerLocationId);
-
-      if (!_locationsState.RoomsToLocations.TryGet(roomId, out var locationState))
-      {
-        locationState = new CampaignLocationState(playerLocationId);
-        _locationsState.RoomsToLocations.Add(roomId, locationState);
-      }
+      // создавать стейт актора для игрока
       
-      locationState.Actors.Add(clientId, new CampaignActorState());
-      _playerToRoom.Add(clientId, roomId);
+      
+      // var playerLocationId = _playerLocationStorage.GetLocationId(clientId);
+      // if (string.IsNullOrEmpty(playerLocationId))
+      //   playerLocationId = "default";
+      //
+      // var roomId = _matchmakingService.FindRoom(clientId, playerLocationId);
+      //
+      // if (!_locationsState.RoomsToLocations.TryGet(roomId, out var locationState))
+      // {
+      //   locationState = new CampaignLocationState(playerLocationId);
+      //   _locationsState.RoomsToLocations.Add(roomId, locationState);
+      // }
+      //
+      // locationState.Actors.Add(clientId, new CampaignActorState());
+      // _playerToRoom.Add(clientId, roomId);
     }
 
     private void OnClientDisconnected(ulong clientId)

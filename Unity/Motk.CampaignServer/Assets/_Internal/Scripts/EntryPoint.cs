@@ -1,5 +1,8 @@
+using Motk.CampaignServer.Actors;
 using Motk.CampaignServer.Locations;
+using Motk.CampaignServer.Matches;
 using Motk.Matchmaking;
+using Motk.Shared.Core;
 using Motk.Shared.Locations;
 using Unity.Netcode;
 using UnityEngine;
@@ -20,8 +23,11 @@ namespace Motk.CampaignServer
       _scope = LifetimeScope.Create(ConfigureScope);
       _scope.name = "Application";
 
+      _scope.Container.Resolve<AppScopeState>().AppScope = _scope;
+
       _scope.Container.Resolve<ClientConnectionListener>();
       _scope.Container.Resolve<RoomLocationController>();
+      _scope.Container.Resolve<SpawnActorsController>();
     }
 
     private void Start()
@@ -39,6 +45,14 @@ namespace Motk.CampaignServer
       builder.Register<InMemoryPlayerLocationStorage>(Lifetime.Singleton).As<IPlayerLocationStorage>();
       
       builder.Register<MatchmakingService>(Lifetime.Singleton);
+      builder.Register<SpawnActorsController>(Lifetime.Singleton);
+
+
+      builder.Register<AppScopeState>(Lifetime.Singleton);
+      
+      builder.Register<MatchesState>(Lifetime.Singleton);
+      builder.Register<MatchAllocator>(Lifetime.Singleton).As<ITickable>();
+      builder.Register<MatchGarbageCollector>(Lifetime.Singleton).As<ITickable>();
     }
   }
 }

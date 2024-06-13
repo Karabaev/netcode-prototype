@@ -2,7 +2,12 @@
     "name": "Motk.Shared",
     "rootNamespace": "Motk.Shared",
     "references": [
-        "com.karabaev.reactivetypes"
+        "com.karabaev.reactivetypes",
+        "Unity.Netcode.Runtime",
+        "UniTask",
+        "PrimeTween.Runtime",
+        "Unity.Collections",
+        "VContainer"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 
@@ -10,9 +11,11 @@ namespace Motk.Matchmaking
   {
     private int _idCounter;
 
-    private readonly Dictionary<string, Room> _locationsToRooms = new();
+    private readonly Dictionary<string, Room> _locationsToRooms = new(); // todokmo
+    private readonly Dictionary<Guid, Ticket> _allTickets = new(); // todokmo
 
-    private readonly Dictionary<Guid, Ticket> _allTickets = new();
+    private readonly Dictionary<int, List<Room>> _serversToRooms = new();
+    private readonly Dictionary<int, Room> _rooms = new();
 
     public UniTask<Guid> CreateTicketAsync(string playerId, string locationId)
     {
@@ -37,6 +40,18 @@ namespace Motk.Matchmaking
       return new TicketStatusResponse(ticket.Status, connectionParams);
     }
 
+    public UniTask DeleteRoomAsync(int roomId)
+    {
+      _rooms.Remove(roomId);
+      return UniTask.CompletedTask;
+    }
+
+    public UniTask<IReadOnlyList<int>> GetRoomsForServerAsync(int serverId)
+    {
+      var rooms = _serversToRooms[serverId];
+      return UniTask.FromResult<IReadOnlyList<int>>(rooms.Select(r => r.RoomId).ToList());
+    }
+    
     public int FindRoom(ulong clientId, string locationId)
     {
       if (!_locationsToRooms.TryGetValue(locationId, out var room))

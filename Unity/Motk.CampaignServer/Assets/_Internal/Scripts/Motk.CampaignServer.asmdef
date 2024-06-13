@@ -9,7 +9,8 @@
         "com.karabaev.utilities",
         "com.karabaev.utilities.unity",
         "Motk.Shared",
-        "Motk.Matchmaking"
+        "Motk.Matchmaking",
+        "Unity.Collections"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -8,10 +8,10 @@ namespace Motk.Client.Campaign
   {
     private readonly InputState _inputState;
     private readonly CampaignInputState _state;
-    private readonly Camera _camera;
+    private readonly UnityEngine.Camera _camera;
     
     // ReSharper disable once ParameterHidesMember
-    public CampaignInputController(CampaignInputState state, InputState inputState, Camera camera)
+    public CampaignInputController(CampaignInputState state, InputState inputState, UnityEngine.Camera camera)
     {
       _state = state;
       _inputState = inputState;

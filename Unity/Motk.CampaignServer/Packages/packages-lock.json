@@ -12,7 +12,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "1855ad3e0911d5294379e9ed08d070dbe051df72"
+      "hash": "49e829d924e1c835e17702ff960b40924c91da9a"
     },
     "com.karabaev.utilities": {
       "version": "https://git.jetbrains.space/rdds2/gk/com.karabaev.utilities.git?path=Assets",
@@ -27,6 +27,12 @@
       "source": "git",
       "dependencies": {},
       "hash": "3d35942c8592c3bda9df1831342100b3b89329e4"
+    },
+    "com.kyrylokuzyk.primetween": {
+      "version": "file:../Assets/Plugins/PrimeTween/internal/com.kyrylokuzyk.primetween.tgz",
+      "depth": 0,
+      "source": "local-tarball",
+      "dependencies": {}
     },
     "com.unity.ai.navigation": {
       "version": "1.1.5",

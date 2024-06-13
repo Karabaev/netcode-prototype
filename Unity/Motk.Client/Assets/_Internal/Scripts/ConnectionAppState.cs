@@ -2,6 +2,8 @@
 using com.karabaev.applicationLifeCycle.StateMachine;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
+using Motk.Client.Campaign;
+using Motk.Client.Core;
 using Motk.Matchmaking;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
@@ -15,6 +17,7 @@ namespace Motk.Client
     
     private readonly NetworkManager _networkManager;
     private readonly MatchmakingService _matchmakingService;
+    private readonly CurrentPlayerClientState _currentPlayerClientState;
 
     public override async UniTask EnterAsync(DummyStateContext context)
     {
@@ -32,6 +35,7 @@ namespace Motk.Client
       if (evt.EventType != ConnectionEvent.ClientConnected)
         return;
 
+      _currentPlayerClientState.PlayerId = _networkManager.LocalClientId;
       var context = new CampaignAppState.Context(ConnectingLocationId);
       EnterNextStateAsync<CampaignAppState, CampaignAppState.Context>(context).Forget();
     }
@@ -62,10 +66,11 @@ namespace Motk.Client
     }
 
     public ConnectionAppState(ApplicationStateMachine stateMachine, NetworkManager networkManager,
-      MatchmakingService matchmakingService) : base(stateMachine)
+      MatchmakingService matchmakingService, CurrentPlayerClientState currentPlayerClientState) : base(stateMachine)
     {
       _networkManager = networkManager;
       _matchmakingService = matchmakingService;
+      _currentPlayerClientState = currentPlayerClientState;
     }
   }
 }
