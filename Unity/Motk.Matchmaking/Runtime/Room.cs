@@ -2,16 +2,8 @@ using System.Collections.Generic;
 
 namespace Motk.Matchmaking
 {
-  public class Room
+  public record Room(string LocationId, int ServerId)
   {
-    public int RoomId { get; }
-      
-    public HashSet<ulong> PlayerIds { get; }
-
-    public Room(int roomId)
-    {
-      RoomId = roomId;
-      PlayerIds = new HashSet<ulong>();
-    }
+    public HashSet<string> UserIds { get; } = new();
   }
 }

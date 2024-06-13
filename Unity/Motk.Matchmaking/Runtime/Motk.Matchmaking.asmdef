@@ -3,7 +3,9 @@
     "rootNamespace": "Motk.Matchmaking",
     "references": [
         "com.karabaev.reactivetypes",
-        "UniTask"
+        "UniTask",
+        "com.karabaev.utilities",
+        "com.karabaev.utilities.unity"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

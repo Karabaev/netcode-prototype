@@ -2,16 +2,16 @@
 {
   public class Ticket
   {
-    public string PlayerId { get; }
+    public string UserId { get; }
 
-    public string Location { get; }
+    public string LocationId { get; }
 
     public TicketStatus Status { get; set; }
 
-    public Ticket(string playerId, string location)
+    public Ticket(string userId, string locationId)
     {
-      PlayerId = playerId;
-      Location = location;
+      UserId = userId;
+      LocationId = locationId;
       Status = TicketStatus.InProgress;
     }
   }

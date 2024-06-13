@@ -2,14 +2,14 @@
 
 namespace Motk.Shared.Matches
 {
-  public class AddToMatchRequest : INetworkSerializable
+  public struct AttachToMatchRequest : INetworkSerializable
   {
-    public int UserId;
+    public string UserSecret;
     public int MatchId;
     
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
-      serializer.SerializeValue(ref UserId);
+      serializer.SerializeValue(ref UserSecret);
       serializer.SerializeValue(ref MatchId);
     }
   }
