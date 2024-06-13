@@ -1,7 +1,7 @@
 using com.karabaev.reactivetypes.Dictionary;
 using JetBrains.Annotations;
 
-namespace Motk.CampaignServer.Matches
+namespace Motk.CampaignServer.Matches.States
 {
   [UsedImplicitly]
   public class MatchesState

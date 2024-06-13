@@ -4,6 +4,7 @@ using Motk.Client.Campaign.Actors;
 using Motk.Client.Core;
 using Motk.Client.Core.Input;
 using Motk.Matchmaking;
+using Motk.Shared.Core;
 using Motk.Shared.Locations;
 using Unity.Netcode;
 using UnityEngine;

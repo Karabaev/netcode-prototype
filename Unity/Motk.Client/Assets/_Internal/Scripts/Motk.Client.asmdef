@@ -15,8 +15,8 @@
         "Motk.Shared",
         "Motk.Matchmaking",
         "Unity.Networking.Transport",
-        "Cinemachine",
-        "com.karabaev.camera.unity"
+        "com.karabaev.camera.unity",
+        "Unity.Collections"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

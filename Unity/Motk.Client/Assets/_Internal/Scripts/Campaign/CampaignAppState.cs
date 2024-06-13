@@ -9,6 +9,7 @@ using Motk.Client.Core.Input;
 using Motk.Shared.Campaign.Actors;
 using Motk.Shared.Campaign.Actors.States;
 using Motk.Shared.Campaign.Movement;
+using Motk.Shared.Core;
 using Motk.Shared.Locations;
 using UnityEngine;
 using VContainer;

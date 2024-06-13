@@ -93,7 +93,9 @@ namespace Motk.Matchmaking
 
       return UniTask.FromResult(-1);
     }
-    
+
+    public UniTask<string> GetLocationIdForRoom(int roomId) => UniTask.FromResult(_roomsRegistry[roomId].LocationId);
+
     private bool TryFindRoom(Ticket ticket, out Room? result)
     {
       if (TryFindExistingRoom(ticket, out result))

@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
+using Motk.CampaignServer.Matches.States;
 using Motk.Matchmaking;
 using VContainer.Unity;
 
@@ -17,6 +18,7 @@ namespace Motk.CampaignServer.Matches
       _matchmakingService = matchmakingService;
     }
 
+    // todokmo вместо поллинга можно подписываться на события изменения юзеров в матчах
     void ITickable.Tick()
     {
       foreach (var (matchId, matchScope) in _matchesState.Matches)
@@ -28,11 +30,13 @@ namespace Motk.CampaignServer.Matches
       }
     }
 
-    private bool HasConnectedPlayers(MatchState matchState)
-    {
-      return matchState.UserIds.Count > 0;
-    }
+    private bool HasConnectedPlayers(MatchState matchState) => matchState.Users.Count > 0;
 
-    private void DeleteMatch(int matchId) => _matchmakingService.DeleteRoomAsync(matchId).Forget();
+    private void DeleteMatch(int matchId)
+    {
+      _matchesState.Matches.Remove(matchId, out var matchState);
+      matchState.Scope.Dispose();
+      _matchmakingService.DeleteRoomAsync(matchId).Forget();
+    }
   }
 }
