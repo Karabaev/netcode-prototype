@@ -33,7 +33,6 @@ namespace Motk.CampaignServer
     private void Start()
     {
       _scope.Container.Resolve<NetworkManager>().StartServer();
-
       _scope.Container.Resolve<PlayerToMatchConnector>();
     }
 
@@ -58,7 +57,7 @@ namespace Motk.CampaignServer
       
       builder.Register<MatchesState>(Lifetime.Singleton);
       builder.Register<MatchGarbageCollector>(Lifetime.Singleton).As<ITickable>();
-      builder.Register<PlayerToMatchConnector>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
+      builder.Register<PlayerToMatchConnector>(Lifetime.Singleton);
       builder.Register<ServerMessageSender>(Lifetime.Singleton);
       builder.Register<MessageSerializer>(Lifetime.Singleton);
     }

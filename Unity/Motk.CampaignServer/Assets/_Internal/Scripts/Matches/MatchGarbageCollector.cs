@@ -1,7 +1,9 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System.Linq;
+using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using Motk.CampaignServer.Matches.States;
 using Motk.Matchmaking;
+using UnityEngine;
 using VContainer.Unity;
 
 namespace Motk.CampaignServer.Matches
@@ -9,9 +11,13 @@ namespace Motk.CampaignServer.Matches
   [UsedImplicitly]
   public class MatchGarbageCollector : ITickable
   {
+    private const float CheckInterval = 10.0f;
+    
     private readonly MatchesState _matchesState;
     private readonly MatchmakingService _matchmakingService;
-
+    
+    private float _nextCheckTime;
+    
     public MatchGarbageCollector(MatchesState matchesState, MatchmakingService matchmakingService)
     {
       _matchesState = matchesState;
@@ -21,7 +27,12 @@ namespace Motk.CampaignServer.Matches
     // todokmo вместо поллинга можно подписываться на события изменения юзеров в матчах
     void ITickable.Tick()
     {
-      foreach (var (matchId, matchScope) in _matchesState.Matches)
+      if (Time.time < _nextCheckTime)
+        return;
+
+      _nextCheckTime = Time.time + CheckInterval;
+      
+      foreach (var (matchId, matchScope) in _matchesState.Matches.ToList())
       {
         if (HasConnectedPlayers(matchScope)) 
           continue;

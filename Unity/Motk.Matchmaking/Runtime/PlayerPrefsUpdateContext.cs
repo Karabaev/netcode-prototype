@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace Motk.Matchmaking
 {
-  public class UpdateContext<T> : IDisposable where T : new()
+  public class PlayerPrefsUpdateContext<T> : IDisposable where T : new()
   {
     private readonly string _key;
     
     public T Value { get; }
 
-    public UpdateContext(string key)
+    public PlayerPrefsUpdateContext(string key)
     {
       _key = key;
       Value = Get(_key);

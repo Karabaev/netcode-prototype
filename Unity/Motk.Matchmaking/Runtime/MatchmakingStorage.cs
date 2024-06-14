@@ -12,14 +12,14 @@ namespace Motk.Matchmaking
       set => PlayerPrefs.SetInt(nameof(TicketIdCounter), value);
     }
 
-    public UpdateContext<Dictionary<int, GameServerDescription>> GameServersRegistry => new("GameServersRegistry");
+    public PlayerPrefsUpdateContext<Dictionary<int, GameServerDescription>> GameServersRegistry => new("GameServersRegistry");
 
-    public UpdateContext<Dictionary<int, Room>> RoomsRegistry => new("RoomsRegistry");
+    public PlayerPrefsUpdateContext<Dictionary<int, Room>> RoomsRegistry => new("RoomsRegistry");
     
-    public UpdateContext<Dictionary<Guid, Ticket>> TicketsRegistry => new("TicketsRegistry");
+    public PlayerPrefsUpdateContext<Dictionary<Guid, Ticket>> TicketsRegistry => new("TicketsRegistry");
     
-    public UpdateContext<Dictionary<string, string>> UserIdToUserSecret => new("UserIdToUserSecret");
+    public PlayerPrefsUpdateContext<Dictionary<string, string>> UserIdToUserSecret => new("UserIdToUserSecret");
     
-    public UpdateContext<Dictionary<Guid, AllocationInfo>> TicketIdsToAllocations => new("TicketIdsToAllocations");
+    public PlayerPrefsUpdateContext<Dictionary<Guid, AllocationInfo>> TicketIdsToAllocations => new("TicketIdsToAllocations");
   }
 }
