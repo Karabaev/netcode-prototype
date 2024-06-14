@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using com.karabaev.camera.unity.States;
 using com.karabaev.utilities.unity;
 using JetBrains.Annotations;
+using Motk.Client.Campaign.Actors.Services;
+using Motk.Client.Campaign.Actors.Views;
 using Motk.Client.Campaign.Camera;
 using Motk.Client.Core;
-using Motk.Shared.Campaign.Actors;
 using Motk.Shared.Campaign.Actors.States;
 
-namespace Motk.Client.Campaign.Actors
+namespace Motk.Client.Campaign.Actors.Controllers
 {
   [UsedImplicitly]
-  public class CampaignActorViewsController : IDisposable
+  public class LocationActorsController : IDisposable
   {
     private readonly CampaignActorViewFactory _actorViewFactory;
     private readonly CampaignActorsState _state;
@@ -20,7 +21,7 @@ namespace Motk.Client.Campaign.Actors
 
     private readonly Dictionary<ulong, CampaignActorView> _actorViews = new();
 
-    public CampaignActorViewsController(CampaignActorsState state, CampaignActorViewFactory actorViewFactory,
+    public LocationActorsController(CampaignActorsState state, CampaignActorViewFactory actorViewFactory,
       CurrentPlayerClientState playerState, GameCameraState gameCameraState)
     {
       _state = state;

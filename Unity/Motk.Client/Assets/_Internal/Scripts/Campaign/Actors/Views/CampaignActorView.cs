@@ -1,8 +1,7 @@
-using Motk.Shared.Campaign.Actors;
 using Motk.Shared.Campaign.Actors.States;
 using UnityEngine;
 
-namespace Motk.Client.Campaign.Actors
+namespace Motk.Client.Campaign.Actors.Views
 {
   public class CampaignActorView : MonoBehaviour
   {

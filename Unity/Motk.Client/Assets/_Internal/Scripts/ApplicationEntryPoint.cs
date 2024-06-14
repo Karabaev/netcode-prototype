@@ -1,6 +1,7 @@
 using com.karabaev.applicationLifeCycle.StateMachine;
 using Motk.Client.Campaign;
 using Motk.Client.Campaign.Actors;
+using Motk.Client.Campaign.Actors.Descriptors;
 using Motk.Client.Connection;
 using Motk.Client.Core;
 using Motk.Client.Core.Input;
@@ -58,6 +59,7 @@ namespace Motk.Client
       builder.Register<CurrentPlayerClientState>(Lifetime.Singleton);
       
       builder.Register<ClientMessageSender>(Lifetime.Singleton);
+      builder.Register<ClientMessageReceiver>(Lifetime.Singleton);
       builder.Register<MessageSerializer>(Lifetime.Singleton);
     }
   }

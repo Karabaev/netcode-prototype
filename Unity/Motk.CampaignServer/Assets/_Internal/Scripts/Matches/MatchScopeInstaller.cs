@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Motk.CampaignServer.Locations;
 using Motk.CampaignServer.Matches.States;
 using Motk.Shared.Locations;
 using VContainer;
@@ -12,7 +12,8 @@ namespace Motk.CampaignServer.Matches
     {
       builder.Register<MatchState>(Lifetime.Singleton);
       builder.Register<CampaignLocationState>(Lifetime.Singleton);
-      builder.Register<MatchLifeCycleController>(Lifetime.Singleton).As<IStartable>().As<IDisposable>();
+      builder.RegisterEntryPoint<MatchLifeCycleController>();
+      builder.Register<ConnectedPlayerController>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
     }
   }
 }

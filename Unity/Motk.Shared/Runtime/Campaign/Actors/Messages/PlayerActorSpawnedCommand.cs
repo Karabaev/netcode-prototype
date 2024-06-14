@@ -4,13 +4,11 @@ namespace Motk.Shared.Campaign.Actors.Messages
 {
   public struct PlayerActorSpawnedCommand : INetworkSerializable
   {
-    public int PlayerId;
-    public CampaignActorDto Dto;
+    public CampaignActorDto Actor;
     
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
-      serializer.SerializeValue(ref PlayerId);
-      serializer.SerializeValue(ref Dto);
+      serializer.SerializeValue(ref Actor);
     }
   }
 }

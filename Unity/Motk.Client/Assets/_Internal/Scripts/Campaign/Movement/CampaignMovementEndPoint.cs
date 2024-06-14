@@ -8,6 +8,8 @@ using UnityEngine;
 
 namespace Motk.Client.Campaign.Movement
 {
+  
+  // todokmo переделать
   public class CampaignMovementEndPoint
   {
     private readonly NetworkManager _networkManager;

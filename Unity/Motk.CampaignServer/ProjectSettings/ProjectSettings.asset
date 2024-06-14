@@ -832,7 +832,7 @@ PlayerSettings:
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Server: UNITY_NETCODE_NATIVE_COLLECTION_SUPPORT
+    Server: 
     Standalone: UNITY_NETCODE_NATIVE_COLLECTION_SUPPORT
   additionalCompilerArguments: {}
   platformArchitecture: {}

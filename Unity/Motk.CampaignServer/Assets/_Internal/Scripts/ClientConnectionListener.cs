@@ -11,13 +11,11 @@ namespace Motk.CampaignServer
   public class ClientConnectionListener : IDisposable
   {
     private readonly NetworkManager _networkManager;
-    private readonly MatchmakingService _matchmakingService;
     private readonly MatchesState _matchesState;
     
-    public ClientConnectionListener(NetworkManager networkManager, MatchmakingService matchmakingService, MatchesState matchesState)
+    public ClientConnectionListener(NetworkManager networkManager, MatchesState matchesState)
     {
       _networkManager = networkManager;
-      _matchmakingService = matchmakingService;
       _matchesState = matchesState;
       _networkManager.OnClientConnectedCallback += OnClientConnected;
       _networkManager.OnClientDisconnectCallback += OnClientDisconnected;

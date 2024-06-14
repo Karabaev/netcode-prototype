@@ -25,8 +25,9 @@ namespace Motk.Client.Connection
     private readonly MatchmakingService _matchmakingService;
     private readonly CurrentPlayerClientState _currentPlayerClientState;
     private readonly ClientMessageSender _clientMessageSender;
+    private readonly ClientMessageReceiver _messageReceiver;
     private readonly AppScopeState _appScopeState;
-    
+
     private LifetimeScope _scope;
 
     private string _userSecret = null!;
@@ -52,7 +53,7 @@ namespace Motk.Client.Connection
     {
       _currentPlayerClientState.ClientId = clientId;
 
-      _scope.Container.Resolve<AttachedToMatchCommandReceiver>().Initialize(OnAttachedToMatch);
+      _messageReceiver.RegisterMessageHandler<AttachedToMatchCommand>(OnAttachedToMatch);
       
       _clientMessageSender.Send(new AttachToMatchRequest
       {
@@ -60,8 +61,8 @@ namespace Motk.Client.Connection
         UserSecret = _userSecret
       });
     }
-
-    private void OnAttachedToMatch()
+    
+    private void OnAttachedToMatch(AttachedToMatchCommand _)
     {
       var context = new CampaignAppState.Context(ConnectingLocationId);
       EnterNextStateAsync<CampaignAppState, CampaignAppState.Context>(context).Forget();
@@ -71,6 +72,7 @@ namespace Motk.Client.Connection
     {
       _scope.Dispose();
       _networkManager.OnClientConnectedCallback -= OnConnectedToServer;
+      _messageReceiver.UnregisterMessageHandler<AttachedToMatchCommand>();
       return UniTask.CompletedTask;
     }
 
@@ -95,12 +97,12 @@ namespace Motk.Client.Connection
 
     private void ConfigureScope(IContainerBuilder builder)
     {
-      builder.Register<AttachedToMatchCommandReceiver>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
     }
     
     public ConnectionAppState(ApplicationStateMachine stateMachine, NetworkManager networkManager,
       MatchmakingService matchmakingService, CurrentPlayerClientState currentPlayerClientState,
-      ClientMessageSender clientMessageSender, AppScopeState appScopeState, LifetimeScope scope) : base(stateMachine)
+      ClientMessageSender clientMessageSender, AppScopeState appScopeState, LifetimeScope scope,
+      ClientMessageReceiver messageReceiver) : base(stateMachine)
     {
       _networkManager = networkManager;
       _matchmakingService = matchmakingService;
@@ -108,20 +110,7 @@ namespace Motk.Client.Connection
       _clientMessageSender = clientMessageSender;
       _appScopeState = appScopeState;
       _scope = scope;
-    }
-    
-    [UsedImplicitly]
-    private class AttachedToMatchCommandReceiver : MessageReceiver<AttachedToMatchCommand>
-    {
-      private Action _callback = null!;
-      
-      public AttachedToMatchCommandReceiver(NetworkManager networkManager) : base(networkManager)
-      {
-      }
-
-      public void Initialize(Action callback) => _callback = callback;
-
-      protected override void OnMessageReceived(ulong senderId, AttachedToMatchCommand message) => _callback.Invoke();
+      _messageReceiver = messageReceiver;
     }
   }
 }

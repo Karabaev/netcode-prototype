@@ -1,4 +1,3 @@
-using System;
 using Motk.CampaignServer.Matches;
 using Motk.CampaignServer.Matches.States;
 using Motk.Matchmaking;
@@ -45,7 +44,6 @@ namespace Motk.CampaignServer
     {
       builder.RegisterInstance(FindObjectOfType<NetworkManager>());
       builder.Register<ClientConnectionListener>(Lifetime.Singleton);
-      builder.Register<MatchLifeCycleController>(Lifetime.Singleton);
       builder.RegisterInstance(_locationsRegistry);
       builder.Register<InMemoryPlayerLocationStorage>(Lifetime.Singleton).As<IPlayerLocationStorage>();
       
@@ -59,6 +57,7 @@ namespace Motk.CampaignServer
       builder.Register<MatchGarbageCollector>(Lifetime.Singleton).As<ITickable>();
       builder.Register<PlayerToMatchConnector>(Lifetime.Singleton);
       builder.Register<ServerMessageSender>(Lifetime.Singleton);
+      builder.Register<ServerMessageReceiver>(Lifetime.Singleton);
       builder.Register<MessageSerializer>(Lifetime.Singleton);
     }
   }
