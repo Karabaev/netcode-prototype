@@ -1,6 +1,7 @@
 using Motk.CampaignServer.Matches;
 using Motk.CampaignServer.Matches.States;
 using Motk.Matchmaking;
+using Motk.Shared.Campaign.PathFinding;
 using Motk.Shared.Core;
 using Motk.Shared.Core.Net;
 using Motk.Shared.Locations;
@@ -26,7 +27,6 @@ namespace Motk.CampaignServer
       _scope.Container.Resolve<AppScopeState>().AppScope = _scope;
 
       _scope.Container.Resolve<ClientConnectionListener>();
-      // _scope.Container.Resolve<SpawnActorsController>(); todokmo в Match
     }
 
     private void Start()
@@ -59,6 +59,8 @@ namespace Motk.CampaignServer
       builder.Register<ServerMessageSender>(Lifetime.Singleton);
       builder.Register<ServerMessageReceiver>(Lifetime.Singleton);
       builder.Register<MessageSerializer>(Lifetime.Singleton);
+        
+      builder.Register<NavMeshPathFindingService>(Lifetime.Singleton);
     }
   }
 }

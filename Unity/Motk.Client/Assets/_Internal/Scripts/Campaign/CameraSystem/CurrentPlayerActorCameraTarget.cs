@@ -1,10 +1,9 @@
 using System;
 using com.karabaev.camera.unity.Views;
-using Motk.Shared.Campaign.Actors;
 using Motk.Shared.Campaign.Actors.States;
 using UnityEngine;
 
-namespace Motk.Client.Campaign.Camera
+namespace Motk.Client.Campaign.CameraSystem
 {
   public class CurrentPlayerActorCameraTarget : ICameraTarget
   {

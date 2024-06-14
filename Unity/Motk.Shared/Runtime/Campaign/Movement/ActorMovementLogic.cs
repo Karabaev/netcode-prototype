@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
-using Motk.Shared.Campaign.Actors;
 using Motk.Shared.Campaign.Actors.States;
 using PrimeTween;
 using UnityEngine;

@@ -11,16 +11,16 @@ namespace Motk.CampaignServer
 
   public class InMemoryPlayerLocationStorage : IPlayerLocationStorage
   {
-    private readonly Dictionary<ulong, string> _playerTtoLocation = new();
+    private readonly Dictionary<ulong, string> _playerToLocation = new();
 
     public void SetLocationId(ulong playerId, string locationId)
     {
-      _playerTtoLocation[playerId] = locationId;
+      _playerToLocation[playerId] = locationId;
     }
 
     public string? GetLocationId(ulong playerId)
     {
-      _playerTtoLocation.TryGetValue(playerId, out var locationId);
+      _playerToLocation.TryGetValue(playerId, out var locationId);
       return locationId;
     }
   }

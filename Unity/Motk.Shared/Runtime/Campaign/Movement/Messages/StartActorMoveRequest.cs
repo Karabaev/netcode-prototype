@@ -1,9 +1,9 @@
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Motk.Shared.Campaign.Movement
+namespace Motk.Shared.Campaign.Movement.Messages
 {
-  public struct FindPathRequest : INetworkSerializable
+  public struct StartActorMoveRequest : INetworkSerializable
   {
     public Vector3 Destination;
     

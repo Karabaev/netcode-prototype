@@ -1,26 +1,32 @@
 using System;
-using Motk.Client.Core.Input;
+using JetBrains.Annotations;
+using Motk.Client.Core.InputSystem;
 using UnityEngine;
+using VContainer.Unity;
 
-namespace Motk.Client.Campaign
+namespace Motk.Client.Campaign.InputSystem
 {
-  public class CampaignInputController : IDisposable
+  [UsedImplicitly]
+  public class CampaignInputController : IStartable, IDisposable
   {
     private readonly InputState _inputState;
     private readonly CampaignInputState _state;
-    private readonly UnityEngine.Camera _camera;
+    private readonly Camera _camera;
     
     // ReSharper disable once ParameterHidesMember
-    public CampaignInputController(CampaignInputState state, InputState inputState, UnityEngine.Camera camera)
+    public CampaignInputController(CampaignInputState state, InputState inputState, Camera camera)
     {
       _state = state;
       _inputState = inputState;
       _camera = camera;
-
-      _inputState.MainMouseButtonClicked.Invoked += State_OnInputMainMouseButtonClicked;
     }
 
-    public void Dispose()
+    void IStartable.Start()
+    {
+      _inputState.MainMouseButtonClicked.Invoked += State_OnInputMainMouseButtonClicked;
+    }
+    
+    void IDisposable.Dispose()
     {
       _inputState.MainMouseButtonClicked.Invoked -= State_OnInputMainMouseButtonClicked;
     }

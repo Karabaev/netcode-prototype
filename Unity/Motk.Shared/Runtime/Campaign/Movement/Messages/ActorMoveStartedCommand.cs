@@ -1,9 +1,9 @@
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Motk.Shared.Campaign.Movement
+namespace Motk.Shared.Campaign.Movement.Messages
 {
-  public struct ActorMovementStartedCommand : INetworkSerializable
+  public struct ActorMoveStartedCommand : INetworkSerializable
   {
     public ulong PlayerId;
     public Vector3[] Path;

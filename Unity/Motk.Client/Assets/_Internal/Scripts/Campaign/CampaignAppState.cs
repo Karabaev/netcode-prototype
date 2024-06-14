@@ -5,8 +5,9 @@ using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using Motk.Client.Campaign.Actors.Controllers;
 using Motk.Client.Campaign.Actors.Services;
+using Motk.Client.Campaign.InputSystem;
 using Motk.Client.Campaign.Movement;
-using Motk.Client.Core.Input;
+using Motk.Client.Core.InputSystem;
 using Motk.Shared.Campaign;
 using Motk.Shared.Campaign.Actors.Messages;
 using Motk.Shared.Campaign.Actors.States;
@@ -14,7 +15,9 @@ using Motk.Shared.Campaign.Movement;
 using Motk.Shared.Core;
 using Motk.Shared.Core.Net;
 using Motk.Shared.Locations;
+using Unity.AI.Navigation;
 using UnityEngine;
+using UnityEngine.AI;
 using VContainer;
 using VContainer.Unity;
 using Object = UnityEngine.Object;
@@ -36,16 +39,9 @@ namespace Motk.Client.Campaign
     public override UniTask EnterAsync(Context context)
     {
       _scope = _appScopeState.AppScope.CreateChild(ConfigureScope);
-
-      Resolve<CampaignInputController>();
-      Resolve<LocationActorsController>();
-      Resolve<InputController>().Construct(Resolve<InputState>());
-      Resolve<CampaignMovementEndPoint>();
-
       _campaignActorsState = Resolve<CampaignActorsState>();
-      
-      var locationDescriptor = _locationsRegistry.Entries[context.LocationId];
-      _location = Object.Instantiate(locationDescriptor.Prefab);
+
+      _location = CreateLocation(context.LocationId);
       
       _messageReceiver.RegisterMessageHandler<LocationStateMessage>(Network_OnLocationStateObtained);
       _messageReceiver.RegisterMessageHandler<PlayerActorSpawnedCommand>(Network_OnActorSpawned);
@@ -53,7 +49,7 @@ namespace Motk.Client.Campaign
       
       return UniTask.CompletedTask;
     }
-    
+
     public override UniTask ExitAsync()
     {
       _scope.Dispose();
@@ -62,6 +58,13 @@ namespace Motk.Client.Campaign
       _messageReceiver.UnregisterMessageHandler<PlayerActorSpawnedCommand>();
       _messageReceiver.UnregisterMessageHandler<PlayerActorDespawnedCommand>();
       return UniTask.CompletedTask;
+    }
+
+    private GameObject CreateLocation(string locationId)
+    {
+      var locationDescriptor = _locationsRegistry.Entries[locationId];
+      var locationObject = Object.Instantiate(locationDescriptor.Prefab);
+      return locationObject;
     }
 
     private void Network_OnLocationStateObtained(LocationStateMessage message)
@@ -96,17 +99,19 @@ namespace Motk.Client.Campaign
       builder.RegisterInstance(Object.FindObjectOfType<InputController>());
 
       builder.Register<CampaignInputState>(Lifetime.Singleton);
-      builder.Register<CampaignInputController>(Lifetime.Singleton);
+      builder.RegisterEntryPoint<CampaignInputController>();
 
-      builder.RegisterInstance(UnityEngine.Camera.main!);
+      builder.RegisterInstance(Camera.main!);
       builder.Register<GameCameraState>(Lifetime.Singleton);
 
       builder.Register<ActorMovementLogic>(Lifetime.Singleton);
       builder.Register<CampaignActorsState>(Lifetime.Singleton);
-      builder.Register<LocationActorsController>(Lifetime.Singleton);
+      builder.RegisterEntryPoint<LocationActorsController>();
       builder.Register<CampaignActorViewFactory>(Lifetime.Singleton);
       
-      builder.Register<CampaignMovementEndPoint>(Lifetime.Singleton);
+      builder.RegisterEntryPoint<LocationMovementController>();
+      
+      builder.RegisterBuildCallback(resolver => resolver.Inject(resolver.Resolve<InputController>()));
     }
 
     private T Resolve<T>() => _scope.Container.Resolve<T>();

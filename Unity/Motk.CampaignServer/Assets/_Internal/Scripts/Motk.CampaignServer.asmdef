@@ -10,7 +10,8 @@
         "com.karabaev.utilities.unity",
         "Motk.Shared",
         "Motk.Matchmaking",
-        "Unity.Collections"
+        "Unity.Collections",
+        "Unity.AI.Navigation"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using VContainer;
 
-namespace Motk.Client.Core.Input
+namespace Motk.Client.Core.InputSystem
 {
   public class InputController : MonoBehaviour
   {
@@ -10,6 +11,7 @@ namespace Motk.Client.Core.Input
 
     private void Awake() => enabled = false;
 
+    [Inject]
     public void Construct(InputState state)
     {
       _state = state;
@@ -18,9 +20,9 @@ namespace Motk.Client.Core.Input
 
     private void Update()
     {
-      if (UnityEngine.Input.GetMouseButtonDown(0) && !IsPointerOverUI())
+      if (Input.GetMouseButtonDown(0) && !IsPointerOverUI())
       {
-        _state.MainMouseButtonClicked.Invoke(UnityEngine.Input.mousePosition);
+        _state.MainMouseButtonClicked.Invoke(Input.mousePosition);
       }
     }
     
@@ -29,7 +31,7 @@ namespace Motk.Client.Core.Input
       if(!EventSystem.current.IsPointerOverGameObject())
         return false;
       
-      var pointerEventData = new PointerEventData(EventSystem.current) { position = UnityEngine.Input.mousePosition };
+      var pointerEventData = new PointerEventData(EventSystem.current) { position = Input.mousePosition };
 
       var results = new List<RaycastResult>();
       EventSystem.current.RaycastAll(pointerEventData, results);

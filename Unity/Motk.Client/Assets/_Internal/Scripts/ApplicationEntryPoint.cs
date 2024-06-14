@@ -4,7 +4,7 @@ using Motk.Client.Campaign.Actors;
 using Motk.Client.Campaign.Actors.Descriptors;
 using Motk.Client.Connection;
 using Motk.Client.Core;
-using Motk.Client.Core.Input;
+using Motk.Client.Core.InputSystem;
 using Motk.Matchmaking;
 using Motk.Shared.Core;
 using Motk.Shared.Core.Net;

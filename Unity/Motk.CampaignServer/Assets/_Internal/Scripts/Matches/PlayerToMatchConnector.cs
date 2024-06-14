@@ -1,11 +1,14 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
+using Motk.CampaignServer.Locations;
 using Motk.CampaignServer.Matches.States;
 using Motk.Matchmaking;
 using Motk.Shared.Core;
 using Motk.Shared.Core.Net;
 using Motk.Shared.Matches;
 using Unity.Netcode;
+using UnityEngine;
 using VContainer;
 
 namespace Motk.CampaignServer.Matches
@@ -57,11 +60,12 @@ namespace Motk.CampaignServer.Matches
         match = matchScope.Container.Resolve<MatchState>();
         match.LocationId = await _matchmakingService.GetLocationIdForRoom(roomId);
         match.Scope = matchScope;
-
-        // matchScope.Container.Resolve<MatchLifeCycleController>();
+        match.Scope.Container.Resolve<LocationOffsetState>().Offset = Vector3.zero;
         _matchesState.Matches.Add(roomId, match);
       }
 
+      await UniTask.Yield();
+      
       _messageSender.Send(new AttachedToMatchCommand(), senderId);
       match.Users.Add(message.UserSecret, senderId);
     }

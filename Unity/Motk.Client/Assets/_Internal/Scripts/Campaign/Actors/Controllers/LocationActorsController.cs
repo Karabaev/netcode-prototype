@@ -5,14 +5,15 @@ using com.karabaev.utilities.unity;
 using JetBrains.Annotations;
 using Motk.Client.Campaign.Actors.Services;
 using Motk.Client.Campaign.Actors.Views;
-using Motk.Client.Campaign.Camera;
+using Motk.Client.Campaign.CameraSystem;
 using Motk.Client.Core;
 using Motk.Shared.Campaign.Actors.States;
+using VContainer.Unity;
 
 namespace Motk.Client.Campaign.Actors.Controllers
 {
   [UsedImplicitly]
-  public class LocationActorsController : IDisposable
+  public class LocationActorsController : IInitializable, IDisposable
   {
     private readonly CampaignActorViewFactory _actorViewFactory;
     private readonly CampaignActorsState _state;
@@ -28,11 +29,16 @@ namespace Motk.Client.Campaign.Actors.Controllers
       _actorViewFactory = actorViewFactory;
       _playerState = playerState;
       _gameCameraState = gameCameraState;
+
+    }
+
+    void IInitializable.Initialize()
+    {
       _state.Actors.ItemAdded += State_OnActorAdded;
       _state.Actors.ItemRemoved += State_OnActorRemoved;
     }
-
-    public void Dispose()
+    
+    void IDisposable.Dispose()
     {
       _state.Actors.ItemAdded -= State_OnActorAdded;
       _state.Actors.ItemRemoved -= State_OnActorRemoved;
