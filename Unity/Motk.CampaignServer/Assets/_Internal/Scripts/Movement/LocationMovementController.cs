@@ -44,7 +44,7 @@ namespace Motk.CampaignServer.Movement
       var moveStartedMessage = new ActorMoveStartedCommand
       {
         PlayerId = senderId,
-        Path = path.Select(p => p - _locationOffsetState.Offset).ToArray()
+        Path = path.Skip(1).Select(p => p - _locationOffsetState.Offset).ToArray()
       };
       _messageSender.Broadcast(moveStartedMessage);
     }
