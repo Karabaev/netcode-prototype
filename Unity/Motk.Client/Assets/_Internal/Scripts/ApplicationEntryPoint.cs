@@ -1,6 +1,6 @@
 using com.karabaev.applicationLifeCycle.StateMachine;
+using com.karabaev.camera.unity.Descriptors;
 using Motk.Client.Campaign;
-using Motk.Client.Campaign.Actors;
 using Motk.Client.Campaign.Actors.Descriptors;
 using Motk.Client.Connection;
 using Motk.Client.Core;
@@ -61,6 +61,8 @@ namespace Motk.Client
       builder.Register<ClientMessageSender>(Lifetime.Singleton);
       builder.Register<ClientMessageReceiver>(Lifetime.Singleton);
       builder.Register<MessageSerializer>(Lifetime.Singleton);
+      
+      builder.Register<GameCameraConfigRegistry>(Lifetime.Singleton);
     }
   }
 }

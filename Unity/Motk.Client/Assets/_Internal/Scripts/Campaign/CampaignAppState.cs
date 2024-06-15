@@ -1,5 +1,7 @@
 using com.karabaev.applicationLifeCycle.StateMachine;
+using com.karabaev.camera.unity.Descriptors;
 using com.karabaev.camera.unity.States;
+using com.karabaev.camera.unity.Views;
 using com.karabaev.utilities.unity;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
@@ -15,9 +17,7 @@ using Motk.Shared.Campaign.Movement;
 using Motk.Shared.Core;
 using Motk.Shared.Core.Net;
 using Motk.Shared.Locations;
-using Unity.AI.Navigation;
 using UnityEngine;
-using UnityEngine.AI;
 using VContainer;
 using VContainer.Unity;
 using Object = UnityEngine.Object;
@@ -30,19 +30,24 @@ namespace Motk.Client.Campaign
     private readonly LocationsRegistry _locationsRegistry;
     private readonly AppScopeState _appScopeState;
     private readonly ClientMessageReceiver _messageReceiver;
+    private readonly GameCameraConfigRegistry _cameraConfigRegistry;
     
     private LifetimeScope _scope = null!;
     private CampaignActorsState _campaignActorsState = null!;
 
-    private GameObject _location = null!;
+    private GameObject _locationView = null!;
+    private GameCameraView _cameraView = null!;
     
     public override UniTask EnterAsync(Context context)
     {
       _scope = _appScopeState.AppScope.CreateChild(ConfigureScope);
       _campaignActorsState = Resolve<CampaignActorsState>();
 
-      _location = CreateLocation(context.LocationId);
-      
+      _locationView = CreateLocation(context.LocationId);
+      _cameraView = CreateCamera();
+      Resolve<InputController>().Construct(Resolve<InputState>());
+      Resolve<CampaignInputController>().Initialize(_cameraView);
+
       _messageReceiver.RegisterMessageHandler<LocationStateMessage>(Network_OnLocationStateObtained);
       _messageReceiver.RegisterMessageHandler<PlayerActorSpawnedCommand>(Network_OnActorSpawned);
       _messageReceiver.RegisterMessageHandler<PlayerActorDespawnedCommand>(Network_OnActorDespawned);
@@ -53,7 +58,8 @@ namespace Motk.Client.Campaign
     public override UniTask ExitAsync()
     {
       _scope.Dispose();
-      _location.DestroyObject();
+      _locationView.DestroyObject();
+      _cameraView.DestroyObject();
       _messageReceiver.UnregisterMessageHandler<LocationStateMessage>();
       _messageReceiver.UnregisterMessageHandler<PlayerActorSpawnedCommand>();
       _messageReceiver.UnregisterMessageHandler<PlayerActorDespawnedCommand>();
@@ -63,8 +69,15 @@ namespace Motk.Client.Campaign
     private GameObject CreateLocation(string locationId)
     {
       var locationDescriptor = _locationsRegistry.Entries[locationId];
-      var locationObject = Object.Instantiate(locationDescriptor.Prefab);
-      return locationObject;
+      return Object.Instantiate(locationDescriptor.Prefab);
+    }
+
+    private GameCameraView CreateCamera()
+    {
+      var cameraView = Object.FindObjectOfType<GameCameraView>();
+      var cameraConfig = _cameraConfigRegistry.RequireSingle();
+      cameraView.Construct(cameraConfig, Resolve<GameCameraState>(), Resolve<InputState>());
+      return cameraView;
     }
 
     private void Network_OnLocationStateObtained(LocationStateMessage message)
@@ -95,14 +108,11 @@ namespace Motk.Client.Campaign
     
     private void ConfigureScope(IContainerBuilder builder)
     {
-      builder.Register<InputState>(Lifetime.Singleton);
+      builder.Register<InputState>(Lifetime.Singleton).AsSelf().As<ICameraInputState>();
       builder.RegisterInstance(Object.FindObjectOfType<InputController>());
 
       builder.Register<CampaignInputState>(Lifetime.Singleton);
-      builder.RegisterEntryPoint<CampaignInputController>();
-
-      builder.RegisterInstance(Camera.main!);
-      builder.Register<GameCameraState>(Lifetime.Singleton);
+      builder.RegisterEntryPoint<CampaignInputController>().AsSelf();
 
       builder.Register<ActorMovementLogic>(Lifetime.Singleton);
       builder.Register<CampaignActorsState>(Lifetime.Singleton);
@@ -110,18 +120,19 @@ namespace Motk.Client.Campaign
       builder.Register<CampaignActorViewFactory>(Lifetime.Singleton);
       
       builder.RegisterEntryPoint<LocationMovementController>();
-      
-      builder.RegisterBuildCallback(resolver => resolver.Inject(resolver.Resolve<InputController>()));
+
+      builder.Register<GameCameraState>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
     }
 
     private T Resolve<T>() => _scope.Container.Resolve<T>();
 
     public CampaignAppState(ApplicationStateMachine stateMachine, LocationsRegistry locationsRegistry,
-      AppScopeState appScopeState, ClientMessageReceiver messageReceiver) : base(stateMachine)
+      AppScopeState appScopeState, ClientMessageReceiver messageReceiver, GameCameraConfigRegistry cameraConfigRegistry) : base(stateMachine)
     {
       _locationsRegistry = locationsRegistry;
       _appScopeState = appScopeState;
       _messageReceiver = messageReceiver;
+      _cameraConfigRegistry = cameraConfigRegistry;
     }
 
     public record Context(string LocationId);

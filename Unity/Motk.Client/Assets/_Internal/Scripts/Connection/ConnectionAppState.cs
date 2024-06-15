@@ -1,17 +1,18 @@
 ﻿using System;
 using com.karabaev.applicationLifeCycle.StateMachine;
+using com.karabaev.camera.unity.Descriptors;
+using com.karabaev.descriptors.abstractions.Initialization;
+using com.karabaev.descriptors.unity;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using Motk.Client.Campaign;
+using Motk.Client.Campaign.CameraSystem.Descriptors;
 using Motk.Client.Core;
 using Motk.Matchmaking;
-using Motk.Shared.Core;
 using Motk.Shared.Core.Net;
 using Motk.Shared.Matches;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
-using VContainer;
-using VContainer.Unity;
 
 namespace Motk.Client.Connection
 {
@@ -26,32 +27,58 @@ namespace Motk.Client.Connection
     private readonly CurrentPlayerClientState _currentPlayerClientState;
     private readonly ClientMessageSender _clientMessageSender;
     private readonly ClientMessageReceiver _messageReceiver;
-    private readonly AppScopeState _appScopeState;
+    private readonly GameCameraConfigRegistry _gameCameraConfigRegistry;
 
-    private LifetimeScope _scope;
 
     private string _userSecret = null!;
     private int _matchId = -1;
     
     public override async UniTask EnterAsync(DummyStateContext context)
     {
-      _scope = _appScopeState.AppScope.CreateChild(ConfigureScope);
+      var loadingTask = LoadDescriptorsAsync();
       
       var ticketId = await _matchmakingService.CreateTicketAsync(PlayerId, ConnectingLocationId);
       var ticketResponse = await PollTicketAsync(ticketId);
 
+      await loadingTask;
+      
       _userSecret = ticketResponse.UserSecret;
       _matchId = ticketResponse.RoomId;
       
       var transport = (UnityTransport)_networkManager.NetworkConfig.NetworkTransport;
       transport.SetConnectionData(ticketResponse.ConnectionParameters!.Host, ticketResponse.ConnectionParameters.Port);
-      _networkManager.OnClientConnectedCallback += OnConnectedToServer;
+      _networkManager.OnConnectionEvent += OnConnectionChanged;
       _networkManager.StartClient();
     }
-    
-    private void OnConnectedToServer(ulong clientId)
+
+    public override UniTask ExitAsync()
     {
-      _currentPlayerClientState.ClientId = clientId;
+      _messageReceiver.UnregisterMessageHandler<AttachedToMatchCommand>();
+      return UniTask.CompletedTask;
+    }
+
+    private UniTask LoadDescriptorsAsync()
+    {
+      var descriptorInitializer = new DescriptorInitializer(new IDescriptorSourceProvider[]
+        {
+          new ResourcesDescriptorSourceProvider(),
+          new DummyDescriptorSourceProvider(),
+        },
+        new IMutableDescriptorRegistry[]
+        {
+          _gameCameraConfigRegistry
+        },
+        new DescriptorSourceTypes(new []{ typeof(GameCameraConfigSource) }));
+      
+      return descriptorInitializer.InitializeAsync();
+    }
+
+    private void OnConnectionChanged(NetworkManager _, ConnectionEventData connectionData)
+    {
+      if (connectionData.EventType != ConnectionEvent.ClientConnected)
+        return;
+
+      _currentPlayerClientState.ClientId = connectionData.ClientId;
 
       _messageReceiver.RegisterMessageHandler<AttachedToMatchCommand>(OnAttachedToMatch);
       
@@ -61,19 +88,11 @@ namespace Motk.Client.Connection
         UserSecret = _userSecret
       });
     }
-    
+
     private void OnAttachedToMatch(AttachedToMatchCommand _)
     {
       var context = new CampaignAppState.Context(ConnectingLocationId);
       EnterNextStateAsync<CampaignAppState, CampaignAppState.Context>(context).Forget();
-    }
-
-    public override UniTask ExitAsync()
-    {
-      _scope.Dispose();
-      _networkManager.OnClientConnectedCallback -= OnConnectedToServer;
-      _messageReceiver.UnregisterMessageHandler<AttachedToMatchCommand>();
-      return UniTask.CompletedTask;
     }
 
     private async UniTask<TicketStatusResponse> PollTicketAsync(Guid ticketId)
@@ -95,22 +114,17 @@ namespace Motk.Client.Connection
       }
     }
 
-    private void ConfigureScope(IContainerBuilder builder)
-    {
-    }
-    
     public ConnectionAppState(ApplicationStateMachine stateMachine, NetworkManager networkManager,
       MatchmakingService matchmakingService, CurrentPlayerClientState currentPlayerClientState,
-      ClientMessageSender clientMessageSender, AppScopeState appScopeState, LifetimeScope scope,
-      ClientMessageReceiver messageReceiver) : base(stateMachine)
+      ClientMessageSender clientMessageSender,
+      ClientMessageReceiver messageReceiver, GameCameraConfigRegistry gameCameraConfigRegistry) : base(stateMachine)
     {
       _networkManager = networkManager;
       _matchmakingService = matchmakingService;
       _currentPlayerClientState = currentPlayerClientState;
       _clientMessageSender = clientMessageSender;
-      _appScopeState = appScopeState;
-      _scope = scope;
       _messageReceiver = messageReceiver;
+      _gameCameraConfigRegistry = gameCameraConfigRegistry;
     }
   }
 }

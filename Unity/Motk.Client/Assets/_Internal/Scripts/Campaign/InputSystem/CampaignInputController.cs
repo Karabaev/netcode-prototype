@@ -1,4 +1,6 @@
 using System;
+using com.karabaev.camera.unity.Views;
+using com.karabaev.utilities.unity;
 using JetBrains.Annotations;
 using Motk.Client.Core.InputSystem;
 using UnityEngine;
@@ -11,15 +13,16 @@ namespace Motk.Client.Campaign.InputSystem
   {
     private readonly InputState _inputState;
     private readonly CampaignInputState _state;
-    private readonly Camera _camera;
+    private GameCameraView _camera = null!;
     
-    // ReSharper disable once ParameterHidesMember
-    public CampaignInputController(CampaignInputState state, InputState inputState, Camera camera)
+    public CampaignInputController(CampaignInputState state, InputState inputState)
     {
       _state = state;
       _inputState = inputState;
-      _camera = camera;
     }
+    
+    // ReSharper disable once ParameterHidesMember
+    public void Initialize(GameCameraView camera) => _camera = camera;
 
     void IStartable.Start()
     {
@@ -33,7 +36,7 @@ namespace Motk.Client.Campaign.InputSystem
     
     private void State_OnInputMainMouseButtonClicked(Vector2 mousePosition)
     {
-      var ray = _camera.ScreenPointToRay(mousePosition);
+      var ray = _camera.RequireComponent<Camera>().ScreenPointToRay(mousePosition);
 
       if (Physics.Raycast(ray, out var hitInfo, float.MaxValue, LayerMask.GetMask("InteractiveObject")))
       {
