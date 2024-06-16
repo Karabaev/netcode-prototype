@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using com.karabaev.utilities.unity;
 using Cysharp.Threading.Tasks;
@@ -40,18 +39,16 @@ namespace Motk.Matchmaking
         if (ticket.Status != TicketStatus.InProgress)
           continue;
 
-        if (!TryFindRoom(ticket, out var room))
+        if (!TryFindRoomId(ticket, out var roomId))
           continue;
 
-        var newRoomId = _matchmakingStorage.TicketIdCounter++;
-        room!.UserIds.Add(ticket.UserId);
-
         using var roomRegistry = _matchmakingStorage.RoomsRegistry;
-        roomRegistry.Value[newRoomId] = room;
+        var room = roomRegistry.Value[roomId];
+        room.UserIds.Add(ticket.UserId);
         ticket.Status = TicketStatus.Found;
 
         using var ticketAllocationRegistry = _matchmakingStorage.TicketIdsToAllocations;
-        ticketAllocationRegistry.Value[ticketId] = new AllocationInfo(room.ServerId, newRoomId);
+        ticketAllocationRegistry.Value[ticketId] = new AllocationInfo(room.ServerId, roomId);
       }
     }
 
@@ -115,22 +112,22 @@ namespace Motk.Matchmaking
       return UniTask.FromResult(_matchmakingStorage.RoomsRegistry.Value[roomId].LocationId);
     }
 
-    private bool TryFindRoom(Ticket ticket, out Room? result)
+    private bool TryFindRoomId(Ticket ticket, out int result)
     {
-      if (TryFindExistingRoom(ticket, out result))
+      if (TryFindExistingRoomId(ticket, out result))
         return true;
 
       return TryCreateRoom(ticket, out result);
     }
     
-    private bool TryFindExistingRoom(Ticket ticket, out Room? result)
+    private bool TryFindExistingRoomId(Ticket ticket, out int result)
     {
-      result = null;
+      result = -1;
       foreach (var (roomId, room) in _matchmakingStorage.RoomsRegistry.Value)
       {
         if (room.LocationId == ticket.LocationId)
         {
-          result = room;
+          result = roomId;
           return true;
         }
       }
@@ -138,12 +135,18 @@ namespace Motk.Matchmaking
       return false;
     }
 
-    private bool TryCreateRoom(Ticket ticket, out Room? result)
+    private bool TryCreateRoom(Ticket ticket, out int newRoomId)
     {
-      result = null;
+      newRoomId = -1;
+      
+      using var roomRegistry = _matchmakingStorage.RoomsRegistry;
+
       foreach (var (serverId, _) in _matchmakingStorage.GameServersRegistry.Value)
       {
-        result = new Room(ticket.LocationId, serverId);
+        // todokmo добавить проверку на вместимость сервера
+        newRoomId = _matchmakingStorage.TicketIdCounter++;
+        var newRoom = new Room(ticket.LocationId, serverId);
+        roomRegistry.Value[newRoomId] = newRoom;
         return true;
       }
 
