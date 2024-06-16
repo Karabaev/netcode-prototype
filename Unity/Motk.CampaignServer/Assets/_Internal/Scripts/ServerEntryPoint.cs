@@ -1,3 +1,4 @@
+using Motk.CampaignServer.DebugSystem;
 using Motk.CampaignServer.Matches;
 using Motk.CampaignServer.Matches.States;
 using Motk.Matchmaking;
@@ -12,7 +13,7 @@ using VContainer.Unity;
 
 namespace Motk.CampaignServer
 {
-  public class EntryPoint : MonoBehaviour
+  public class ServerEntryPoint : MonoBehaviour
   {
     [SerializeField]
     private LocationsRegistry _locationsRegistry = null!;
@@ -26,6 +27,8 @@ namespace Motk.CampaignServer
 
       _scope.Container.Resolve<AppScopeState>().AppScope = _scope;
 
+      FindObjectOfType<ActorsGizmos>().Construct(_scope.Container);
+      
       _scope.Container.Resolve<ClientConnectionListener>();
     }
 
@@ -33,6 +36,7 @@ namespace Motk.CampaignServer
     {
       _scope.Container.Resolve<NetworkManager>().StartServer();
       _scope.Container.Resolve<PlayerToMatchConnector>();
+      _scope.Container.Resolve<MatchmakingService>().ClearStorage();
     }
 
     private void Update()

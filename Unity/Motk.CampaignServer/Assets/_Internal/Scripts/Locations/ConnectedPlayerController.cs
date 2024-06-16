@@ -63,7 +63,7 @@ namespace Motk.CampaignServer.Locations
         Actor = new CampaignActorDto
         {
           PlayerId = clientId,
-          Position = newActorState.Position.Value,
+          Position = newActorState.Position.Value - _locationOffsetState.Offset,
           Rotation = newActorState.Rotation.Value
         }
       });

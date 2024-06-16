@@ -20,7 +20,7 @@ MonoBehaviour:
       <InitialZoom>k__BackingField: 10
       <ZoomSensitivity>k__BackingField: 5
       <InitialOrbitAngles>k__BackingField: {x: 45, y: 0}
-      <RotationSensitivity>k__BackingField: 5
+      <RotationSensitivity>k__BackingField: 10
       <MaxOrbitAngle>k__BackingField: 60
       <MinOrbitAngle>k__BackingField: 20
       <FocusRadius>k__BackingField: 1

@@ -16,12 +16,15 @@ namespace Motk.CampaignServer.Matches
   [UsedImplicitly]
   public class PlayerToMatchConnector : IDisposable
   {
+    private const float LocationOffset = 30.0f;
+    
     private readonly NetworkManager _networkManager;
     private readonly MatchesState _matchesState;
     private readonly MatchmakingService _matchmakingService;
     private readonly AppScopeState _appScopeState;
     private readonly ServerMessageSender _messageSender;
     private readonly ServerMessageReceiver _messageReceiver;
+
 
     public PlayerToMatchConnector(NetworkManager networkManager, MatchesState matchesState,
       MatchmakingService matchmakingService, AppScopeState appScopeState,
@@ -60,7 +63,7 @@ namespace Motk.CampaignServer.Matches
         match = matchScope.Container.Resolve<MatchState>();
         match.LocationId = await _matchmakingService.GetLocationIdForRoom(roomId);
         match.Scope = matchScope;
-        match.Scope.Container.Resolve<LocationOffsetState>().Offset = Vector3.zero;
+        match.Scope.Container.Resolve<LocationOffsetState>().Offset = Vector3.up * _matchesState.Matches.Count * LocationOffset;
         _matchesState.Matches.Add(roomId, match);
       }
 

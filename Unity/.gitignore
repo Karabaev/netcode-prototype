@@ -67,3 +67,4 @@ _ReSharper.Caches/
 ProjectSettings/AndroidLogcatSettings.asset
 
 RiderFlow.UserData/
+*_clone_*

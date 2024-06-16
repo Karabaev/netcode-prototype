@@ -3,6 +3,7 @@ using com.karabaev.applicationLifeCycle.StateMachine;
 using com.karabaev.camera.unity.Descriptors;
 using com.karabaev.descriptors.abstractions.Initialization;
 using com.karabaev.descriptors.unity;
+using com.karabaev.utilities.unity;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using Motk.Client.Campaign;
@@ -20,7 +21,6 @@ namespace Motk.Client.Connection
   public class ConnectionAppState : ApplicationState<DummyStateContext>
   {
     private const string ConnectingLocationId = "default";
-    private const string PlayerId = "Player1";
     
     private readonly NetworkManager _networkManager;
     private readonly MatchmakingService _matchmakingService;
@@ -36,8 +36,8 @@ namespace Motk.Client.Connection
     public override async UniTask EnterAsync(DummyStateContext context)
     {
       var loadingTask = LoadDescriptorsAsync();
-      
-      var ticketId = await _matchmakingService.CreateTicketAsync(PlayerId, ConnectingLocationId);
+      var playerId = RandomUtils.RandomString();
+      var ticketId = await _matchmakingService.CreateTicketAsync(playerId, ConnectingLocationId);
       var ticketResponse = await PollTicketAsync(ticketId);
 
       await loadingTask;

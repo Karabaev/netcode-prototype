@@ -38,13 +38,14 @@ namespace Motk.CampaignServer.Movement
 
       if (path.Length == 0)
         return;
-
+      
+      path = path.Skip(1).ToArray();
       _actorMovementLogic.MoveAsync(actorState, path).Forget();
 
       var moveStartedMessage = new ActorMoveStartedCommand
       {
         PlayerId = senderId,
-        Path = path.Skip(1).Select(p => p - _locationOffsetState.Offset).ToArray()
+        Path = path.Select(p => p - _locationOffsetState.Offset).ToArray()
       };
       _messageSender.Broadcast(moveStartedMessage);
     }

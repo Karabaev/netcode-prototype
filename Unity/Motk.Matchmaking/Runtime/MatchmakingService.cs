@@ -12,10 +12,10 @@ namespace Motk.Matchmaking
   {
     private readonly MatchmakingStorage _matchmakingStorage;
     
-    public MatchmakingService(MatchmakingStorage matchmakingStorage)
+    public MatchmakingService(MatchmakingStorage matchmakingStorage) => _matchmakingStorage = matchmakingStorage;
+
+    public void ClearStorage()
     {
-      _matchmakingStorage = matchmakingStorage;
-      
       using var registry = _matchmakingStorage.GameServersRegistry;
       registry.Value.Clear();
       registry.Value.Add(1, new GameServerDescription(new ConnectionParameters("127.0.0.1", 7777)));
@@ -128,7 +128,7 @@ namespace Motk.Matchmaking
       result = null;
       foreach (var (roomId, room) in _matchmakingStorage.RoomsRegistry.Value)
       {
-        if (ticket.LocationId == room.LocationId)
+        if (room.LocationId == ticket.LocationId)
         {
           result = room;
           return true;
