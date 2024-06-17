@@ -19,9 +19,13 @@ namespace Motk.CampaignServer
     private LocationsRegistry _locationsRegistry = null!;
     
     private LifetimeScope _scope = null!;
+
+    private MatchmakingService _matchmakingService = null!;
+    private float _nextUpdateTime;
     
     private void Awake()
     {
+      Application.targetFrameRate = 30;
       _scope = LifetimeScope.Create(ConfigureScope);
       _scope.name = "Application";
 
@@ -30,18 +34,24 @@ namespace Motk.CampaignServer
       FindObjectOfType<ActorsGizmos>().Construct(_scope.Container);
       
       _scope.Container.Resolve<ClientConnectionListener>();
+
+      _matchmakingService = _scope.Container.Resolve<MatchmakingService>();
     }
 
     private void Start()
     {
       _scope.Container.Resolve<NetworkManager>().StartServer();
       _scope.Container.Resolve<PlayerToMatchConnector>();
-      _scope.Container.Resolve<MatchmakingService>().ClearStorage();
+      _matchmakingService.InitializeStorage();
     }
 
     private void Update()
     {
-      _scope.Container.Resolve<MatchmakingService>().Update();
+      if (Time.time < _nextUpdateTime)
+        return;
+
+      _nextUpdateTime += 1.0f;
+      _matchmakingService.Update();
     }
 
     private void ConfigureScope(IContainerBuilder builder)
@@ -53,13 +63,13 @@ namespace Motk.CampaignServer
       
       builder.Register<MatchmakingService>(Lifetime.Singleton);
       builder.Register<MatchmakingStorage>(Lifetime.Singleton);
-
+      builder.RegisterEntryPoint<ConnectedUserMatchController>();
 
       builder.Register<AppScopeState>(Lifetime.Singleton);
       
       builder.Register<MatchesState>(Lifetime.Singleton);
-      builder.Register<MatchGarbageCollector>(Lifetime.Singleton).As<ITickable>();
       builder.Register<PlayerToMatchConnector>(Lifetime.Singleton);
+      builder.Register<MatchFactory>(Lifetime.Singleton);
       builder.Register<ServerMessageSender>(Lifetime.Singleton);
       builder.Register<ServerMessageReceiver>(Lifetime.Singleton);
       builder.Register<MessageSerializer>(Lifetime.Singleton);

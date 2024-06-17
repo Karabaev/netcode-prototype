@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 617125665}
   - component: {fileID: 617125667}
+  - component: {fileID: 617125668}
   m_Layer: 0
   m_Name: Campaign
   m_TagString: Untagged
@@ -165,6 +166,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d00b53d0ffc44136a15ffcd40ae2ea7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &617125668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 617125664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bacba51923134a6489572ec4d6ef1584, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &721526952
@@ -266,6 +279,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ProtocolType: 0
+  m_UseWebSockets: 1
+  m_UseEncryption: 0
   m_MaxPacketQueueSize: 128
   m_MaxPayloadSize: 6144
   m_HeartbeatTimeoutMS: 500

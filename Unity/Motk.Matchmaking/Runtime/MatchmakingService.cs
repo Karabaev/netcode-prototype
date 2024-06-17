@@ -6,6 +6,10 @@ using JetBrains.Annotations;
 
 namespace Motk.Matchmaking
 {
+  // Вместо уведомления матчмейкингом об аллокации комнаты на сервере игровой сервер сам запрашивает инфу о комнате с матчмейкинга.
+  // Таким образом, когда клиент начнет подключение, игровой сервер сможет получить нужную инфу.
+  // В обратном случае, матчмейкинг может не успеть достучаться до игрового сервера к моменту, когда клиент начнет подключение.
+
   [UsedImplicitly]
   public class MatchmakingService
   {
@@ -13,7 +17,7 @@ namespace Motk.Matchmaking
     
     public MatchmakingService(MatchmakingStorage matchmakingStorage) => _matchmakingStorage = matchmakingStorage;
 
-    public void ClearStorage()
+    public void InitializeStorage()
     {
       using var registry = _matchmakingStorage.GameServersRegistry;
       registry.Value.Clear();
@@ -59,8 +63,10 @@ namespace Motk.Matchmaking
       using var ticketsRegistry = _matchmakingStorage.TicketsRegistry;
       ticketsRegistry.Value[ticketId] = ticket;
 
-      using var userRegistry = _matchmakingStorage.UserIdToUserSecret; 
-      userRegistry.Value[userId] = RandomUtils.RandomString();
+      using var userRegistry = _matchmakingStorage.UserIdToUserSecret;
+      if (!userRegistry.Value.ContainsKey(userId))
+        userRegistry.Value[userId] = RandomUtils.RandomString();
+      
       return UniTask.FromResult(ticketId);
     }
 
@@ -84,15 +90,7 @@ namespace Motk.Matchmaking
       return new TicketStatusResponse(userSecret, ticket.Status, connectionParams, roomId);
     }
 
-    public UniTask DeleteRoomAsync(int roomId)
-    {
-      using var registry = _matchmakingStorage.RoomsRegistry;
-      registry.Value.Remove(roomId);
-      // todo удалить тикеты и освободить сервер
-      return UniTask.CompletedTask;
-    }
-
-    public UniTask<int> GetRoomIdForUser(string userSecret)
+    public UniTask<int> GetRoomIdForUserAsync(string userSecret)
     {
       var userId = _matchmakingStorage.UserIdToUserSecret.Value.First(u => u.Value == userSecret).Key;
       
@@ -107,9 +105,24 @@ namespace Motk.Matchmaking
       return UniTask.FromResult(-1);
     }
 
-    public UniTask<string> GetLocationIdForRoom(int roomId)
+    public UniTask<string> GetLocationIdForRoomAsync(int roomId)
     {
       return UniTask.FromResult(_matchmakingStorage.RoomsRegistry.Value[roomId].LocationId);
+    }
+
+    public async UniTask RemoveUserFromRoomAsync(string userSecret)
+    {
+      var roomId = await GetRoomIdForUserAsync(userSecret);
+      
+      using var registry = _matchmakingStorage.RoomsRegistry;
+      var userId = _matchmakingStorage.UserIdToUserSecret.Value.First(u => u.Value == userSecret).Key;
+      var room = registry.Value[roomId];
+      room.UserIds.Remove(userId);
+
+      if (room.UserIds.Count > 0) return;
+
+      registry.Value.Remove(roomId);
+      // todokmo удалить тикеты и освободить сервер
     }
 
     private bool TryFindRoomId(Ticket ticket, out int result)

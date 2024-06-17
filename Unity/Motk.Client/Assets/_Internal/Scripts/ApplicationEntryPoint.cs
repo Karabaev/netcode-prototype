@@ -1,7 +1,10 @@
 using com.karabaev.applicationLifeCycle.StateMachine;
 using com.karabaev.camera.unity.Descriptors;
+using com.karabaev.utilities.unity;
+using Cysharp.Threading.Tasks;
 using Motk.Client.Campaign;
 using Motk.Client.Campaign.Actors.Descriptors;
+using Motk.Client.Campaign.Player;
 using Motk.Client.Connection;
 using Motk.Client.Core;
 using Motk.Client.Core.InputSystem;
@@ -29,9 +32,10 @@ namespace Motk.Client
       appScope.name = "Application";
 
       appScope.Container.Resolve<AppScopeState>().AppScope = appScope;
-
+      appScope.Container.Resolve<CurrentPlayerState>().PlayerId = RandomUtils.RandomString();
+      
       var stateMachine = appScope.Container.Resolve<ApplicationStateMachine>();
-      stateMachine.EnterAsync<ConnectionAppState>();
+      stateMachine.EnterAsync<BootstrapAppState>().Forget();
     }
     
     private void ConfigureAppScope(IContainerBuilder builder)
@@ -48,7 +52,8 @@ namespace Motk.Client
       builder.Register<ApplicationStateMachine>(Lifetime.Singleton);
       builder.Register<ApplicationStateFactory>(Lifetime.Singleton).As<IStateFactory>();
 
-      builder.Register<ConnectionAppState>(Lifetime.Transient);
+      builder.Register<BootstrapAppState>(Lifetime.Transient);
+      builder.Register<EnterToLocationAppState>(Lifetime.Transient);
       builder.Register<CampaignAppState>(Lifetime.Transient);
 
       builder.RegisterInstance(_locationsRegistry);
@@ -56,7 +61,7 @@ namespace Motk.Client
       builder.Register<MatchmakingService>(Lifetime.Singleton);
       builder.Register<MatchmakingStorage>(Lifetime.Singleton);
       
-      builder.Register<CurrentPlayerClientState>(Lifetime.Singleton);
+      builder.Register<CurrentPlayerState>(Lifetime.Singleton);
       
       builder.Register<ClientMessageSender>(Lifetime.Singleton);
       builder.Register<ClientMessageReceiver>(Lifetime.Singleton);

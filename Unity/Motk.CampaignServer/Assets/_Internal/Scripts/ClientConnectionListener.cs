@@ -33,7 +33,7 @@ namespace Motk.CampaignServer
 
     private void OnClientDisconnected(ulong clientId)
     {
-      foreach (var (_, matchState) in _matchesState.Matches)
+      foreach (var (_, matchState) in _matchesState.Matches.ToList())
       {
         foreach (var (userId, userClientId) in matchState.Users.ToList())
         {

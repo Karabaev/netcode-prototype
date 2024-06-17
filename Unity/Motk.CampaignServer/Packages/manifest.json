@@ -12,6 +12,7 @@
     "com.unity.probuilder": "5.2.2",
     "com.unity.render-pipelines.universal": "14.0.9",
     "com.unity.textmeshpro": "3.0.6",
+    "com.unity.transport": "2.2.1",
     "com.unity.ugui": "1.0.0",
     "jp.hadashikick.vcontainer": "https://github.com/hadashiA/VContainer.git?path=VContainer/Assets/VContainer",
     "motk.matchmaking": "file:E:/Projects/MotK/Unity/Motk.Matchmaking",

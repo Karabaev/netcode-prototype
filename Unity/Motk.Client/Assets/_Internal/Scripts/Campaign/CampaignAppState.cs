@@ -9,7 +9,9 @@ using Motk.Client.Campaign.Actors.Controllers;
 using Motk.Client.Campaign.Actors.Services;
 using Motk.Client.Campaign.InputSystem;
 using Motk.Client.Campaign.Movement;
+using Motk.Client.Campaign.Transitions;
 using Motk.Client.Core.InputSystem;
+using Motk.Matchmaking;
 using Motk.Shared.Campaign;
 using Motk.Shared.Campaign.Actors.Messages;
 using Motk.Shared.Campaign.Actors.States;
@@ -17,6 +19,7 @@ using Motk.Shared.Campaign.Movement;
 using Motk.Shared.Core;
 using Motk.Shared.Core.Net;
 using Motk.Shared.Locations;
+using Unity.Netcode;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -31,12 +34,13 @@ namespace Motk.Client.Campaign
     private readonly AppScopeState _appScopeState;
     private readonly ClientMessageReceiver _messageReceiver;
     private readonly GameCameraConfigRegistry _cameraConfigRegistry;
+    private readonly ApplicationStateMachine _applicationStateMachine;
+    private readonly NetworkManager _networkManager;
     
     private LifetimeScope _scope = null!;
     private CampaignActorsState _campaignActorsState = null!;
 
     private GameObject _locationView = null!;
-    private GameCameraView _cameraView = null!;
     
     public override UniTask EnterAsync(Context context)
     {
@@ -44,9 +48,11 @@ namespace Motk.Client.Campaign
       _campaignActorsState = Resolve<CampaignActorsState>();
 
       _locationView = CreateLocation(context.LocationId);
-      _cameraView = CreateCamera();
+      var cameraView = InitializeCamera();
+      Resolve<CampaignInputController>().Initialize(cameraView);
       Resolve<InputController>().Construct(Resolve<InputState>());
-      Resolve<CampaignInputController>().Initialize(_cameraView);
+
+      Object.FindObjectOfType<TransitionDebug>().Construct(_applicationStateMachine);
 
       _messageReceiver.RegisterMessageHandler<LocationStateMessage>(Network_OnLocationStateObtained);
       _messageReceiver.RegisterMessageHandler<PlayerActorSpawnedCommand>(Network_OnActorSpawned);
@@ -59,10 +65,10 @@ namespace Motk.Client.Campaign
     {
       _scope.Dispose();
       _locationView.DestroyObject();
-      _cameraView.DestroyObject();
       _messageReceiver.UnregisterMessageHandler<LocationStateMessage>();
       _messageReceiver.UnregisterMessageHandler<PlayerActorSpawnedCommand>();
       _messageReceiver.UnregisterMessageHandler<PlayerActorDespawnedCommand>();
+      _networkManager.Shutdown(true);
       return UniTask.CompletedTask;
     }
 
@@ -72,7 +78,7 @@ namespace Motk.Client.Campaign
       return Object.Instantiate(locationDescriptor.Prefab);
     }
 
-    private GameCameraView CreateCamera()
+    private GameCameraView InitializeCamera()
     {
       var cameraView = Object.FindObjectOfType<GameCameraView>();
       var cameraConfig = _cameraConfigRegistry.RequireSingle();
@@ -127,12 +133,15 @@ namespace Motk.Client.Campaign
     private T Resolve<T>() => _scope.Container.Resolve<T>();
 
     public CampaignAppState(ApplicationStateMachine stateMachine, LocationsRegistry locationsRegistry,
-      AppScopeState appScopeState, ClientMessageReceiver messageReceiver, GameCameraConfigRegistry cameraConfigRegistry) : base(stateMachine)
+      AppScopeState appScopeState, ClientMessageReceiver messageReceiver, GameCameraConfigRegistry cameraConfigRegistry,
+      MatchmakingService matchmakingService, ApplicationStateMachine applicationStateMachine, NetworkManager networkManager) : base(stateMachine)
     {
       _locationsRegistry = locationsRegistry;
       _appScopeState = appScopeState;
       _messageReceiver = messageReceiver;
       _cameraConfigRegistry = cameraConfigRegistry;
+      _applicationStateMachine = applicationStateMachine;
+      _networkManager = networkManager;
     }
 
     public record Context(string LocationId);

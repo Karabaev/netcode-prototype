@@ -12,14 +12,14 @@ using VContainer.Unity;
 namespace Motk.CampaignServer.Locations
 {
   [UsedImplicitly]
-  public class ConnectedPlayerController : IStartable, IDisposable
+  public class ConnectedPlayerLocationController : IStartable, IDisposable
   {
     private readonly MatchState _matchState;
     private readonly ServerMessageSender _messageSender;
     private readonly CampaignLocationState _locationState;
     private readonly LocationOffsetState _locationOffsetState;
 
-    public ConnectedPlayerController(MatchState matchState, ServerMessageSender messageSender,
+    public ConnectedPlayerLocationController(MatchState matchState, ServerMessageSender messageSender,
       CampaignLocationState locationState, LocationOffsetState locationOffsetState)
     {
       _matchState = matchState;

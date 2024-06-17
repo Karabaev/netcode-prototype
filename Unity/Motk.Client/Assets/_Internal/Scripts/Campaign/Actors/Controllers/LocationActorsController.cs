@@ -6,6 +6,7 @@ using JetBrains.Annotations;
 using Motk.Client.Campaign.Actors.Services;
 using Motk.Client.Campaign.Actors.Views;
 using Motk.Client.Campaign.CameraSystem;
+using Motk.Client.Campaign.Player;
 using Motk.Client.Core;
 using Motk.Shared.Campaign.Actors.States;
 using VContainer.Unity;
@@ -17,13 +18,13 @@ namespace Motk.Client.Campaign.Actors.Controllers
   {
     private readonly CampaignActorViewFactory _actorViewFactory;
     private readonly CampaignActorsState _state;
-    private readonly CurrentPlayerClientState _playerState;
+    private readonly CurrentPlayerState _playerState;
     private readonly GameCameraState _gameCameraState;
 
     private readonly Dictionary<ulong, CampaignActorView> _actorViews = new();
 
     public LocationActorsController(CampaignActorsState state, CampaignActorViewFactory actorViewFactory,
-      CurrentPlayerClientState playerState, GameCameraState gameCameraState)
+      CurrentPlayerState playerState, GameCameraState gameCameraState)
     {
       _state = state;
       _actorViewFactory = actorViewFactory;
