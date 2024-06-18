@@ -1,9 +1,8 @@
 ﻿using JetBrains.Annotations;
-using Motk.CampaignServer.Matches.States;
 using UnityEngine;
 using VContainer.Unity;
 
-namespace Motk.CampaignServer.Matches
+namespace Motk.CampaignServer.Match
 {
   [UsedImplicitly]
   public class MatchFactory
@@ -13,6 +12,7 @@ namespace Motk.CampaignServer.Matches
       var matchState = new MatchState(id, locationId);      
       var scopeInstaller = new MatchScopeInstaller(matchState, locationOffset);
       var matchScope = parentScope.CreateChild(scopeInstaller);
+      matchScope.name = $"Match{id}_{locationId}";
       matchState.Scope = matchScope;
       return matchState;
     }

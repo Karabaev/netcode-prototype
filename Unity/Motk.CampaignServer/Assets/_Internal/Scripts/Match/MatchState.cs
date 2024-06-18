@@ -2,7 +2,7 @@ using com.karabaev.reactivetypes.Dictionary;
 using JetBrains.Annotations;
 using VContainer.Unity;
 
-namespace Motk.CampaignServer.Matches.States
+namespace Motk.CampaignServer.Match
 {
   [UsedImplicitly]
   public class MatchState
@@ -12,7 +12,7 @@ namespace Motk.CampaignServer.Matches.States
     public string LocationId { get; }
     
     // todokmo точно ли нужен скоуп? Можно его резолвить отдельно?
-    public LifetimeScope Scope { get; set; }
+    public LifetimeScope Scope { get; set; } = null!;
 
     /// <summary>
     /// Ключ - секрет пользвателя, значение - id соединения.

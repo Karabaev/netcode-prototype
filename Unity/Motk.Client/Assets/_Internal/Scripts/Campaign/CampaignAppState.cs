@@ -111,26 +111,24 @@ namespace Motk.Client.Campaign
     {
       _campaignActorsState.Actors.Remove(message.PlayerId);
     }
-    
-    private void ConfigureScope(IContainerBuilder builder)
-    {
-      builder.Register<InputState>(Lifetime.Singleton).AsSelf().As<ICameraInputState>();
-      builder.RegisterInstance(Object.FindObjectOfType<InputController>());
-
-      builder.Register<CampaignInputState>(Lifetime.Singleton);
-      builder.RegisterEntryPoint<CampaignInputController>().AsSelf();
-
-      builder.Register<ActorMovementLogic>(Lifetime.Singleton);
-      builder.Register<CampaignActorsState>(Lifetime.Singleton);
-      builder.RegisterEntryPoint<LocationActorsController>();
-      builder.Register<CampaignActorViewFactory>(Lifetime.Singleton);
-      
-      builder.RegisterEntryPoint<LocationMovementController>();
-
-      builder.Register<GameCameraState>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
-    }
 
     private T Resolve<T>() => _scope.Container.Resolve<T>();
+
+    private void ConfigureScope(IContainerBuilder builder)
+    {
+      builder.Register<CampaignActorsState>(Lifetime.Singleton);
+      builder.Register<InputState>(Lifetime.Singleton).AsSelf().As<ICameraInputState>();
+      builder.Register<CampaignInputState>(Lifetime.Singleton);
+      builder.Register<GameCameraState>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
+
+      builder.Register<ActorMovementLogic>(Lifetime.Singleton);
+      builder.Register<CampaignActorViewFactory>(Lifetime.Singleton);
+
+      builder.RegisterInstance(Object.FindObjectOfType<InputController>());
+      builder.RegisterEntryPoint<LocationActorsController>();
+      builder.RegisterEntryPoint<CampaignInputController>().AsSelf();
+      builder.RegisterEntryPoint<LocationMovementController>();
+    }
 
     public CampaignAppState(ApplicationStateMachine stateMachine, LocationsRegistry locationsRegistry,
       AppScopeState appScopeState, ClientMessageReceiver messageReceiver, GameCameraConfigRegistry cameraConfigRegistry,

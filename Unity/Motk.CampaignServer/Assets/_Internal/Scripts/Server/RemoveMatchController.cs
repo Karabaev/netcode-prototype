@@ -2,62 +2,57 @@
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
-using Motk.CampaignServer.Matches.States;
+using Motk.CampaignServer.Match;
+using Motk.CampaignServer.Server.States;
 using Motk.Matchmaking;
 using VContainer.Unity;
 
-namespace Motk.CampaignServer.Matches
+namespace Motk.CampaignServer.Server
 {
   [UsedImplicitly]
-  public class ConnectedUserMatchController : IStartable, IDisposable
+  public class RemoveMatchController : IStartable, IDisposable
   {
-    private readonly MatchesState _matchesState;
+    private readonly ServerState _serverState;
     private readonly MatchmakingService _matchmakingService;
 
-    public ConnectedUserMatchController(MatchesState matchesState, MatchmakingService matchmakingService)
+    public RemoveMatchController(ServerState serverState, MatchmakingService matchmakingService)
     {
-      _matchesState = matchesState;
+      _serverState = serverState;
       _matchmakingService = matchmakingService;
     }
 
     void IStartable.Start()
     {
-      _matchesState.Matches.ItemAdded += State_OnMatchAdded;
-      _matchesState.Matches.ItemRemoved += State_OnMatchRemoved;
+      _serverState.Matches.ItemAdded += State_OnMatchAdded;
+      _serverState.Matches.ItemRemoved += State_OnMatchRemoved;
     }
     
     void IDisposable.Dispose()
     {
-      foreach (var (matchId, matchState) in _matchesState.Matches)
+      foreach (var (matchId, matchState) in _serverState.Matches)
         State_OnMatchRemoved(matchId, matchState);
 
-      _matchesState.Matches.ItemAdded -= State_OnMatchAdded;
-      _matchesState.Matches.ItemRemoved -= State_OnMatchRemoved;
+      _serverState.Matches.ItemAdded -= State_OnMatchAdded;
+      _serverState.Matches.ItemRemoved -= State_OnMatchRemoved;
     }
 
     private void State_OnMatchAdded(int matchId, MatchState newMatch)
     {
-      newMatch.Users.ItemAdded += State_OnUserAdded;
       newMatch.Users.ItemRemoved += State_OnUserRemoved;
     }
 
     private void State_OnMatchRemoved(int matchId, MatchState removedMatch)
     {
-      removedMatch.Users.ItemAdded -= State_OnUserAdded;
       removedMatch.Users.ItemRemoved -= State_OnUserRemoved;
     }
     
-    private void State_OnUserAdded(string key, ulong newValue)
-    {
-    }
-
     private void State_OnUserRemoved(string userSecret, ulong removedClientId)
     {
-      foreach (var (matchId, matchState) in _matchesState.Matches.ToList())
+      foreach (var (matchId, matchState) in _serverState.Matches.ToList())
       {
         if (matchState.Users.Count > 0) continue;
 
-        _matchesState.Matches.Remove(matchId);
+        _serverState.Matches.Remove(matchId);
         matchState.Scope.Dispose();
       }
 

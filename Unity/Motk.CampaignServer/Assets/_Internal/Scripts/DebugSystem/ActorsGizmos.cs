@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
-using Motk.CampaignServer.Matches.States;
+using com.karabaev.utilities.unity;
+using Motk.CampaignServer.Server;
+using Motk.CampaignServer.Server.States;
 using Motk.Shared.Locations;
 using UnityEngine;
 using VContainer;
@@ -21,7 +23,7 @@ namespace Motk.CampaignServer.DebugSystem
     {
       if (_objectResolver == null) return;
       
-      foreach (var (matchId, matchState) in _objectResolver.Resolve<MatchesState>().Matches)
+      foreach (var (matchId, matchState) in _objectResolver.Resolve<ServerState>().Matches)
       {
         if (!_matchColors.TryGetValue(matchId, out var color))
         {
@@ -34,6 +36,7 @@ namespace Motk.CampaignServer.DebugSystem
         foreach (var (clientId, actorState) in locationState.Actors)
         {
           Gizmos.DrawCube(actorState.Position.Value + Vector3.up, new Vector3(1, 2, 1));
+          GizmosHelper.DrawString(clientId.ToString(), actorState.Position.Value);
         }
       }
     }

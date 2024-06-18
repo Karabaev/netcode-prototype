@@ -7,7 +7,6 @@ using Motk.Client.Campaign.Actors.Services;
 using Motk.Client.Campaign.Actors.Views;
 using Motk.Client.Campaign.CameraSystem;
 using Motk.Client.Campaign.Player;
-using Motk.Client.Core;
 using Motk.Shared.Campaign.Actors.States;
 using VContainer.Unity;
 
@@ -37,14 +36,19 @@ namespace Motk.Client.Campaign.Actors.Controllers
     {
       _state.Actors.ItemAdded += State_OnActorAdded;
       _state.Actors.ItemRemoved += State_OnActorRemoved;
+      _state.Actors.Cleaned += State_OnActorsCleaned;
     }
     
     void IDisposable.Dispose()
     {
       _state.Actors.ItemAdded -= State_OnActorAdded;
       _state.Actors.ItemRemoved -= State_OnActorRemoved;
+      _state.Actors.Cleaned -= State_OnActorsCleaned;
+      
+      foreach (var (_, actorView) in _actorViews)
+        actorView.DestroyObject();
     }
-    
+
     private void State_OnActorAdded(ulong playerId, CampaignActorState newActor)
     {
       var view = _actorViewFactory.Create("default", newActor); 
@@ -56,10 +60,18 @@ namespace Motk.Client.Campaign.Actors.Controllers
       _gameCameraState.Target.Value = new CurrentPlayerActorCameraTarget(newActor);
     }
 
-    private void State_OnActorRemoved(ulong playerId, CampaignActorState oldActor)
+    private void State_OnActorRemoved(ulong clientId, CampaignActorState oldActor)
     {
-      _actorViews.Remove(playerId, out var view);
+      _actorViews.Remove(clientId, out var view);
       view.DestroyObject();
+    }
+
+    private void State_OnActorsCleaned()
+    {
+      foreach (var (_, actorView) in _actorViews)
+        actorView.DestroyObject();
+
+      _actorViews.Clear();
     }
   }
 }

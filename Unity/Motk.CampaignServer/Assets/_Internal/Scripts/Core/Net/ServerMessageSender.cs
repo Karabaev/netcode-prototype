@@ -1,8 +1,12 @@
 ﻿using System.Collections.Generic;
+using JetBrains.Annotations;
+using Motk.Shared.Core.Net;
 using Unity.Netcode;
 
-namespace Motk.Shared.Core.Net
+namespace Motk.CampaignServer.Core.Net
 {
+  // todokmo написать Match-scoped сендер, который сможет бродкастить только клиентам в матче
+  [UsedImplicitly]
   public class ServerMessageSender
   {
     private readonly NetworkManager _networkManager;
@@ -19,17 +23,17 @@ namespace Motk.Shared.Core.Net
       using var writer = _messageSerializer.Write(message);
       _networkManager.CustomMessagingManager.SendNamedMessageToAll(typeof(T).Name, writer);
     }
-    
+
+    public void Broadcast<T>(T message, IReadOnlyList<ulong> receiverIds) where T : INetworkSerializable
+    {
+      using var writer = _messageSerializer.Write(message);
+      _networkManager.CustomMessagingManager.SendNamedMessage(typeof(T).Name, receiverIds, writer);
+    }
+
     public void Send<T>(T message, ulong receiverId) where T : INetworkSerializable
     {
       using var writer = _messageSerializer.Write(message);
       _networkManager.CustomMessagingManager.SendNamedMessage(typeof(T).Name, receiverId, writer);
-    }
-    
-    public void Send<T>(T message, IReadOnlyList<ulong> receiverIds) where T : INetworkSerializable
-    {
-      using var writer = _messageSerializer.Write(message);
-      _networkManager.CustomMessagingManager.SendNamedMessage(typeof(T).Name, receiverIds, writer);
     }
   }
 }

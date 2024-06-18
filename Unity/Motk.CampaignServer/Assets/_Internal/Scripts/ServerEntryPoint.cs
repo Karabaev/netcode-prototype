@@ -1,6 +1,9 @@
+using Motk.CampaignServer.Core.Net;
 using Motk.CampaignServer.DebugSystem;
-using Motk.CampaignServer.Matches;
-using Motk.CampaignServer.Matches.States;
+using Motk.CampaignServer.Match;
+using Motk.CampaignServer.Server;
+using Motk.CampaignServer.Server.Net;
+using Motk.CampaignServer.Server.States;
 using Motk.Matchmaking;
 using Motk.Shared.Campaign.PathFinding;
 using Motk.Shared.Core;
@@ -41,7 +44,7 @@ namespace Motk.CampaignServer
     private void Start()
     {
       _scope.Container.Resolve<NetworkManager>().StartServer();
-      _scope.Container.Resolve<PlayerToMatchConnector>();
+      _scope.Container.Resolve<PlayerToMatchRouter>();
       _matchmakingService.InitializeStorage();
     }
 
@@ -59,16 +62,15 @@ namespace Motk.CampaignServer
       builder.RegisterInstance(FindObjectOfType<NetworkManager>());
       builder.Register<ClientConnectionListener>(Lifetime.Singleton);
       builder.RegisterInstance(_locationsRegistry);
-      builder.Register<InMemoryPlayerLocationStorage>(Lifetime.Singleton).As<IPlayerLocationStorage>();
       
       builder.Register<MatchmakingService>(Lifetime.Singleton);
       builder.Register<MatchmakingStorage>(Lifetime.Singleton);
-      builder.RegisterEntryPoint<ConnectedUserMatchController>();
+      builder.RegisterEntryPoint<RemoveMatchController>();
 
       builder.Register<AppScopeState>(Lifetime.Singleton);
       
-      builder.Register<MatchesState>(Lifetime.Singleton);
-      builder.Register<PlayerToMatchConnector>(Lifetime.Singleton);
+      builder.Register<ServerState>(Lifetime.Singleton);
+      builder.Register<PlayerToMatchRouter>(Lifetime.Singleton);
       builder.Register<MatchFactory>(Lifetime.Singleton);
       builder.Register<ServerMessageSender>(Lifetime.Singleton);
       builder.Register<ServerMessageReceiver>(Lifetime.Singleton);

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using JetBrains.Annotations;
-using Motk.CampaignServer.Matches.States;
+using Motk.CampaignServer.Core.Net;
+using Motk.CampaignServer.Match;
 using Motk.Shared.Campaign;
 using Motk.Shared.Campaign.Actors.Messages;
 using Motk.Shared.Campaign.Actors.States;
-using Motk.Shared.Core.Net;
 using Motk.Shared.Locations;
 using VContainer.Unity;
 
@@ -58,6 +58,7 @@ namespace Motk.CampaignServer.Locations
       
       _locationState.Actors.Add(clientId, newActorState);
 
+      var clientsInMatch = _matchState.Users.Select(u => u.Value).ToList();
       _messageSender.Broadcast(new PlayerActorSpawnedCommand
       {
         Actor = new CampaignActorDto
@@ -66,13 +67,17 @@ namespace Motk.CampaignServer.Locations
           Position = newActorState.Position.Value - _locationOffsetState.Offset,
           Rotation = newActorState.Rotation.Value
         }
-      });
+      }, clientsInMatch);
     }
 
     private void State_OnUserRemoved(string userSecret, ulong removedClientId)
     {
       _locationState.Actors.Remove(removedClientId);
-      _messageSender.Broadcast(new PlayerActorDespawnedCommand { PlayerId = removedClientId });
+      var clientsInMatch = _matchState.Users.Select(u => u.Value).ToList();
+      _messageSender.Broadcast(new PlayerActorDespawnedCommand
+      {
+        PlayerId = removedClientId
+      }, clientsInMatch);
     }
   }
 }

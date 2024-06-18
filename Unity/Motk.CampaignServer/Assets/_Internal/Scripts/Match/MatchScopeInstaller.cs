@@ -1,13 +1,13 @@
-﻿using Motk.CampaignServer.Locations;
-using Motk.CampaignServer.Matches.States;
-using Motk.CampaignServer.Movement;
+﻿using Motk.CampaignServer.Core.Net;
+using Motk.CampaignServer.Locations;
+using Motk.CampaignServer.Match.Net;
 using Motk.Shared.Campaign.Movement;
 using Motk.Shared.Locations;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-namespace Motk.CampaignServer.Matches
+namespace Motk.CampaignServer.Match
 {
   public class MatchScopeInstaller : IInstaller
   {
@@ -26,9 +26,9 @@ namespace Motk.CampaignServer.Matches
       builder.RegisterInstance(new LocationOffsetState(_locationOffset));
       builder.Register<CampaignLocationState>(Lifetime.Singleton);
       
-      builder.RegisterEntryPoint<MatchLifeCycleController>();
+      builder.RegisterEntryPoint<MatchEntryPoint>();
       builder.RegisterEntryPoint<ConnectedPlayerLocationController>();
-      builder.RegisterEntryPoint<LocationMovementController>();
+      builder.RegisterEntryPoint<MatchMessageHandler>();
       
       builder.Register<ActorMovementLogic>(Lifetime.Singleton);
     }

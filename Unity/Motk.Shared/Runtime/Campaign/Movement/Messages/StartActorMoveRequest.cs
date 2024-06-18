@@ -1,9 +1,10 @@
+using Motk.Shared.Core.Net;
 using Unity.Netcode;
 using UnityEngine;
 
 namespace Motk.Shared.Campaign.Movement.Messages
 {
-  public struct StartActorMoveRequest : INetworkSerializable
+  public struct StartActorMoveRequest : IMatchMessage
   {
     public Vector3 Destination;
     

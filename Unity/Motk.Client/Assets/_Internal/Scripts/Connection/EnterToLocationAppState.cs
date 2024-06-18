@@ -9,7 +9,6 @@ using Motk.Shared.Core.Net;
 using Motk.Shared.Matches;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
-using UnityEngine;
 
 namespace Motk.Client.Connection
 {
@@ -43,6 +42,7 @@ namespace Motk.Client.Connection
 
     public override UniTask ExitAsync()
     {
+      _networkManager.OnConnectionEvent -= OnConnectionChanged;
       _messageReceiver.UnregisterMessageHandler<AttachedToMatchCommand>();
       return UniTask.CompletedTask;
     }
