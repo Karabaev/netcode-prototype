@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using JetBrains.Annotations;
-using Motk.CampaignServer.Core.Net;
-using Motk.CampaignServer.Match;
+using Motk.CampaignServer.Match.Net;
+using Motk.CampaignServer.Match.States;
 using Motk.Shared.Campaign;
 using Motk.Shared.Campaign.Actors.Messages;
 using Motk.Shared.Campaign.Actors.States;
@@ -12,20 +12,20 @@ using VContainer.Unity;
 namespace Motk.CampaignServer.Locations
 {
   [UsedImplicitly]
-  public class ConnectedPlayerLocationController : IStartable, IDisposable
+  public class ConnectedPlayerActorController : IStartable, IDisposable
   {
     private readonly MatchState _matchState;
-    private readonly ServerMessageSender _messageSender;
     private readonly CampaignLocationState _locationState;
     private readonly LocationOffsetState _locationOffsetState;
+    private readonly MatchMessageSender _matchMessageSender;
 
-    public ConnectedPlayerLocationController(MatchState matchState, ServerMessageSender messageSender,
-      CampaignLocationState locationState, LocationOffsetState locationOffsetState)
+    public ConnectedPlayerActorController(MatchState matchState, CampaignLocationState locationState,
+      LocationOffsetState locationOffsetState, MatchMessageSender matchMessageSender)
     {
       _matchState = matchState;
-      _messageSender = messageSender;
       _locationState = locationState;
       _locationOffsetState = locationOffsetState;
+      _matchMessageSender = matchMessageSender;
     }
 
     void IStartable.Start()
@@ -51,15 +51,14 @@ namespace Motk.CampaignServer.Locations
           Rotation = a.Value.Rotation.Value
         }).ToArray()
       };
-      _messageSender.Send(locationStateMessage, clientId);
+      _matchMessageSender.Send(locationStateMessage, clientId);
 
       var newActorState = new CampaignActorState();
       newActorState.Position.Value += _locationOffsetState.Offset;
       
       _locationState.Actors.Add(clientId, newActorState);
 
-      var clientsInMatch = _matchState.Users.Select(u => u.Value).ToList();
-      _messageSender.Broadcast(new PlayerActorSpawnedCommand
+      _matchMessageSender.Broadcast(new PlayerActorSpawnedCommand
       {
         Actor = new CampaignActorDto
         {
@@ -67,17 +66,13 @@ namespace Motk.CampaignServer.Locations
           Position = newActorState.Position.Value - _locationOffsetState.Offset,
           Rotation = newActorState.Rotation.Value
         }
-      }, clientsInMatch);
+      });
     }
 
     private void State_OnUserRemoved(string userSecret, ulong removedClientId)
     {
       _locationState.Actors.Remove(removedClientId);
-      var clientsInMatch = _matchState.Users.Select(u => u.Value).ToList();
-      _messageSender.Broadcast(new PlayerActorDespawnedCommand
-      {
-        PlayerId = removedClientId
-      }, clientsInMatch);
+      _matchMessageSender.Broadcast(new PlayerActorDespawnedCommand { PlayerId = removedClientId });
     }
   }
 }

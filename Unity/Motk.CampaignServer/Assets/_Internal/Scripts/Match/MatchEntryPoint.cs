@@ -3,8 +3,9 @@ using System.Linq;
 using com.karabaev.utilities.unity;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
-using Motk.CampaignServer.Core.Net;
 using Motk.CampaignServer.Locations;
+using Motk.CampaignServer.Match.Net;
+using Motk.CampaignServer.Match.States;
 using Motk.CampaignServer.Server.Net;
 using Motk.Shared.Campaign.Movement;
 using Motk.Shared.Campaign.Movement.Messages;
@@ -25,7 +26,7 @@ namespace Motk.CampaignServer.Match
     private readonly CampaignLocationState _locationState;
     private readonly NavMeshPathFindingService _pathFindingService;
     private readonly ActorMovementLogic _actorMovementLogic;
-    private readonly ServerMessageSender _messageSender;
+    private readonly MatchMessageSender _matchMessageSender;
     private readonly ServerMessageReceiver _messageReceiver;
 
     private GameObject _locationObject = null!;
@@ -33,7 +34,7 @@ namespace Motk.CampaignServer.Match
     public MatchEntryPoint(LocationsRegistry locationsRegistry, MatchState matchState,
       LocationOffsetState locationOffsetState, CampaignLocationState locationState,
       NavMeshPathFindingService pathFindingService,
-      ActorMovementLogic actorMovementLogic, ServerMessageSender messageSender, ServerMessageReceiver messageReceiver)
+      ActorMovementLogic actorMovementLogic, ServerMessageReceiver messageReceiver, MatchMessageSender matchMessageSender)
     {
       _locationsRegistry = locationsRegistry;
       _matchState = matchState;
@@ -41,8 +42,8 @@ namespace Motk.CampaignServer.Match
       _locationState = locationState;
       _pathFindingService = pathFindingService;
       _actorMovementLogic = actorMovementLogic;
-      _messageSender = messageSender;
       _messageReceiver = messageReceiver;
+      _matchMessageSender = matchMessageSender;
     }
 
     void IStartable.Start()
@@ -53,7 +54,9 @@ namespace Motk.CampaignServer.Match
       _locationObject = Object.Instantiate(locationDescriptor.Prefab);
       _matchState.Scope.transform.AddChild(_locationObject);
       _locationObject.transform.position = _locationOffsetState.Offset;
-      
+
+      _matchState.Users.ItemAdded += State_OnUserAdded;
+      _matchState.Users.ItemRemoved += State_OnUserRemoved;
       _messageReceiver.RegisterMatchMessageHandler<StartActorMoveRequest>(_matchState.Id, Network_OnStartActorMoveRequested);
     }
 
@@ -61,8 +64,14 @@ namespace Motk.CampaignServer.Match
     {
       _locationObject.DestroyObject();
       _messageReceiver.UnregisterMatchMessageHandler<StartActorMoveRequest>(_matchState.Id);
+      _matchState.Users.ItemAdded -= State_OnUserAdded;
+      _matchState.Users.ItemRemoved -= State_OnUserRemoved;
       Debug.Log($"Match disposed. MatchId={_matchState.Id}");
     }
+    
+    private void State_OnUserAdded(string key, ulong newValue) => _matchState.ConnectedClients.Add(newValue);
+
+    private void State_OnUserRemoved(string key, ulong oldValue) => _matchState.ConnectedClients.Remove(oldValue);
 
     private void Network_OnStartActorMoveRequested(ulong senderId, StartActorMoveRequest message)
     {
@@ -81,8 +90,7 @@ namespace Motk.CampaignServer.Match
         PlayerId = senderId,
         Path = path.Select(p => p - _locationOffsetState.Offset).ToArray()
       };
-      var clientsInMatch = _matchState.Users.Select(u => u.Value).ToList();
-      _messageSender.Broadcast(moveStartedMessage, clientsInMatch);
+      _matchMessageSender.Broadcast(moveStartedMessage);
     }
   }
 }

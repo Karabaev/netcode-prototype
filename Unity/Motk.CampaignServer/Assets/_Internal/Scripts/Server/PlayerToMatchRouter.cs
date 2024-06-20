@@ -1,7 +1,6 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
-using Motk.CampaignServer.Core.Net;
 using Motk.CampaignServer.Match;
 using Motk.CampaignServer.Server.Net;
 using Motk.CampaignServer.Server.States;
@@ -66,11 +65,12 @@ namespace Motk.CampaignServer.Server
         _serverState.Matches.Add(matchId, matchState);
       }
 
+      // ожидание, чтобы контроллеры проинициализировались
       await UniTask.Yield();
       
       _messageSender.Send(new AttachedToMatchCommand(), clientId);
+
       matchState.Users.Add(message.UserSecret, clientId);
-      
       _serverState.ClientsInMatches.Add(clientId, matchId);
     }
   }

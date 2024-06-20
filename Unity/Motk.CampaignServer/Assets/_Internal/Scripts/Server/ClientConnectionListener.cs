@@ -45,7 +45,6 @@ namespace Motk.CampaignServer.Server
         }
       }
       _serverState.ClientsInMatches.Remove(clientId);
-
     }
   }
 }

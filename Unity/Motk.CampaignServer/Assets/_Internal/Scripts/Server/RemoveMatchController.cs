@@ -2,7 +2,7 @@
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
-using Motk.CampaignServer.Match;
+using Motk.CampaignServer.Match.States;
 using Motk.CampaignServer.Server.States;
 using Motk.Matchmaking;
 using VContainer.Unity;

@@ -1,4 +1,3 @@
-using Motk.CampaignServer.Core.Net;
 using Motk.CampaignServer.DebugSystem;
 using Motk.CampaignServer.Match;
 using Motk.CampaignServer.Server.Net;

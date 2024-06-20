@@ -1,8 +1,9 @@
-﻿using Unity.Netcode;
+﻿using Motk.Shared.Core.Net;
+using Unity.Netcode;
 
 namespace Motk.Shared.Campaign.Actors.Messages
 {
-  public struct PlayerActorSpawnedCommand : INetworkSerializable
+  public struct PlayerActorSpawnedCommand : IMatchMessage
   {
     public CampaignActorDto Actor;
     
