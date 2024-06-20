@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using JetBrains.Annotations;
 using Motk.CampaignServer.Server.States;
 using Motk.Shared.Core.Net;
@@ -13,7 +12,8 @@ namespace Motk.CampaignServer.Server.Net
   {
     private readonly ServerState _serverState;
     private readonly NetworkManager _networkManager;
-    private readonly Dictionary<int, Dictionary<string, List<Delegate>>> _matchMessageHandlers = new();
+    private readonly Dictionary<int, MatchMessageHandlersBag> _matchMessageHandlers = new();
+    private readonly Dictionary<string, Delegate> _serverMessageHandlers = new();
 
     public ServerMessageReceiver(ServerState serverState, NetworkManager networkManager)
     {
@@ -23,78 +23,81 @@ namespace Motk.CampaignServer.Server.Net
 
     public void RegisterMessageHandler<T>(Action<ulong, T> action) where T : IServerMessage, new()
     {
-      _networkManager.CustomMessagingManager.RegisterNamedMessageHandler(typeof(T).Name, (clientId, reader) =>
-      {
-        reader.ReadValueSafe(out T message);
-        action.Invoke(clientId, message);
-      });
+      var messageId = typeof(T).Name;
+      _serverMessageHandlers.Add(messageId, action);
+      _networkManager.CustomMessagingManager.RegisterNamedMessageHandler(typeof(T).Name, OnSeverMessageReceived<T>);
     }
-
+    
     public void UnregisterMessageHandler<T>() where T : IServerMessage, new()
     {
-      _networkManager.CustomMessagingManager.UnregisterNamedMessageHandler(typeof(T).Name);
+      var messageId = typeof(T).Name;
+      _serverMessageHandlers.Remove(messageId);
+      _networkManager.CustomMessagingManager.UnregisterNamedMessageHandler(messageId);
     }
     
     public void RegisterMatchMessageHandler<T>(int matchId, Action<ulong, T> action) where T : IMatchMessage, new()
     {
       if (!_matchMessageHandlers.TryGetValue(matchId, out var messageHandlers))
       {
-        messageHandlers = new Dictionary<string, List<Delegate>>();
+        messageHandlers = new MatchMessageHandlersBag();
         _matchMessageHandlers.Add(matchId, messageHandlers);
       }
       
       var messageId = typeof(T).Name;
-      if (messageHandlers.TryGetValue(messageId, out var handlers))
-      {
-        handlers.Add(action);
-        return;
-      }
-
-      handlers = new List<Delegate> { action };
-      messageHandlers.Add(messageId, handlers);
-
-      RegisterMatchMessageHandler<T>(messageId);
+      messageHandlers.Handlers.Add(messageId, action);
+      
+      _networkManager.CustomMessagingManager.RegisterNamedMessageHandler(messageId, OnMatchMessageReceived<T>);
     }
 
     public void UnregisterMatchMessageHandler<T>(int matchId) where T : IMatchMessage, new()
     {
       var messageId = typeof(T).Name;
-      _matchMessageHandlers[matchId].Remove(messageId);
-      if (_matchMessageHandlers[matchId].Count > 0)
-        return;
 
-      var hasMessageHandlers = _matchMessageHandlers.Any(mmh =>
+      var matchMessageHandlers = _matchMessageHandlers[matchId];
+      matchMessageHandlers.Handlers.Remove(messageId);
+
+      var hasMessageHandlers = false;
+      foreach (var (_, handlers) in _matchMessageHandlers)
       {
-        if (mmh.Value.TryGetValue(messageId, out var handlers))
+        if (handlers.Handlers.ContainsKey(messageId))
         {
-          return handlers.Count > 0;
+          hasMessageHandlers = true;
+          break;
         }
-
-        return false;
-      });
-
+      }
+      
       if (hasMessageHandlers)
         return;
 
       _networkManager.CustomMessagingManager.UnregisterNamedMessageHandler(messageId);
     }
-
-    private void RegisterMatchMessageHandler<T>(string messageId) where T : IMatchMessage, new()
+    
+    private void OnSeverMessageReceived<T>(ulong clientId, FastBufferReader reader) where T : IServerMessage, new()
     {
-      _networkManager.CustomMessagingManager.RegisterNamedMessageHandler(messageId, (clientId, reader) =>
-      {
-        var matchId = _serverState.ClientsInMatches[clientId];
+      var messageId = typeof(T).Name;
 
-        if (!_matchMessageHandlers.TryGetValue(matchId, out var messageHandlers))
-          return;
+      reader.ReadValueSafe(out T message);
+      var handler = _serverMessageHandlers[messageId];
+      ((Action<ulong, T>)handler).Invoke(clientId, message);
+    }
+    
+    private void OnMatchMessageReceived<T>(ulong clientId, FastBufferReader reader)  where T : IMatchMessage, new()
+    {
+      var matchId = _serverState.ClientsInMatches[clientId];
 
-        var handlers = messageHandlers[messageId];
+      if (!_matchMessageHandlers.TryGetValue(matchId, out var messageHandlers))
+        return;
 
-        reader.ReadValueSafe(out T message);
+      reader.ReadValueSafe(out T message);
 
-        foreach (var handler in handlers)
-          ((Action<ulong, T>)handler).Invoke(clientId, message);
-      });
+      var messageId = typeof(T).Name;
+      var handler = messageHandlers.Handlers[messageId];
+      ((Action<ulong, T>)handler).Invoke(clientId, message);
+    }
+    
+    private class MatchMessageHandlersBag
+    {
+      public Dictionary<string, Delegate> Handlers { get; } = new();
     }
   }
 }

@@ -5,7 +5,6 @@ using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using Motk.CampaignServer.Match.Net;
 using Motk.CampaignServer.Match.States;
-using Motk.CampaignServer.Server.Net;
 using Motk.Shared.Campaign;
 using Motk.Shared.Campaign.Actors.Messages;
 using Motk.Shared.Campaign.Actors.States;
@@ -28,7 +27,7 @@ namespace Motk.CampaignServer.Locations
     private readonly CampaignLocationState _locationState;
     private readonly NavMeshPathFindingService _pathFindingService;
     private readonly ActorMovementLogic _actorMovementLogic;
-    private readonly ServerMessageReceiver _messageReceiver;
+    private readonly MatchMessageReceiver _matchMessageReceiver;
     private readonly LocationsRegistry _locationsRegistry;
 
     private GameObject _locationObject = null!;
@@ -36,7 +35,7 @@ namespace Motk.CampaignServer.Locations
     public LocationController(MatchState matchState, CampaignLocationState locationState,
       LocationOffsetState locationOffsetState, MatchMessageSender matchMessageSender,
       NavMeshPathFindingService pathFindingService, ActorMovementLogic actorMovementLogic,
-      ServerMessageReceiver messageReceiver, LocationsRegistry locationsRegistry)
+      LocationsRegistry locationsRegistry, MatchMessageReceiver matchMessageReceiver)
     {
       _matchState = matchState;
       _locationState = locationState;
@@ -44,8 +43,8 @@ namespace Motk.CampaignServer.Locations
       _matchMessageSender = matchMessageSender;
       _pathFindingService = pathFindingService;
       _actorMovementLogic = actorMovementLogic;
-      _messageReceiver = messageReceiver;
       _locationsRegistry = locationsRegistry;
+      _matchMessageReceiver = matchMessageReceiver;
     }
 
     void IStartable.Start()
@@ -57,7 +56,7 @@ namespace Motk.CampaignServer.Locations
       _matchState.Users.ItemAdded += State_OnUserAdded;
       _matchState.Users.ItemRemoved += State_OnUserRemoved;
       
-      _messageReceiver.RegisterMatchMessageHandler<StartActorMoveRequest>(_matchState.Id, Network_OnStartActorMoveRequested);
+      _matchMessageReceiver.RegisterMessageHandler<StartActorMoveRequest>(Network_OnStartActorMoveRequested);
     }
     
     void IDisposable.Dispose()
@@ -65,7 +64,7 @@ namespace Motk.CampaignServer.Locations
       _locationObject.DestroyObject();
       _matchState.Users.ItemAdded -= State_OnUserAdded;
       _matchState.Users.ItemRemoved -= State_OnUserRemoved;
-      _messageReceiver.UnregisterMatchMessageHandler<StartActorMoveRequest>(_matchState.Id);
+      _matchMessageReceiver.UnregisterMessageHandler<StartActorMoveRequest>();
     }
 
     private void State_OnUserAdded(string userSecret, ulong clientId)
