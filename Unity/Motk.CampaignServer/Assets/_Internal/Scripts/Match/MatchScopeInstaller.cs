@@ -27,7 +27,7 @@ namespace Motk.CampaignServer.Match
       builder.Register<CampaignLocationState>(Lifetime.Singleton);
       
       builder.RegisterEntryPoint<MatchEntryPoint>();
-      builder.RegisterEntryPoint<ConnectedPlayerActorController>();
+      builder.RegisterEntryPoint<LocationController>();
       
       builder.Register<ActorMovementLogic>(Lifetime.Singleton);
       builder.Register<MatchMessageSender>(Lifetime.Singleton);
