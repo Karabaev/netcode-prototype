@@ -1,8 +1,9 @@
-﻿using Unity.Netcode;
+﻿using Motk.Shared.Core.Net;
+using Unity.Netcode;
 
 namespace Motk.Shared.Matches
 {
-  public struct AttachToMatchRequest : INetworkSerializable
+  public struct AttachToMatchRequest : IServerMessage
   {
     public string UserSecret;
     public int MatchId;

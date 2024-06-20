@@ -8,25 +8,25 @@
       "hash": "fbe0bf85155f42f8832205f7b3ac3df571ada33e"
     },
     "com.karabaev.reactivetypes": {
-      "version": "https://git.jetbrains.space/rdds2/gk/com.karabaev.reactivetypes.git?path=Assets",
+      "version": "https://github.com/Karabaev/reactive-types.git?path=Assets",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "49e829d924e1c835e17702ff960b40924c91da9a"
+      "hash": "c2010dc67b9a15e04caf6e39b24798e61fec5b89"
     },
     "com.karabaev.utilities": {
-      "version": "https://git.jetbrains.space/rdds2/gk/com.karabaev.utilities.git?path=Assets",
+      "version": "https://github.com/Karabaev/utilities.git?path=Assets",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "890c130c4f7eaff10700531de245aaa98d2f8ebc"
+      "hash": "8c18ee8f7d9264c434cdafdaf188e6bb91d19930"
     },
     "com.karabaev.utilities.unity": {
-      "version": "https://git.jetbrains.space/rdds2/gk/com.karabaev.utilities.unity.git?path=Assets",
+      "version": "https://github.com/Karabaev/utilities-unity.git?path=Assets",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "3d35942c8592c3bda9df1831342100b3b89329e4"
+      "hash": "2ad82964180045553e2ed1592de56b1fa030ae2c"
     },
     "com.kyrylokuzyk.primetween": {
       "version": "file:../Assets/Plugins/PrimeTween/internal/com.kyrylokuzyk.primetween.tgz",

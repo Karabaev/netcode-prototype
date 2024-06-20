@@ -47,7 +47,7 @@ namespace Motk.CampaignServer.Locations
         Actors = _locationState.Actors.Select(a => new CampaignActorDto
         {
           PlayerId = a.Key,
-          Position = a.Value.Position.Value,
+          Position = a.Value.Position.Value - _locationOffsetState.Offset,
           Rotation = a.Value.Rotation.Value
         }).ToArray()
       };

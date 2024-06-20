@@ -5,8 +5,6 @@ using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using Motk.CampaignServer.Core.Net;
 using Motk.CampaignServer.Locations;
-using Motk.CampaignServer.Match.Net;
-using Motk.CampaignServer.Server;
 using Motk.CampaignServer.Server.Net;
 using Motk.Shared.Campaign.Movement;
 using Motk.Shared.Campaign.Movement.Messages;
@@ -28,24 +26,23 @@ namespace Motk.CampaignServer.Match
     private readonly NavMeshPathFindingService _pathFindingService;
     private readonly ActorMovementLogic _actorMovementLogic;
     private readonly ServerMessageSender _messageSender;
-    private readonly IMatchMessageHandler _messageHandler;
-    private readonly ServerMessageReceiver _serverMessageReceiver;
+    private readonly ServerMessageReceiver _messageReceiver;
 
     private GameObject _locationObject = null!;
 
     public MatchEntryPoint(LocationsRegistry locationsRegistry, MatchState matchState,
       LocationOffsetState locationOffsetState, CampaignLocationState locationState,
-      IMatchMessageHandler messageHandler, NavMeshPathFindingService pathFindingService,
-      ActorMovementLogic actorMovementLogic, ServerMessageSender messageSender)
+      NavMeshPathFindingService pathFindingService,
+      ActorMovementLogic actorMovementLogic, ServerMessageSender messageSender, ServerMessageReceiver messageReceiver)
     {
       _locationsRegistry = locationsRegistry;
       _matchState = matchState;
       _locationOffsetState = locationOffsetState;
       _locationState = locationState;
-      _messageHandler = messageHandler;
       _pathFindingService = pathFindingService;
       _actorMovementLogic = actorMovementLogic;
       _messageSender = messageSender;
+      _messageReceiver = messageReceiver;
     }
 
     void IStartable.Start()
@@ -57,13 +54,13 @@ namespace Motk.CampaignServer.Match
       _matchState.Scope.transform.AddChild(_locationObject);
       _locationObject.transform.position = _locationOffsetState.Offset;
       
-      _messageHandler.RegisterMessageHandler<StartActorMoveRequest>(Network_OnStartActorMoveRequested);
+      _messageReceiver.RegisterMatchMessageHandler<StartActorMoveRequest>(_matchState.Id, Network_OnStartActorMoveRequested);
     }
 
     void IDisposable.Dispose()
     {
       _locationObject.DestroyObject();
-      _messageHandler.UnregisterMessageHandler<StartActorMoveRequest>();
+      _messageReceiver.UnregisterMatchMessageHandler<StartActorMoveRequest>(_matchState.Id);
       Debug.Log($"Match disposed. MatchId={_matchState.Id}");
     }
 

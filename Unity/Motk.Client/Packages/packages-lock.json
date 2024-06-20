@@ -8,53 +8,53 @@
       "hash": "fbe0bf85155f42f8832205f7b3ac3df571ada33e"
     },
     "com.karabaev.applicationlifecycle": {
-      "version": "https://git.jetbrains.space/rdds2/gk/com.karabaev.applicationLifeCycle.git?path=Assets",
+      "version": "https://github.com/Karabaev/application-states.git?path=Assets",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "252023eb6094418eeefe22bf21e4aaf1ac16446f"
+      "hash": "bb6f4facf5ad7f33a5af68e6555e3795451e0d24"
     },
     "com.karabaev.camera.unity": {
-      "version": "https://git.jetbrains.space/rdds2/gk/com.karabaev.camera.unity.git?path=Assets",
+      "version": "https://github.com/Karabaev/orbital-camera-unity.git?path=Assets",
       "depth": 0,
       "source": "git",
       "dependencies": {},
       "hash": "5daf06eecca0a0a2c032eb4739fdaa6c0e7a6045"
     },
     "com.karabaev.descriptors.abstractions": {
-      "version": "https://git.jetbrains.space/rdds2/gk/com.karabaev.descriptors.abstractions.git?path=Assets",
+      "version": "https://github.com/Karabaev/descriptors-abstractions.git?path=Assets",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "67ad8ae80e0541e8d2b3209f9b1d4289c8a478c9"
+      "hash": "64a4ef9b7a765c0528e61f112828f6716a4e0c36"
     },
     "com.karabaev.descriptors.unity": {
-      "version": "https://git.jetbrains.space/rdds2/gk/com.karabaev.descriptors.unity.git?path=Assets",
+      "version": "https://github.com/Karabaev/descriptors-unity.git?path=Assets",
       "depth": 0,
       "source": "git",
       "dependencies": {},
       "hash": "f639687cd3df40ffd6e0690de3392a4ca0d4eefe"
     },
     "com.karabaev.reactivetypes": {
-      "version": "https://git.jetbrains.space/rdds2/gk/com.karabaev.reactivetypes.git?path=Assets",
+      "version": "https://github.com/Karabaev/reactive-types.git?path=Assets",
       "depth": 0,
       "source": "git",
       "dependencies": {},
       "hash": "49e829d924e1c835e17702ff960b40924c91da9a"
     },
     "com.karabaev.utilities": {
-      "version": "https://git.jetbrains.space/rdds2/gk/com.karabaev.utilities.git?path=Assets",
+      "version": "https://github.com/Karabaev/utilities.git?path=Assets",
       "depth": 0,
       "source": "git",
       "dependencies": {},
       "hash": "890c130c4f7eaff10700531de245aaa98d2f8ebc"
     },
     "com.karabaev.utilities.unity": {
-      "version": "https://git.jetbrains.space/rdds2/gk/com.karabaev.utilities.unity.git?path=Assets",
+      "version": "https://github.com/Karabaev/utilities-unity.git?path=Assets",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "3d35942c8592c3bda9df1831342100b3b89329e4"
+      "hash": "2ad82964180045553e2ed1592de56b1fa030ae2c"
     },
     "com.kyrylokuzyk.primetween": {
       "version": "file:../Assets/Plugins/PrimeTween/internal/com.kyrylokuzyk.primetween.tgz",

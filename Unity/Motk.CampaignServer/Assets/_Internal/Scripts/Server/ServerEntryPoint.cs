@@ -1,7 +1,6 @@
 using Motk.CampaignServer.Core.Net;
 using Motk.CampaignServer.DebugSystem;
 using Motk.CampaignServer.Match;
-using Motk.CampaignServer.Server;
 using Motk.CampaignServer.Server.Net;
 using Motk.CampaignServer.Server.States;
 using Motk.Matchmaking;
@@ -14,7 +13,7 @@ using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-namespace Motk.CampaignServer
+namespace Motk.CampaignServer.Server
 {
   public class ServerEntryPoint : MonoBehaviour
   {

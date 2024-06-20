@@ -1,6 +1,4 @@
-﻿using Motk.CampaignServer.Core.Net;
-using Motk.CampaignServer.Locations;
-using Motk.CampaignServer.Match.Net;
+﻿using Motk.CampaignServer.Locations;
 using Motk.Shared.Campaign.Movement;
 using Motk.Shared.Locations;
 using UnityEngine;
@@ -28,7 +26,6 @@ namespace Motk.CampaignServer.Match
       
       builder.RegisterEntryPoint<MatchEntryPoint>();
       builder.RegisterEntryPoint<ConnectedPlayerLocationController>();
-      builder.RegisterEntryPoint<MatchMessageHandler>();
       
       builder.Register<ActorMovementLogic>(Lifetime.Singleton);
     }
