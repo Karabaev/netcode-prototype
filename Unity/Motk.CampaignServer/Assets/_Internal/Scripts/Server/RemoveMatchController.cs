@@ -3,8 +3,8 @@ using System.Linq;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using Motk.CampaignServer.Match.States;
+using Motk.CampaignServer.Matchmaking;
 using Motk.CampaignServer.Server.States;
-using Motk.Matchmaking;
 using VContainer.Unity;
 
 namespace Motk.CampaignServer.Server
@@ -13,12 +13,12 @@ namespace Motk.CampaignServer.Server
   public class RemoveMatchController : IStartable, IDisposable
   {
     private readonly ServerState _serverState;
-    private readonly MatchmakingService _matchmakingService;
+    private readonly MatchmakingClient _matchmakingClient;
 
-    public RemoveMatchController(ServerState serverState, MatchmakingService matchmakingService)
+    public RemoveMatchController(ServerState serverState, MatchmakingClient matchmakingClient)
     {
       _serverState = serverState;
-      _matchmakingService = matchmakingService;
+      _matchmakingClient = matchmakingClient;
     }
 
     void IStartable.Start()
@@ -56,7 +56,7 @@ namespace Motk.CampaignServer.Server
         matchState.Scope.Dispose();
       }
 
-      _matchmakingService.RemoveUserFromRoomAsync(userSecret).Forget();
+      _matchmakingClient.RemoveUserFromRoomAsync(userSecret).Forget();
     }
   }
 }

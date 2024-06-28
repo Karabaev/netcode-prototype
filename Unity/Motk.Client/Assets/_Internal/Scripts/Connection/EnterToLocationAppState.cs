@@ -4,11 +4,14 @@ using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using Motk.Client.Campaign;
 using Motk.Client.Campaign.Player;
+using Motk.Client.Core;
+using Motk.Client.Matchmaking;
 using Motk.Matchmaking;
 using Motk.Shared.Core.Net;
 using Motk.Shared.Matches;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
+using UnityEngine;
 
 namespace Motk.Client.Connection
 {
@@ -16,7 +19,7 @@ namespace Motk.Client.Connection
   public class EnterToLocationAppState : ApplicationState<EnterToLocationAppState.Context>
   {
     private readonly NetworkManager _networkManager;
-    private readonly MatchmakingService _matchmakingService;
+    private readonly MatchmakingClient _matchmakingClient;
     private readonly CurrentPlayerState _currentPlayerState;
     private readonly ClientMessageSender _clientMessageSender;
     private readonly ClientMessageReceiver _messageReceiver;
@@ -27,13 +30,15 @@ namespace Motk.Client.Connection
     
     public override async UniTask EnterAsync(Context context)
     {
+      Debug.Log("Enter to location started...");
       _locationId = context.LocationId;
-      var ticketId = await _matchmakingService.CreateTicketAsync(_currentPlayerState.PlayerId, context.LocationId);
+      var ticketId = await _matchmakingClient.CreateTicketAsync(_currentPlayerState.PlayerId, context.LocationId);
       var ticketResponse = await PollTicketAsync(ticketId);
 
       _userSecret = ticketResponse.UserSecret;
       _matchId = ticketResponse.RoomId;
       
+      Debug.Log("Connecting to game server...");
       var transport = (UnityTransport)_networkManager.NetworkConfig.NetworkTransport;
       transport.SetConnectionData(ticketResponse.ConnectionParameters!.Host, ticketResponse.ConnectionParameters.Port);
       _networkManager.OnConnectionEvent += OnConnectionChanged;
@@ -74,7 +79,7 @@ namespace Motk.Client.Connection
       while (true)
       {
         await UniTask.Delay(TimeSpan.FromSeconds(1.0f));
-        var ticketStatus = await _matchmakingService.GetTicketStatusAsync(ticketId);
+        var ticketStatus = await _matchmakingClient.GetTicketStatusAsync(ticketId);
 
         if (ticketStatus.TicketStatus == TicketStatus.Found)
         {
@@ -89,12 +94,12 @@ namespace Motk.Client.Connection
     }
 
     public EnterToLocationAppState(ApplicationStateMachine stateMachine, NetworkManager networkManager,
-      MatchmakingService matchmakingService, CurrentPlayerState currentPlayerState,
+      MatchmakingClient matchmakingClient, CurrentPlayerState currentPlayerState,
       ClientMessageSender clientMessageSender,
       ClientMessageReceiver messageReceiver) : base(stateMachine)
     {
       _networkManager = networkManager;
-      _matchmakingService = matchmakingService;
+      _matchmakingClient = matchmakingClient;
       _currentPlayerState = currentPlayerState;
       _clientMessageSender = clientMessageSender;
       _messageReceiver = messageReceiver;

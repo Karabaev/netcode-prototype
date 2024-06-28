@@ -1,4 +1,4 @@
-﻿namespace Motk.Matchmaking
+﻿namespace Motk.Matchmaking.New
 {
   public record GameServerDescription(ConnectionParameters ConnectionParameters);
 }

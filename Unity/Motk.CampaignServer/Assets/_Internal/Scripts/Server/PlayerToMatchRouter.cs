@@ -2,6 +2,7 @@
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using Motk.CampaignServer.Match;
+using Motk.CampaignServer.Matchmaking;
 using Motk.CampaignServer.Server.Net;
 using Motk.CampaignServer.Server.States;
 using Motk.Matchmaking;
@@ -19,19 +20,19 @@ namespace Motk.CampaignServer.Server
     
     private readonly NetworkManager _networkManager;
     private readonly ServerState _serverState;
-    private readonly MatchmakingService _matchmakingService;
+    private readonly MatchmakingClient _matchmakingClient;
     private readonly AppScopeState _appScopeState;
     private readonly MatchFactory _matchFactory;
     private readonly ServerMessageSender _messageSender;
     private readonly ServerMessageReceiver _messageReceiver;
 
     public PlayerToMatchRouter(NetworkManager networkManager, ServerState serverState,
-      MatchmakingService matchmakingService, AppScopeState appScopeState,
+      MatchmakingClient matchmakingClient, AppScopeState appScopeState,
       ServerMessageSender messageSender, ServerMessageReceiver messageReceiver, MatchFactory matchFactory)
     {
       _networkManager = networkManager;
       _serverState = serverState;
-      _matchmakingService = matchmakingService;
+      _matchmakingClient = matchmakingClient;
       _appScopeState = appScopeState;
       _messageSender = messageSender;
       _messageReceiver = messageReceiver;
@@ -48,7 +49,7 @@ namespace Motk.CampaignServer.Server
     private async void Network_OnAttachToMatchRequested(ulong clientId, AttachToMatchRequest message)
     {
       // todokmo проверять еще serverId
-      var matchId = await _matchmakingService.GetRoomIdForUserAsync(message.UserSecret);
+      var matchId = await _matchmakingClient.GetRoomIdForUserAsync(message.UserSecret);
       
       // игроку не разрешено подключаться к комнате
       if (matchId != message.MatchId)
@@ -59,7 +60,7 @@ namespace Motk.CampaignServer.Server
       
       if (!_serverState.Matches.TryGet(matchId, out var matchState))
       {
-        var locationId = await _matchmakingService.GetLocationIdForRoomAsync(matchId);
+        var locationId = await _matchmakingClient.GetLocationIdForRoomAsync(matchId);
         var locationOffset = Vector3.up * _serverState.Matches.Count * LocationOffset;
         matchState = _matchFactory.Create(matchId, locationId, locationOffset, _appScopeState.AppScope);
         _serverState.Matches.Add(matchId, matchState);

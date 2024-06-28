@@ -8,7 +8,7 @@ using Motk.Client.Campaign.Player;
 using Motk.Client.Connection;
 using Motk.Client.Core;
 using Motk.Client.Core.InputSystem;
-using Motk.Matchmaking;
+using Motk.Client.Matchmaking;
 using Motk.Shared.Core;
 using Motk.Shared.Core.Net;
 using Motk.Shared.Locations;
@@ -28,6 +28,7 @@ namespace Motk.Client
     
     private void Awake()
     {
+      Debug.Log("Bootstrap started...");
       var appScope = LifetimeScope.Create(ConfigureAppScope);
       appScope.name = "Application";
 
@@ -58,8 +59,7 @@ namespace Motk.Client
 
       builder.RegisterInstance(_locationsRegistry);
       builder.RegisterInstance(_charactersRegistry);
-      builder.Register<MatchmakingService>(Lifetime.Singleton);
-      builder.Register<MatchmakingStorage>(Lifetime.Singleton);
+      builder.Register<MatchmakingClient>(Lifetime.Singleton);
       
       builder.Register<CurrentPlayerState>(Lifetime.Singleton);
       

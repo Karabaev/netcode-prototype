@@ -11,7 +11,6 @@ using Motk.Client.Campaign.InputSystem;
 using Motk.Client.Campaign.Movement;
 using Motk.Client.Campaign.Transitions;
 using Motk.Client.Core.InputSystem;
-using Motk.Matchmaking;
 using Motk.Shared.Campaign;
 using Motk.Shared.Campaign.Actors.Messages;
 using Motk.Shared.Campaign.Actors.States;
@@ -44,6 +43,8 @@ namespace Motk.Client.Campaign
     
     public override UniTask EnterAsync(Context context)
     {
+      Debug.Log("Campaign started...");
+
       _scope = _appScopeState.AppScope.CreateChild(ConfigureScope);
       _campaignActorsState = Resolve<CampaignActorsState>();
 
@@ -132,7 +133,7 @@ namespace Motk.Client.Campaign
 
     public CampaignAppState(ApplicationStateMachine stateMachine, LocationsRegistry locationsRegistry,
       AppScopeState appScopeState, ClientMessageReceiver messageReceiver, GameCameraConfigRegistry cameraConfigRegistry,
-      MatchmakingService matchmakingService, ApplicationStateMachine applicationStateMachine, NetworkManager networkManager) : base(stateMachine)
+      ApplicationStateMachine applicationStateMachine, NetworkManager networkManager) : base(stateMachine)
     {
       _locationsRegistry = locationsRegistry;
       _appScopeState = appScopeState;

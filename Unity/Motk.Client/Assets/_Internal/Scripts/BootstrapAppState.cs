@@ -8,6 +8,7 @@ using JetBrains.Annotations;
 using Motk.Client.Campaign.CameraSystem.Descriptors;
 using Motk.Client.Campaign.Player;
 using Motk.Client.Connection;
+using UnityEngine;
 
 namespace Motk.Client
 {
@@ -19,6 +20,7 @@ namespace Motk.Client
 
     public override async UniTask EnterAsync(DummyStateContext context)
     {
+      Application.targetFrameRate = 60;
       _currentPlayerState.PlayerId = RandomUtils.RandomString();
       await LoadDescriptorsAsync();
 

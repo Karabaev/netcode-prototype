@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-
-namespace Motk.Matchmaking
+namespace Motk.Matchmaking.New
 {
   public record Room(string LocationId, int ServerId)
   {
