@@ -1,20 +1,20 @@
-﻿namespace Motk.Matchmaking.New;
+﻿namespace Motk.Matchmaking.Services;
 
-public class Updater : IHostedService
+public class BackgroundUpdater : IHostedService
 {
   private readonly MatchmakingService _matchmakingService;
 
-  public Updater(MatchmakingService matchmakingService)
+  public BackgroundUpdater(MatchmakingService matchmakingService)
   {
     _matchmakingService = matchmakingService;
   }
   public Task StartAsync(CancellationToken cancellationToken)
   {
-    Run(cancellationToken);
+    RunAsync(cancellationToken);
     return Task.CompletedTask;
   }
 
-  private async Task Run(CancellationToken cancellationToken)
+  private async Task RunAsync(CancellationToken cancellationToken)
   {
     while (!cancellationToken.IsCancellationRequested)
     {

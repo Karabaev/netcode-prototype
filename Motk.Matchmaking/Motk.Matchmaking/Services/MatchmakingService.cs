@@ -1,4 +1,8 @@
-﻿namespace Motk.Matchmaking.New
+﻿using Motk.Matchmaking.Dtos;
+using Motk.Matchmaking.Models;
+using Motk.Matchmaking.Utils;
+
+namespace Motk.Matchmaking.Services
 {
   // Вместо уведомления матчмейкингом об аллокации комнаты на сервере игровой сервер сам запрашивает инфу о комнате с матчмейкинга.
   // Таким образом, когда клиент начнет подключение, игровой сервер сможет получить нужную инфу.

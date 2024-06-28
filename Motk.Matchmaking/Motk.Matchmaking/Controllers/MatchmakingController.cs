@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Motk.Matchmaking.New;
+using Motk.Matchmaking.Dtos;
+using Motk.Matchmaking.Services;
 
 namespace Motk.Matchmaking.Controllers;
 

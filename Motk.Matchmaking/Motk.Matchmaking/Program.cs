@@ -1,4 +1,5 @@
-using Motk.Matchmaking.New;
+using Motk.Matchmaking.Dtos;
+using Motk.Matchmaking.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<MatchmakingService>();
 builder.Services.AddSingleton<MatchmakingStorage>();
-builder.Services.AddHostedService<Updater>();
+builder.Services.AddHostedService<BackgroundUpdater>();
 
 var app = builder.Build();
 

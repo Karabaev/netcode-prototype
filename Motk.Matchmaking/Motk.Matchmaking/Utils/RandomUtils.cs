@@ -1,4 +1,4 @@
-namespace Motk.Matchmaking.New;
+namespace Motk.Matchmaking.Utils;
 
 public static class RandomUtils
 {
