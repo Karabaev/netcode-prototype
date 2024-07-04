@@ -10,7 +10,7 @@ using VContainer.Unity;
 namespace Motk.CampaignServer.Server
 {
   [UsedImplicitly]
-  public class RemoveMatchController : IStartable, IDisposable
+  public class RemoveMatchController : IDisposable
   {
     private readonly ServerState _serverState;
     private readonly MatchmakingClient _matchmakingClient;
@@ -21,7 +21,7 @@ namespace Motk.CampaignServer.Server
       _matchmakingClient = matchmakingClient;
     }
 
-    void IStartable.Start()
+    public void Initialize()
     {
       _serverState.Matches.ItemAdded += State_OnMatchAdded;
       _serverState.Matches.ItemRemoved += State_OnMatchRemoved;

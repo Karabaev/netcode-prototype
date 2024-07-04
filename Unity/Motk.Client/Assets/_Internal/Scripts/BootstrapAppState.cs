@@ -8,6 +8,10 @@ using JetBrains.Annotations;
 using Motk.Client.Campaign.CameraSystem.Descriptors;
 using Motk.Client.Campaign.Player;
 using Motk.Client.Connection;
+using Motk.Shared.Configuration;
+using Unity.Services.Authentication;
+using Unity.Services.Core;
+using Unity.Services.RemoteConfig;
 using UnityEngine;
 
 namespace Motk.Client
@@ -22,6 +26,7 @@ namespace Motk.Client
     {
       Application.targetFrameRate = 60;
       _currentPlayerState.PlayerId = RandomUtils.RandomString();
+      await FetchConfigAsync();
       await LoadDescriptorsAsync();
 
       var stateContext = new EnterToLocationAppState.Context("default");
@@ -33,6 +38,18 @@ namespace Motk.Client
       return UniTask.CompletedTask;
     }
 
+    private async UniTask FetchConfigAsync()
+    {
+      await UnityServices.InitializeAsync();
+
+      if (!AuthenticationService.Instance.IsSignedIn)
+        await AuthenticationService.Instance.SignInAnonymouslyAsync();
+
+      RemoteConfigService.Instance.SetEnvironmentID("c954e02e-40c1-4e1e-b049-b374b838d17d");
+      
+      await RemoteConfigService.Instance.FetchConfigsAsync(new RemoteConfigUserAttributes(), new RemoteConfigAppAttributes());
+    }
+    
     private UniTask LoadDescriptorsAsync()
     {
       var descriptorInitializer = new DescriptorInitializer(new IDescriptorSourceProvider[]

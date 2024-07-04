@@ -19,6 +19,7 @@ namespace Motk.CampaignServer.DebugSystem
       _objectResolver = objectResolver;
     }
 
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
       if (_objectResolver == null) return;
@@ -40,5 +41,6 @@ namespace Motk.CampaignServer.DebugSystem
         }
       }
     }
+#endif
   }
 }

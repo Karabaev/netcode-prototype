@@ -9,6 +9,7 @@ using Motk.Client.Connection;
 using Motk.Client.Core;
 using Motk.Client.Core.InputSystem;
 using Motk.Client.Matchmaking;
+using Motk.Shared.Configuration;
 using Motk.Shared.Core;
 using Motk.Shared.Core.Net;
 using Motk.Shared.Locations;
@@ -68,6 +69,8 @@ namespace Motk.Client
       builder.Register<MessageSerializer>(Lifetime.Singleton);
       
       builder.Register<GameCameraConfigRegistry>(Lifetime.Singleton);
+      
+      builder.Register<IConfig, UnityRemoteConfig>(Lifetime.Singleton);
     }
   }
 }

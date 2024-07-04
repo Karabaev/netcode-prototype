@@ -4,7 +4,6 @@ using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using Motk.Client.Campaign;
 using Motk.Client.Campaign.Player;
-using Motk.Client.Core;
 using Motk.Client.Matchmaking;
 using Motk.Matchmaking;
 using Motk.Shared.Core.Net;
@@ -38,13 +37,9 @@ namespace Motk.Client.Connection
       _userSecret = ticketResponse.UserSecret;
       _matchId = ticketResponse.RoomId;
       
-      Debug.Log("Connecting to game server...");
-      var transport = (UnityTransport)_networkManager.NetworkConfig.NetworkTransport;
-      transport.SetConnectionData(ticketResponse.ConnectionParameters!.Host, ticketResponse.ConnectionParameters.Port);
-      _networkManager.OnConnectionEvent += OnConnectionChanged;
-      _networkManager.StartClient();
+      StartConnectToServer(ticketResponse.ConnectionParameters!.Host, ticketResponse.ConnectionParameters.Port);
     }
-
+    
     public override UniTask ExitAsync()
     {
       _networkManager.OnConnectionEvent -= OnConnectionChanged;
@@ -52,10 +47,28 @@ namespace Motk.Client.Connection
       return UniTask.CompletedTask;
     }
     
+    private void StartConnectToServer(string host, ushort port)
+    {
+      Debug.Log($"Connecting to game server {host}:{port}...");
+
+      var transport = (UnityTransport)_networkManager.NetworkConfig.NetworkTransport;
+      transport.SetConnectionData(host, port);
+      _networkManager.OnConnectionEvent += OnConnectionChanged;
+      _networkManager.StartClient();
+    }
+    
     private void OnConnectionChanged(NetworkManager _, ConnectionEventData connectionData)
     {
+      if (connectionData.EventType == ConnectionEvent.ClientDisconnected)
+      {
+        Debug.Log("Disconnected from server");
+        return;
+      }
+
       if (connectionData.EventType != ConnectionEvent.ClientConnected)
         return;
+      
+      Debug.Log("Connected to game server...");
 
       _currentPlayerState.ClientId = connectionData.ClientId;
 

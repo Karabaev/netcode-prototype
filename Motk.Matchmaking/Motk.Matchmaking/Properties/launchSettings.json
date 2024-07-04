@@ -29,10 +29,12 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "IIS Express": {
-      "commandName": "IISExpress",
+    "localHttp": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger",
+      "applicationUrl": "http://192.168.1.101:80",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

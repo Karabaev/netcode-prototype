@@ -2,23 +2,28 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using JetBrains.Annotations;
+using Motk.Shared.Configuration;
 
 namespace Motk.CampaignServer.Matchmaking
 {
+  [UsedImplicitly]
   public class MatchmakingClient : IDisposable
   {
-    private const string BaseUrl = "http://localhost:5224";
-
     private readonly HttpClient _httpClient;
 
-    public MatchmakingClient() => _httpClient = new HttpClient();
+    public MatchmakingClient(IConfig config)
+    {
+      _httpClient = new HttpClient();
+      _httpClient.BaseAddress = new Uri(config.MatchmakingServiceUrl);
+    }
 
     public void Dispose() => _httpClient.Dispose();
 
     public async Task<int> GetRoomIdForUserAsync(string userSecret)
     {
       using var content = new StringContent(string.Empty);
-      var response = await _httpClient.GetAsync($"{BaseUrl}/getRoomIdForUser?userSecret={userSecret}");
+      var response = await _httpClient.GetAsync($"getRoomIdForUser?userSecret={userSecret}");
 
       if (!response.IsSuccessStatusCode)
         throw new Exception("Failed to get room id for user");
@@ -30,7 +35,7 @@ namespace Motk.CampaignServer.Matchmaking
     public async Task<string> GetLocationIdForRoomAsync(int matchId)
     {
       using var content = new StringContent(string.Empty);
-      var response = await _httpClient.GetAsync($"{BaseUrl}/getLocationIdForRoom?roomId={matchId}");
+      var response = await _httpClient.GetAsync($"getLocationIdForRoom?roomId={matchId}");
 
       if (!response.IsSuccessStatusCode)
         throw new Exception("Failed to get location id for room");
@@ -42,7 +47,7 @@ namespace Motk.CampaignServer.Matchmaking
     public async UniTask RemoveUserFromRoomAsync(string userSecret)
     {
       using var content = new StringContent(string.Empty);
-      var response = await _httpClient.PostAsync($"{BaseUrl}/removeUserFromRoom?userSecret={userSecret}", content);
+      var response = await _httpClient.PostAsync($"removeUserFromRoom?userSecret={userSecret}", content);
       if (!response.IsSuccessStatusCode)
         throw new Exception("Failed remove user from room");
     }
