@@ -9,6 +9,7 @@ using Motk.Client.Campaign.CameraSystem.Descriptors;
 using Motk.Client.Campaign.Player;
 using Motk.Client.Connection;
 using Motk.Shared.Configuration;
+using Motk.Shared.Locations;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.RemoteConfig;
@@ -21,6 +22,7 @@ namespace Motk.Client
   {
     private readonly CurrentPlayerState _currentPlayerState;
     private readonly GameCameraConfigRegistry _gameCameraConfigRegistry;
+    private readonly LocationsRegistry _locationsRegistry;
 
     public override async UniTask EnterAsync(DummyStateContext context)
     {
@@ -29,7 +31,7 @@ namespace Motk.Client
       await FetchConfigAsync();
       await LoadDescriptorsAsync();
 
-      var stateContext = new EnterToLocationAppState.Context("default");
+      var stateContext = new EnterToLocationAppState.Context(_locationsRegistry.Entries.PickRandom().Key);
       EnterNextStateAsync<EnterToLocationAppState, EnterToLocationAppState.Context>(stateContext).Forget();
     }
 
@@ -66,10 +68,12 @@ namespace Motk.Client
       return descriptorInitializer.InitializeAsync();
     }
     
-    public BootstrapAppState(ApplicationStateMachine stateMachine, CurrentPlayerState currentPlayerState, GameCameraConfigRegistry gameCameraConfigRegistry) : base(stateMachine)
+    public BootstrapAppState(ApplicationStateMachine stateMachine, CurrentPlayerState currentPlayerState,
+      GameCameraConfigRegistry gameCameraConfigRegistry, LocationsRegistry locationsRegistry) : base(stateMachine)
     {
       _currentPlayerState = currentPlayerState;
       _gameCameraConfigRegistry = gameCameraConfigRegistry;
+      _locationsRegistry = locationsRegistry;
     }
   }
 }

@@ -9,6 +9,8 @@ namespace Motk.Matchmaking.Services
   // В обратном случае, матчмейкинг может не успеть достучаться до игрового сервера к моменту, когда клиент начнет подключение.
   public class MatchmakingService
   {
+    private const int MaxUsersInRoom = 15;
+    
     private readonly MatchmakingStorage _matchmakingStorage;
     private readonly Random _random;
     
@@ -18,8 +20,8 @@ namespace Motk.Matchmaking.Services
       _matchmakingStorage = matchmakingStorage;
 
       var registry = _matchmakingStorage.GameServersRegistry;
-      registry.Add(1, new GameServerDescription(new ConnectionParameters("127.0.0.1", 7777)));
-      // registry.Add(1, new GameServerDescription(new ConnectionParameters("192.168.1.101", 7777)));
+      // registry.Add(1, new GameServerDescription(new ConnectionParameters("127.0.0.1", 7777)));
+      registry.Add(1, new GameServerDescription(new ConnectionParameters("192.168.1.101", 7777)));
       // registry.Add(1, new GameServerDescription(new ConnectionParameters("192.168.1.104", 7777)));
       registry.Add(2, new GameServerDescription(new ConnectionParameters("127.0.0.2", 7777)));
       registry.Add(3, new GameServerDescription(new ConnectionParameters("127.0.0.3", 7777)));
@@ -43,7 +45,7 @@ namespace Motk.Matchmaking.Services
       }
     }
 
-    public Task<Guid> CreateTicketAsync(string userId, string locationId)
+    public Guid CreateTicket(string userId, string locationId)
     {
       var ticketId = Guid.NewGuid();
       var ticket = new Ticket(userId, locationId);
@@ -52,12 +54,11 @@ namespace Motk.Matchmaking.Services
       if (!_matchmakingStorage.UserIdToUserSecret.ContainsKey(userId))
         _matchmakingStorage.UserIdToUserSecret[userId] = RandomUtils.RandomString(_random);
       
-      return Task.FromResult(ticketId);
+      return ticketId;
     }
 
-    public async Task<TicketStatusResponse> GetTicketStatusAsync(Guid ticketId)
+    public TicketStatusResponse GetTicketStatus(Guid ticketId)
     {
-      await Task.Yield();
       var ticket = _matchmakingStorage.TicketsRegistry[ticketId];
 
       ConnectionParameters? connectionParams = null;
@@ -74,7 +75,7 @@ namespace Motk.Matchmaking.Services
       return new TicketStatusResponse(userSecret, ticket.Status, connectionParams, roomId);
     }
 
-    public Task<int> GetRoomIdForUserAsync(string userSecret)
+    public int GetRoomIdForUser(string userSecret)
     {
       var userId = _matchmakingStorage.UserIdToUserSecret.First(u => u.Value == userSecret).Key;
       
@@ -82,21 +83,21 @@ namespace Motk.Matchmaking.Services
       {
         if (room.UserIds.Contains(userId))
         {
-          return Task.FromResult(roomId);
+          return roomId;
         }
       }
 
-      return Task.FromResult(-1);
+      return -1;
     }
 
-    public Task<string> GetLocationIdForRoomAsync(int roomId)
+    public string GetLocationIdForRoom(int roomId)
     {
-      return Task.FromResult(_matchmakingStorage.RoomsRegistry[roomId].LocationId);
+      return _matchmakingStorage.RoomsRegistry[roomId].LocationId;
     }
 
-    public async Task RemoveUserFromRoomAsync(string userSecret)
+    public void RemoveUserFromRoom(string userSecret)
     {
-      var roomId = await GetRoomIdForUserAsync(userSecret);
+      var roomId = GetRoomIdForUser(userSecret);
       
       var userId = _matchmakingStorage.UserIdToUserSecret.First(u => u.Value == userSecret).Key;
       var room = _matchmakingStorage.RoomsRegistry[roomId];
@@ -121,6 +122,9 @@ namespace Motk.Matchmaking.Services
       result = -1;
       foreach (var (roomId, room) in _matchmakingStorage.RoomsRegistry)
       {
+        if (room.UserIds.Count >= room.MaxUsers)
+          continue;
+        
         if (room.LocationId == ticket.LocationId)
         {
           result = roomId;
@@ -139,7 +143,7 @@ namespace Motk.Matchmaking.Services
       {
         // todokmo добавить проверку на вместимость сервера
         newRoomId = _matchmakingStorage.TicketIdCounter++;
-        var newRoom = new Room(ticket.LocationId, serverId);
+        var newRoom = new Room(ticket.LocationId, serverId, MaxUsersInRoom);
         _matchmakingStorage.RoomsRegistry[newRoomId] = newRoom;
         return true;
       }

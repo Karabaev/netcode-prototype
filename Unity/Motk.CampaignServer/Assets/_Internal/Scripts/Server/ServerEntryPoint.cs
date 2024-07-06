@@ -35,6 +35,9 @@ namespace Motk.CampaignServer.Server
       Debug.Log("Game server is starting...");
 
       Application.targetFrameRate = 30;
+      Physics.simulationMode = SimulationMode.Script;
+      Physics2D.simulationMode = SimulationMode2D.Script;
+      
       _scope = LifetimeScope.Create(ConfigureScope);
       _scope.name = "Application";
 

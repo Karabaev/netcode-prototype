@@ -16,32 +16,33 @@ public class MatchmakingController : ControllerBase
   }
 
   [HttpPost("[action]")]
-  public Task<Guid> CreateTicket(string userId, string locationId)
+  public Guid CreateTicket(string userId, string locationId)
   {
-    return _matchmakingService.CreateTicketAsync(userId, locationId);
+    return _matchmakingService.CreateTicket(userId, locationId);
   }
 
   [HttpGet("[action]")]
-  public Task<TicketStatusResponse> GetTicketStatus(Guid ticketId)
+  public TicketStatusResponse GetTicketStatus(Guid ticketId)
   {
-    return _matchmakingService.GetTicketStatusAsync(ticketId);
+    return _matchmakingService.GetTicketStatus(ticketId);
   }
 
   [HttpGet("[action]")]
-  public Task<int> GetRoomIdForUser(string userSecret)
+  public int GetRoomIdForUser(string userSecret)
   {
-    return _matchmakingService.GetRoomIdForUserAsync(userSecret);
+    return _matchmakingService.GetRoomIdForUser(userSecret);
   }
 
   [HttpGet("[action]")]
-  public Task<string> GetLocationIdForRoom(int roomId)
+  public string GetLocationIdForRoom(int roomId)
   {
-    return _matchmakingService.GetLocationIdForRoomAsync(roomId);
+    return _matchmakingService.GetLocationIdForRoom(roomId);
   }
 
   [HttpPost("[action]")]
-  public Task RemoveUserFromRoom(string userSecret)
+  public IActionResult RemoveUserFromRoom(string userSecret)
   {
-    return _matchmakingService.RemoveUserFromRoomAsync(userSecret);
+    _matchmakingService.RemoveUserFromRoom(userSecret);
+    return Ok();
   }
 }
