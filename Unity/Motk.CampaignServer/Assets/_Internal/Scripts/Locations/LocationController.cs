@@ -67,7 +67,7 @@ namespace Motk.CampaignServer.Locations
       _matchMessageReceiver.UnregisterMessageHandler<StartActorMoveRequest>();
     }
 
-    private void State_OnUserAdded(string userSecret, ulong clientId)
+    private void State_OnUserAdded(string userSecret, ushort clientId)
     {
       var locationStateMessage = new LocationStateMessage
       {
@@ -75,13 +75,12 @@ namespace Motk.CampaignServer.Locations
         {
           PlayerId = a.Key,
           Position = a.Value.Position.Value - _locationOffsetState.Offset,
-          Rotation = a.Value.Rotation.Value
+          EulerY = a.Value.EulerY.Value
         }).ToArray()
       };
       _matchMessageSender.Send(locationStateMessage, clientId);
 
-      var newActorState = new CampaignActorState();
-      newActorState.Position.Value += _locationOffsetState.Offset;
+      var newActorState = new CampaignActorState(_locationOffsetState.Offset, 0.0f);
       
       _locationState.Actors.Add(clientId, newActorState);
 
@@ -89,20 +88,20 @@ namespace Motk.CampaignServer.Locations
       {
         Actor = new CampaignActorDto
         {
-          PlayerId = clientId,
+          PlayerId = (ushort) clientId,
           Position = newActorState.Position.Value - _locationOffsetState.Offset,
-          Rotation = newActorState.Rotation.Value
+          EulerY = newActorState.EulerY.Value
         }
       });
     }
 
-    private void State_OnUserRemoved(string userSecret, ulong removedClientId)
+    private void State_OnUserRemoved(string userSecret, ushort removedClientId)
     {
       _locationState.Actors.Remove(removedClientId);
       _matchMessageSender.Broadcast(new PlayerActorDespawnedCommand { PlayerId = removedClientId });
     }
     
-    private void Network_OnStartActorMoveRequested(ulong senderId, StartActorMoveRequest message)
+    private void Network_OnStartActorMoveRequested(ushort senderId, StartActorMoveRequest message)
     {
       var actorState = _locationState.Actors.Require(senderId);
       var destination = _locationOffsetState.Offset + message.Destination;

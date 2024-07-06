@@ -5,15 +5,15 @@ namespace Motk.Shared.Campaign.Actors.Messages
 {
   public struct CampaignActorDto : INetworkSerializable
   {
-    public ulong PlayerId;
+    public ushort PlayerId;
     public Vector3 Position;
-    public Quaternion Rotation;
+    public float EulerY;
 
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
       serializer.SerializeValue(ref PlayerId);
       serializer.SerializeValue(ref Position);
-      serializer.SerializeValue(ref Rotation);
+      serializer.SerializeValue(ref EulerY);
     }
   }
 }

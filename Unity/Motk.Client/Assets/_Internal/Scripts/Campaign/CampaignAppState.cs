@@ -92,18 +92,14 @@ namespace Motk.Client.Campaign
       
       foreach (var actorDto in message.Actors)
       {
-        var actorState = new CampaignActorState();
-        actorState.Position.Value = actorDto.Position;
-        actorState.Rotation.Value = actorDto.Rotation;
+        var actorState = new CampaignActorState(actorDto.Position, actorDto.EulerY);
         _campaignActorsState.Actors.Add(actorDto.PlayerId, actorState);
       }
     }
 
     private void Network_OnActorSpawned(PlayerActorSpawnedCommand message)
     {
-      var actorState = new CampaignActorState();
-      actorState.Position.Value = message.Actor.Position;
-      actorState.Rotation.Value = message.Actor.Rotation;
+      var actorState = new CampaignActorState(message.Actor.Position, message.Actor.EulerY);
       _campaignActorsState.Actors.Add(message.Actor.PlayerId, actorState);
     }
 

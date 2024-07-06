@@ -33,19 +33,19 @@ namespace Motk.Shared.Campaign.Movement
       to.y = 0.0f;
       from.y = 0.0f;
       var direction = Vector3.Normalize(to - from);
-      var targetRotation = Quaternion.LookRotation(direction);
-      var targetAngle = Quaternion.Angle(actor.Rotation.Value, targetRotation);
+      var targetRotationY = Quaternion.LookRotation(direction).y;
+      var angularDistance = actor.EulerY.Value - targetRotationY;;
 
-      if(Mathf.Approximately(targetAngle, 0))
+      if(Mathf.Approximately(angularDistance, 0))
         return UniTask.CompletedTask;
 
-      var rotationDuration = targetAngle / 720.0f;
+      var rotationDuration = angularDistance / 720.0f;
 
       return Tween
-        .Custom(actor, actor.Rotation.Value, targetRotation, rotationDuration, OnTick, Ease.Linear)
+        .Custom(actor, actor.EulerY.Value, targetRotationY, rotationDuration, OnTick, Ease.Linear)
         .ToUniTask();
 
-      void OnTick(CampaignActorState state, Quaternion rotation) => state.Rotation.Value = rotation;
+      void OnTick(CampaignActorState state, float eulerY) => state.EulerY.Value = eulerY;
     }
   }
 }

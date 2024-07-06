@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using com.karabaev.reactivetypes.Dictionary;
 using JetBrains.Annotations;
@@ -19,7 +18,7 @@ namespace Motk.CampaignServer.Match.States
     /// <summary>
     /// Ключ - секрет пользователя, значение - id соединения.
     /// </summary>
-    public ReactiveDictionary<string, ulong> Users { get; }
+    public ReactiveDictionary<string, ushort> Users { get; }
 
     public List<ulong> ConnectedClients { get; }
 

@@ -5,7 +5,6 @@ using Motk.CampaignServer.Match;
 using Motk.CampaignServer.Matchmaking;
 using Motk.CampaignServer.Server.Net;
 using Motk.CampaignServer.Server.States;
-using Motk.Matchmaking;
 using Motk.Shared.Core;
 using Motk.Shared.Matches;
 using Unity.Netcode;
@@ -46,7 +45,7 @@ namespace Motk.CampaignServer.Server
       _messageReceiver.UnregisterMessageHandler<AttachToMatchRequest>();
     }
 
-    private async void Network_OnAttachToMatchRequested(ulong clientId, AttachToMatchRequest message)
+    private async void Network_OnAttachToMatchRequested(ushort clientId, AttachToMatchRequest message)
     {
       // todokmo проверять еще serverId
       var matchId = await _matchmakingClient.GetRoomIdForUserAsync(message.UserSecret);

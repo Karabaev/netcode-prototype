@@ -18,7 +18,7 @@ namespace Motk.CampaignServer.Match.Net
       _serverMessageReceiver = serverMessageReceiver;
     }
 
-    public void RegisterMessageHandler<T>(Action<ulong, T> action) where T : IMatchMessage, new()
+    public void RegisterMessageHandler<T>(Action<ushort, T> action) where T : IMatchMessage, new()
     {
       _serverMessageReceiver.RegisterMatchMessageHandler(_matchState.Id, action);
     }

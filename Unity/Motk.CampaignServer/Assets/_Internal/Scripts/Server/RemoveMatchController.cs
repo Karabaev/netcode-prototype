@@ -5,7 +5,6 @@ using JetBrains.Annotations;
 using Motk.CampaignServer.Match.States;
 using Motk.CampaignServer.Matchmaking;
 using Motk.CampaignServer.Server.States;
-using VContainer.Unity;
 
 namespace Motk.CampaignServer.Server
 {
@@ -46,7 +45,7 @@ namespace Motk.CampaignServer.Server
       removedMatch.Users.ItemRemoved -= State_OnUserRemoved;
     }
     
-    private void State_OnUserRemoved(string userSecret, ulong removedClientId)
+    private void State_OnUserRemoved(string userSecret, ushort removedClientId)
     {
       foreach (var (matchId, matchState) in _serverState.Matches.ToList())
       {

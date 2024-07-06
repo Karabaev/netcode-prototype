@@ -5,6 +5,6 @@ namespace Motk.Shared.Locations
 {
   public class CampaignLocationState
   {
-    public ReactiveDictionary<ulong, CampaignActorState> Actors { get; } = new();
+    public ReactiveDictionary<ushort, CampaignActorState> Actors { get; } = new();
   }
 }

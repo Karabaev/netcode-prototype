@@ -16,7 +16,8 @@ namespace Motk.Client.Campaign.Actors.Services
     public CampaignActorView Create(string characterId, CampaignActorState state)
     {
       var prefab = _charactersRegistry.Entries[characterId].Prefab;
-      var instance = Object.Instantiate(prefab, state.Position.Value, state.Rotation.Value);
+      var rotation = Quaternion.Euler(Vector3.one * state.EulerY.Value);
+      var instance = Object.Instantiate(prefab, state.Position.Value, rotation);
       instance.Construct(state);
       return instance;
     }

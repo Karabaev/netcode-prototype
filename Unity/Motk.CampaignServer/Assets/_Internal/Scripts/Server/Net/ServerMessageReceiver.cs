@@ -21,7 +21,7 @@ namespace Motk.CampaignServer.Server.Net
       _networkManager = networkManager;
     }
 
-    public void RegisterMessageHandler<T>(Action<ulong, T> action) where T : IServerMessage, new()
+    public void RegisterMessageHandler<T>(Action<ushort, T> action) where T : IServerMessage, new()
     {
       var messageId = typeof(T).Name;
       _serverMessageHandlers.Add(messageId, action);
@@ -35,7 +35,7 @@ namespace Motk.CampaignServer.Server.Net
       _networkManager.CustomMessagingManager.UnregisterNamedMessageHandler(messageId);
     }
     
-    public void RegisterMatchMessageHandler<T>(int matchId, Action<ulong, T> action) where T : IMatchMessage, new()
+    public void RegisterMatchMessageHandler<T>(int matchId, Action<ushort, T> action) where T : IMatchMessage, new()
     {
       if (!_matchMessageHandlers.TryGetValue(matchId, out var messageHandlers))
       {
@@ -78,7 +78,7 @@ namespace Motk.CampaignServer.Server.Net
 
       reader.ReadValueSafe(out T message);
       var handler = _serverMessageHandlers[messageId];
-      ((Action<ulong, T>)handler).Invoke(clientId, message);
+      ((Action<ushort, T>)handler).Invoke((ushort) clientId, message);
     }
     
     private void OnMatchMessageReceived<T>(ulong clientId, FastBufferReader reader)  where T : IMatchMessage, new()
@@ -92,7 +92,7 @@ namespace Motk.CampaignServer.Server.Net
 
       var messageId = typeof(T).Name;
       var handler = messageHandlers.Handlers[messageId];
-      ((Action<ulong, T>)handler).Invoke(clientId, message);
+      ((Action<ushort, T>)handler).Invoke((ushort)clientId, message);
     }
     
     private class MatchMessageHandlersBag

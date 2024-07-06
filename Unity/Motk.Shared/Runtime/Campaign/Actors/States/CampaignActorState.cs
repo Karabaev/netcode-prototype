@@ -8,8 +8,14 @@ namespace Motk.Shared.Campaign.Actors.States
   public class CampaignActorState
   {
     // todokmo В сторе позиция должна будет храниться без Offset, а в геймплее с ним
-    public ReactiveProperty<Vector3> Position { get; } = new(Vector3.zero);
+    public ReactiveProperty<Vector3> Position { get; } 
     
-    public ReactiveProperty<Quaternion> Rotation { get; } = new(Quaternion.identity);
+    public ReactiveProperty<float> EulerY { get; }
+
+    public CampaignActorState(Vector3 position, float eulerY)
+    {
+      Position = new ReactiveProperty<Vector3>(position);
+      EulerY = new ReactiveProperty<float>(eulerY);
+    }
   }
 }

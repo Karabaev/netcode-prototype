@@ -31,8 +31,8 @@ namespace Motk.CampaignServer.Match
       Debug.Log($"Match disposed. MatchId={_matchState.Id}");
     }
     
-    private void State_OnUserAdded(string key, ulong newValue) => _matchState.ConnectedClients.Add(newValue);
+    private void State_OnUserAdded(string key, ushort newValue) => _matchState.ConnectedClients.Add(newValue);
 
-    private void State_OnUserRemoved(string key, ulong oldValue) => _matchState.ConnectedClients.Remove(oldValue);
+    private void State_OnUserRemoved(string key, ushort oldValue) => _matchState.ConnectedClients.Remove(oldValue);
   }
 }
