@@ -18,8 +18,9 @@ namespace Motk.Matchmaking.Services
       _matchmakingStorage = matchmakingStorage;
 
       var registry = _matchmakingStorage.GameServersRegistry;
-      // registry.Add(1, new GameServerDescription(new ConnectionParameters("127.0.0.1", 7777)));
-      registry.Add(1, new GameServerDescription(new ConnectionParameters("192.168.1.103", 7777)));
+      registry.Add(1, new GameServerDescription(new ConnectionParameters("127.0.0.1", 7777)));
+      // registry.Add(1, new GameServerDescription(new ConnectionParameters("192.168.1.101", 7777)));
+      // registry.Add(1, new GameServerDescription(new ConnectionParameters("192.168.1.104", 7777)));
       registry.Add(2, new GameServerDescription(new ConnectionParameters("127.0.0.2", 7777)));
       registry.Add(3, new GameServerDescription(new ConnectionParameters("127.0.0.3", 7777)));
     }

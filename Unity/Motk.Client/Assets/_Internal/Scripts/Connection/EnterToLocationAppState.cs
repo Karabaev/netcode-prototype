@@ -29,7 +29,7 @@ namespace Motk.Client.Connection
     
     public override async UniTask EnterAsync(Context context)
     {
-      Debug.Log("Enter to location started...");
+      Debug.Log($"Enter to location started. LocationId={context.LocationId}");
       _locationId = context.LocationId;
       var ticketId = await _matchmakingClient.CreateTicketAsync(_currentPlayerState.PlayerId, context.LocationId);
       var ticketResponse = await PollTicketAsync(ticketId);

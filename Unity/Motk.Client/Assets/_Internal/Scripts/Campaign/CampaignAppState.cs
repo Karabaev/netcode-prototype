@@ -49,10 +49,10 @@ namespace Motk.Client.Campaign
       _campaignActorsState = Resolve<CampaignActorsState>();
 
       _locationView = CreateLocation(context.LocationId);
-      var cameraView = InitializeCamera();
-      Resolve<CampaignInputController>().Initialize(cameraView);
+      InitializeCamera();
       Resolve<InputController>().Construct(Resolve<InputState>());
-
+      Resolve<ManualCampaignInputController>();
+      Resolve<AutomatedCampaignInputController>();
       Object.FindObjectOfType<TransitionDebug>().Construct(_applicationStateMachine);
 
       _messageReceiver.RegisterMessageHandler<LocationStateMessage>(Network_OnLocationStateObtained);
@@ -79,12 +79,11 @@ namespace Motk.Client.Campaign
       return Object.Instantiate(locationDescriptor.Prefab);
     }
 
-    private GameCameraView InitializeCamera()
+    private void InitializeCamera()
     {
-      var cameraView = Object.FindObjectOfType<GameCameraView>();
+      var cameraView = Resolve<GameCameraView>();
       var cameraConfig = _cameraConfigRegistry.RequireSingle();
       cameraView.Construct(cameraConfig, Resolve<GameCameraState>(), Resolve<InputState>());
-      return cameraView;
     }
 
     private void Network_OnLocationStateObtained(LocationStateMessage message)
@@ -127,8 +126,22 @@ namespace Motk.Client.Campaign
 
       builder.RegisterInstance(Object.FindObjectOfType<InputController>());
       builder.RegisterEntryPoint<LocationActorsController>();
-      builder.RegisterEntryPoint<CampaignInputController>().AsSelf();
+
+      builder.Register<AutomatedCampaignInputController>(Lifetime.Singleton);
+      builder.Register<ManualCampaignInputController>(Lifetime.Singleton);
+
+      
+      // if (Application.isBatchMode)
+      // {
+        // builder.RegisterEntryPoint<AutomatedCampaignInputController>();
+      // }
+      // else
+      // {
+        // builder.RegisterEntryPoint<ManualCampaignInputController>().AsSelf();
+      // }
+      
       builder.RegisterEntryPoint<LocationMovementController>();
+      builder.RegisterInstance(Object.FindObjectOfType<GameCameraView>());
     }
 
     public CampaignAppState(ApplicationStateMachine stateMachine, LocationsRegistry locationsRegistry,

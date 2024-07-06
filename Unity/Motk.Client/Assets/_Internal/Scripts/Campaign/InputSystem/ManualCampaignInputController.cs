@@ -4,28 +4,21 @@ using com.karabaev.utilities.unity;
 using JetBrains.Annotations;
 using Motk.Client.Core.InputSystem;
 using UnityEngine;
-using VContainer.Unity;
 
 namespace Motk.Client.Campaign.InputSystem
 {
   [UsedImplicitly]
-  public class CampaignInputController : IStartable, IDisposable
+  public class ManualCampaignInputController : IDisposable
   {
     private readonly InputState _inputState;
     private readonly CampaignInputState _state;
-    private GameCameraView _camera = null!;
+    private readonly GameCameraView _camera;
     
-    public CampaignInputController(CampaignInputState state, InputState inputState)
+    public ManualCampaignInputController(CampaignInputState state, InputState inputState, GameCameraView camera)
     {
       _state = state;
       _inputState = inputState;
-    }
-    
-    // ReSharper disable once ParameterHidesMember
-    public void Initialize(GameCameraView camera) => _camera = camera;
-
-    void IStartable.Start()
-    {
+      _camera = camera;
       _inputState.MainMouseButtonClicked.Invoked += State_OnInputMainMouseButtonClicked;
     }
     

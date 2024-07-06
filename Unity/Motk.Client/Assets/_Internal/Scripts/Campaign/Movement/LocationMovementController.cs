@@ -48,6 +48,7 @@ namespace Motk.Client.Campaign.Movement
     {
       var actorState = _actorsState.Actors.Require(message.PlayerId);
       _actorMovementLogic.MoveAsync(actorState, message.Path).Forget();
+      Debug.Log($"Move started. Destination={message.Path[^1]}");
     }
 
     private void State_OnGroundClicked(Vector3 point)
