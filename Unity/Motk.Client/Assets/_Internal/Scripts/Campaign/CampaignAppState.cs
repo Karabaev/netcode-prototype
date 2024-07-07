@@ -52,8 +52,8 @@ namespace Motk.Client.Campaign
       InitializeCamera();
       Resolve<InputController>().Construct(Resolve<InputState>());
       Resolve<ManualCampaignInputController>();
-      Resolve<AutomatedCampaignInputController>();
-      Object.FindObjectOfType<TransitionDebug>().Construct(_applicationStateMachine);
+      // Resolve<AutomatedCampaignInputController>();
+      Object.FindObjectOfType<TransitionDebug>().Construct(_applicationStateMachine, _locationsRegistry);
 
       _messageReceiver.RegisterMessageHandler<LocationStateMessage>(Network_OnLocationStateObtained);
       _messageReceiver.RegisterMessageHandler<PlayerActorSpawnedCommand>(Network_OnActorSpawned);

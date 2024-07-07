@@ -10,6 +10,9 @@ namespace Motk.Shared.Campaign.Movement
   [UsedImplicitly]
   public class ActorMovementLogic
   {
+    private const float MoveSpeed = 10.0f;
+    private const float RotationSpeed = 720.0f;
+    
     public async UniTask MoveAsync(CampaignActorState actor, IReadOnlyList<Vector3> path)
     {
       foreach(var point in path)
@@ -21,7 +24,7 @@ namespace Motk.Shared.Campaign.Movement
     
     private UniTask MoveActorAsync(CampaignActorState actor, Vector3 startPosition, Vector3 destination)
     {
-      var moveDuration = Vector3.Distance(startPosition, destination) / 5;
+      var moveDuration = Vector3.Distance(startPosition, destination) / MoveSpeed;
       return Tween
         .Custom(actor, startPosition, destination, moveDuration, OnTick, Ease.Linear)
         .ToUniTask();
@@ -33,13 +36,13 @@ namespace Motk.Shared.Campaign.Movement
       to.y = 0.0f;
       from.y = 0.0f;
       var direction = Vector3.Normalize(to - from);
-      var targetRotationY = Quaternion.LookRotation(direction).y;
-      var angularDistance = actor.EulerY.Value - targetRotationY;;
+      var targetRotationY = Quaternion.LookRotation(direction).eulerAngles.y;
+      var angularDistance = actor.EulerY.Value - targetRotationY;
 
       if(Mathf.Approximately(angularDistance, 0))
         return UniTask.CompletedTask;
 
-      var rotationDuration = angularDistance / 720.0f;
+      var rotationDuration = angularDistance / RotationSpeed;
 
       return Tween
         .Custom(actor, actor.EulerY.Value, targetRotationY, rotationDuration, OnTick, Ease.Linear)

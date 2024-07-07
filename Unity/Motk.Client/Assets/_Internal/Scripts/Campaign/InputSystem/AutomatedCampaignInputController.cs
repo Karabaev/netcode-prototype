@@ -54,7 +54,7 @@ namespace Motk.Client.Campaign.InputSystem
       var pointFound = false;
       while (!pointFound)
       {
-        var randomPoint = new Vector3(Random.Range(-10, 20), 0, Random.Range(-10, 20));
+        var randomPoint = new Vector3(Random.Range(-50, 50), 0, Random.Range(-50, 50));
         pointFound = NavMesh.SamplePosition(randomPoint, out var hit, 3, NavMesh.AllAreas);
         if (pointFound)
         {

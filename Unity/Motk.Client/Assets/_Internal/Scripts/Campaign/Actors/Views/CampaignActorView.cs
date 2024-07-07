@@ -11,7 +11,7 @@ namespace Motk.Client.Campaign.Actors.Views
     {
       _state = state;
       _state.Position.Changed += State_OnPositionChanged;
-      _state.EulerY.Changed += State_OnRotationChanged;
+      _state.EulerY.Changed += State_OnEulerYChanged;
     }
 
     private void OnDestroy()
@@ -20,11 +20,11 @@ namespace Motk.Client.Campaign.Actors.Views
         return;
       
       _state.Position.Changed -= State_OnPositionChanged;
-      _state.EulerY.Changed -= State_OnRotationChanged;
+      _state.EulerY.Changed -= State_OnEulerYChanged;
     }
 
     private void State_OnPositionChanged(Vector3 oldValue, Vector3 newValue) => transform.position = newValue;
 
-    private void State_OnRotationChanged(float oldValue, float newValue) => transform.Rotate(Vector3.up, newValue);
+    private void State_OnEulerYChanged(float oldValue, float newValue) => transform.rotation = Quaternion.Euler(Vector3.up * newValue);
   }
 }
