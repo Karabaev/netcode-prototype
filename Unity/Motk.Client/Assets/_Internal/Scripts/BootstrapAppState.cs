@@ -7,6 +7,7 @@ using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using Motk.Client.Campaign.CameraSystem.Descriptors;
 using Motk.Client.Campaign.Player;
+using Motk.Client.Combat;
 using Motk.Client.Connection;
 using Motk.Shared.Configuration;
 using Motk.Shared.Locations;
@@ -31,8 +32,11 @@ namespace Motk.Client
       await FetchConfigAsync();
       await LoadDescriptorsAsync();
 
-      var stateContext = new EnterToLocationAppState.Context(_locationsRegistry.Entries.PickRandom().Key);
-      EnterNextStateAsync<EnterToLocationAppState, EnterToLocationAppState.Context>(stateContext).Forget();
+      var combatContext = new CombatAppState.Context("");
+      EnterNextStateAsync<CombatAppState, CombatAppState.Context>(combatContext).Forget();
+      
+      // var stateContext = new EnterToLocationAppState.Context(_locationsRegistry.Entries.PickRandom().Key);
+      // EnterNextStateAsync<EnterToLocationAppState, EnterToLocationAppState.Context>(stateContext).Forget();
     }
 
     public override UniTask ExitAsync()

@@ -1,4 +1,4 @@
-﻿namespace Motk.Matchmaking.Services;
+namespace Motk.Matchmaking.Services;
 
 public class BackgroundUpdater : IHostedService
 {

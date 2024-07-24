@@ -1,4 +1,4 @@
-﻿namespace Motk.Matchmaking.Models
+namespace Motk.Matchmaking.Models
 {
   public enum TicketStatus
   {

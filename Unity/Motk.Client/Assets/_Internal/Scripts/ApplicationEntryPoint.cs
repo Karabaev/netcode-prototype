@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using Motk.Client.Campaign;
 using Motk.Client.Campaign.Actors.Descriptors;
 using Motk.Client.Campaign.Player;
+using Motk.Client.Combat;
 using Motk.Client.Connection;
 using Motk.Client.Core;
 using Motk.Client.Core.InputSystem;
@@ -55,6 +56,7 @@ namespace Motk.Client
       builder.Register<BootstrapAppState>(Lifetime.Transient);
       builder.Register<EnterToLocationAppState>(Lifetime.Transient);
       builder.Register<CampaignAppState>(Lifetime.Transient);
+      builder.Register<CombatAppState>(Lifetime.Transient);
 
       builder.RegisterInstance(_locationsRegistry);
       builder.RegisterInstance(_charactersRegistry);

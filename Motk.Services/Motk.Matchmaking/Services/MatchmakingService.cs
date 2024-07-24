@@ -1,4 +1,4 @@
-﻿using Motk.Matchmaking.Dtos;
+using Motk.Matchmaking.Dtos;
 using Motk.Matchmaking.Models;
 using Motk.Matchmaking.Utils;
 
