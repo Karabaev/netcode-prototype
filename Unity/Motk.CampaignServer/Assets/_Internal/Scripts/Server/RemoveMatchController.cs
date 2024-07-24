@@ -37,15 +37,15 @@ namespace Motk.CampaignServer.Server
 
     private void State_OnMatchAdded(int matchId, MatchState newMatch)
     {
-      newMatch.Users.ItemRemoved += State_OnUserRemoved;
+      newMatch.Users.ItemRemoved += State_OnMatchUserRemoved;
     }
 
     private void State_OnMatchRemoved(int matchId, MatchState removedMatch)
     {
-      removedMatch.Users.ItemRemoved -= State_OnUserRemoved;
+      removedMatch.Users.ItemRemoved -= State_OnMatchUserRemoved;
     }
     
-    private void State_OnUserRemoved(string userSecret, ushort removedClientId)
+    private void State_OnMatchUserRemoved(string userSecret, ushort removedClientId) // todokmo оптимизировать
     {
       foreach (var (matchId, matchState) in _serverState.Matches.ToList())
       {

@@ -43,6 +43,7 @@ namespace Motk.CampaignServer.Server
 
       _scope.Container.Resolve<AppScopeState>().AppScope = _scope;
       FindObjectOfType<ActorsGizmos>().Construct(_scope.Container);
+      FindObjectOfType<ServerDebugUIView>().Construct(_scope.Container.Resolve<ServerState>());
     }
 
     private void Start() => StartServerAsync().Forget();

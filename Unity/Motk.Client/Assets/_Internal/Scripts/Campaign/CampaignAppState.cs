@@ -52,7 +52,7 @@ namespace Motk.Client.Campaign
       InitializeCamera();
       Resolve<InputController>().Construct(Resolve<InputState>());
       Resolve<ManualCampaignInputController>();
-      // Resolve<AutomatedCampaignInputController>();
+      Resolve<AutomatedCampaignInputController>();
       Object.FindObjectOfType<TransitionDebug>().Construct(_applicationStateMachine, _locationsRegistry);
 
       _messageReceiver.RegisterMessageHandler<LocationStateMessage>(Network_OnLocationStateObtained);

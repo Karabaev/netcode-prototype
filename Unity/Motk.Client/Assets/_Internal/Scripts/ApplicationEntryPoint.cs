@@ -1,6 +1,5 @@
 using com.karabaev.applicationLifeCycle.StateMachine;
 using com.karabaev.camera.unity.Descriptors;
-using com.karabaev.utilities.unity;
 using Cysharp.Threading.Tasks;
 using Motk.Client.Campaign;
 using Motk.Client.Campaign.Actors.Descriptors;
@@ -34,7 +33,6 @@ namespace Motk.Client
       appScope.name = "Application";
 
       appScope.Container.Resolve<AppScopeState>().AppScope = appScope;
-      appScope.Container.Resolve<CurrentPlayerState>().PlayerId = RandomUtils.RandomString();
       
       var stateMachine = appScope.Container.Resolve<ApplicationStateMachine>();
       stateMachine.EnterAsync<BootstrapAppState>().Forget();

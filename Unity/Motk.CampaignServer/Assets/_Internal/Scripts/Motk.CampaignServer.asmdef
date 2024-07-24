@@ -14,7 +14,8 @@
         "Unity.AI.Navigation",
         "Unity.Services.RemoteConfig",
         "Unity.Services.Core",
-        "Unity.Services.Authentication"
+        "Unity.Services.Authentication",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

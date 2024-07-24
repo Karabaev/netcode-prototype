@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using com.karabaev.utilities.unity;
-using Motk.CampaignServer.Server;
 using Motk.CampaignServer.Server.States;
 using Motk.Shared.Locations;
 using UnityEngine;

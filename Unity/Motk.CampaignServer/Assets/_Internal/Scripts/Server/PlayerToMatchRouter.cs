@@ -59,19 +59,34 @@ namespace Motk.CampaignServer.Server
       
       if (!_serverState.Matches.TryGet(matchId, out var matchState))
       {
-        var locationId = await _matchmakingClient.GetLocationIdForRoomAsync(matchId);
-        var locationOffset = Vector3.up * _serverState.Matches.Count * LocationOffset;
-        matchState = _matchFactory.Create(matchId, locationId, locationOffset, _appScopeState.AppScope);
-        _serverState.Matches.Add(matchId, matchState);
+        var task = IsMatchPreparing(matchId)
+          ? UniTask.WaitWhile(() => IsMatchPreparing(matchId))
+          : CreateMatchAsync(matchId);
+        await task;
+        matchState = _serverState.Matches.Require(matchId);
       }
-
-      // ожидание, чтобы контроллеры проинициализировались
-      await UniTask.Yield();
       
       _messageSender.Send(new AttachedToMatchCommand(), clientId);
 
-      matchState.Users.Add(message.UserSecret, clientId);
       _serverState.ClientsInMatches.Add(clientId, matchId);
+      matchState.Users.Add(message.UserSecret, clientId);
     }
+
+    private async UniTask CreateMatchAsync(int matchId)
+    {
+      StartMatchPreparing(matchId);
+      var locationId = await _matchmakingClient.GetLocationIdForRoomAsync(matchId);
+      var locationOffset = Vector3.up * _serverState.Matches.Count * LocationOffset;
+      var matchState = _matchFactory.Create(matchId, locationId, locationOffset, _appScopeState.AppScope);
+      _serverState.Matches.Add(matchId, matchState);
+      await UniTask.Yield(); // ожидание, чтобы контроллеры матча проинициализировались
+      FinishMatchPreparing(matchId);
+    }
+    
+    private void StartMatchPreparing(int matchId) => _serverState.PreparingMatches.Add(matchId);
+
+    private void FinishMatchPreparing(int matchId) => _serverState.PreparingMatches.Remove(matchId);
+
+    private bool IsMatchPreparing(int matchId) => _serverState.PreparingMatches.Contains(matchId);
   }
 }

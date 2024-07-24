@@ -36,7 +36,7 @@ namespace Motk.CampaignServer.Server
     {
       Debug.Log($"Client disconnected. ClientId={clientId}");
 
-      foreach (var (_, matchState) in _serverState.Matches.ToList())
+      foreach (var (_, matchState) in _serverState.Matches.ToList()) // todokmo оптимизировать
       {
         foreach (var (userId, userClientId) in matchState.Users.ToList())
         {
