@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Motk.Matchmaking", "Motk.Matchmaking\Motk.Matchmaking.csproj", "{AD146F09-C73E-434B-873B-EF1DF07F1F30}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Motk.CombatServer.Core", "Motk.CombatServer.Core\Motk.CombatServer.Core.csproj", "{C4B38CC5-0D36-4A49-8279-10F32464CBB4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{AD146F09-C73E-434B-873B-EF1DF07F1F30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD146F09-C73E-434B-873B-EF1DF07F1F30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD146F09-C73E-434B-873B-EF1DF07F1F30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4B38CC5-0D36-4A49-8279-10F32464CBB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4B38CC5-0D36-4A49-8279-10F32464CBB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4B38CC5-0D36-4A49-8279-10F32464CBB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4B38CC5-0D36-4A49-8279-10F32464CBB4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
