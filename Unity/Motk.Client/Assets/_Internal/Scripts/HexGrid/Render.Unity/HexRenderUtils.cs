@@ -26,7 +26,7 @@ namespace Mork.HexGrid.Render.Unity
       return new Vector3(x, y, z);
     }
 
-    public static HexCoordinates FromWorld(Vector3 position)
+    public static HexCoordinates ToAxialCoordinates(this Vector3 position)
     {
       var q = (Mathf.Sqrt(3f) / 3f * position.x - 1f / 3f * position.z) / OuterRadius;
       var r = 2.0f / 3.0f * position.z / OuterRadius;

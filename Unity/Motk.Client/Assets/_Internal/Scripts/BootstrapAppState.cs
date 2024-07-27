@@ -8,7 +8,6 @@ using JetBrains.Annotations;
 using Motk.Client.Campaign.CameraSystem.Descriptors;
 using Motk.Client.Campaign.Player;
 using Motk.Client.Combat;
-using Motk.Client.Connection;
 using Motk.Shared.Configuration;
 using Motk.Shared.Locations;
 using Unity.Services.Authentication;

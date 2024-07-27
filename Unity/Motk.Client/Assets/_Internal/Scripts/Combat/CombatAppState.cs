@@ -1,7 +1,17 @@
 using com.karabaev.applicationLifeCycle.StateMachine;
+using com.karabaev.camera.unity.Views;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
+using Mork.HexGrid.Render.Unity;
+using Motk.Client.Combat.InputSystem;
+using Motk.Client.Core;
+using Motk.Client.Core.InputSystem;
+using Motk.HexGrid.Core;
+using Motk.HexGrid.Core.Descriptors;
+using Motk.PathFinding.Runtime;
 using Motk.Shared.Core;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 using VContainer;
 using VContainer.Unity;
 
@@ -14,10 +24,13 @@ namespace Motk.Client.Combat
     
     private LifetimeScope _scope = null!;
     
-    public override UniTask EnterAsync(Context context)
+    public override async UniTask EnterAsync(Context context)
     {
+      await SceneManager.LoadSceneAsync("Combat");
+
       _scope = _appScopeState.AppScope.CreateChild(ConfigureScope);
-      return UniTask.CompletedTask;
+      var stateMachine = _scope.Container.Resolve<ApplicationStateMachine>();
+      stateMachine.EnterAsync<EnterToCombatAppState>().Forget();
     }
 
     public override UniTask ExitAsync()
@@ -28,6 +41,19 @@ namespace Motk.Client.Combat
 
     private void ConfigureScope(IContainerBuilder builder)
     {
+      builder.Register<HexGridState>(Lifetime.Singleton);
+      builder.Register<HexGrid.Core.HexGrid>(Lifetime.Singleton);
+      builder.Register<InputState>(Lifetime.Singleton);
+      builder.Register<CombatInputState>(Lifetime.Singleton);
+      builder.Register<CombatInputController>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
+      builder.Register<AStarPathFindingService<HexCoordinates>>(Lifetime.Singleton);
+      builder.Register<IMapNodeProvider<HexCoordinates>, HexGridMapNodeProvider>(Lifetime.Singleton);
+      builder.Register<IHeuristicCalculator<HexCoordinates>, HexHeuristicCalculator>(Lifetime.Singleton);
+      
+      builder.RegisterInstance(Object.FindObjectOfType<GameCameraView>());
+
+      builder.Register<ApplicationStateMachine>(Lifetime.Singleton);
+      builder.Register<ApplicationStateFactory>(Lifetime.Singleton).As<IStateFactory>();
       builder.Register<EnterToCombatAppState>(Lifetime.Transient);
       builder.Register<PlayerTeamMoveCombatAppState>(Lifetime.Transient);
       builder.Register<OtherTeamMoveCombatAppState>(Lifetime.Transient);

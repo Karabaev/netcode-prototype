@@ -125,16 +125,6 @@ namespace Motk.Client.Campaign
 
       builder.Register<AutomatedCampaignInputController>(Lifetime.Singleton);
       builder.Register<ManualCampaignInputController>(Lifetime.Singleton);
-
-      
-      // if (Application.isBatchMode)
-      // {
-        // builder.RegisterEntryPoint<AutomatedCampaignInputController>();
-      // }
-      // else
-      // {
-        // builder.RegisterEntryPoint<ManualCampaignInputController>().AsSelf();
-      // }
       
       builder.RegisterEntryPoint<LocationMovementController>();
       builder.RegisterInstance(Object.FindObjectOfType<GameCameraView>());

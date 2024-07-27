@@ -4,7 +4,9 @@
     "references": [
         "Motk.HexGrid.Core",
         "com.karabaev.utilities.unity",
-        "Unity.TextMeshPro"
+        "Unity.TextMeshPro",
+        "com.karabaev.reactivetypes",
+        "Motk.PathFinding"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

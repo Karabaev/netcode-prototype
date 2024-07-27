@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using com.karabaev.utilities.unity;
 using com.karabaev.utilities.unity.GameKit;
-using Motk.HexGrid.Core.Descriptors;
 using TMPro;
 using UnityEngine;
 
@@ -13,23 +12,22 @@ namespace Mork.HexGrid.Render.Unity
     private TMP_Text _positionText = null!;
     [SerializeField, HideInInspector, RequireInChildren]
     private MeshFilter _meshFilter = null!;
+    [SerializeField, HideInInspector, RequireInChildren]
+    private Renderer _renderer = null!;
     [SerializeField, HideInInspector, Require]
     private MeshCollider _meshCollider = null!;
     [SerializeField, HideInInspector, RequireInChild("Highlight")]
     private Transform _highlight = null!;
 
+    [SerializeField]
+    private Color _walkableColor = Color.white;
+    [SerializeField]
+    private Color _notWalkableColor = Color.red;
+    
     private readonly List<Vector3> _vertices = new();
     private readonly List<int> _triangles = new();
 
-    public HexCoordinates Position
-    {
-      set => _positionText.text = value.ToString();
-    }
-
-    public bool Highlighted
-    {
-      set => _highlight.SetActive(value);
-    }
+    private HexGridNodeState _state = null!;
 
     private void Awake()
     {
@@ -43,6 +41,26 @@ namespace Mork.HexGrid.Render.Unity
 
       _meshCollider.sharedMesh = _meshFilter.mesh;
     }
+
+    public void Construct(HexGridNodeState state)
+    {
+      _state = state;
+      _state.IsHighlighted.Changed += State_OnIsHighlightedChanged;
+
+      _positionText.text = _state.Coordinates.ToString();
+      State_OnIsHighlightedChanged(false, _state.IsHighlighted.Value);
+      _renderer.material.color = _state.IsWalkable ? _walkableColor : _notWalkableColor;
+    }
+
+    private void OnDestroy()
+    {
+      if (_state == null!)
+        return;
+      
+      _state.IsHighlighted.Changed -= State_OnIsHighlightedChanged;
+    }
+
+    private void State_OnIsHighlightedChanged(bool oldValue, bool newValue) => _highlight.SetActive(newValue);
 
     private void Triangulate()
     {

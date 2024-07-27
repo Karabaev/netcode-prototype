@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5687597636859245524}
   - component: {fileID: 4094395979983886696}
   - component: {fileID: 6473628844941589983}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Highlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,7 +85,7 @@ GameObject:
   m_Component:
   - component: {fileID: 769105427375266388}
   - component: {fileID: 4649131126679824179}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 3287728336506679412}
   - component: {fileID: 2474529767485730406}
   - component: {fileID: 6935975489481005160}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: PF_HexGridNodeView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -185,7 +185,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _positionText: {fileID: 4001842261719397244}
   _meshFilter: {fileID: 1200627782967712720}
+  _renderer: {fileID: 9169271279069916713}
   _meshCollider: {fileID: 6935975489481005160}
+  _highlight: {fileID: 5687597636859245524}
+  _walkableColor: {r: 1, g: 1, b: 1, a: 1}
+  _notWalkableColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!64 &6935975489481005160
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -219,7 +223,7 @@ GameObject:
   - component: {fileID: 932669518990648200}
   - component: {fileID: 1200627782967712720}
   - component: {fileID: 9169271279069916713}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -302,7 +306,7 @@ GameObject:
   - component: {fileID: 3389440779139318595}
   - component: {fileID: 4147047481295835223}
   - component: {fileID: 4001842261719397244}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: PositionText
   m_TagString: Untagged
   m_Icon: {fileID: 0}

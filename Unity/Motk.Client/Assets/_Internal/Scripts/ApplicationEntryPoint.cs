@@ -32,7 +32,7 @@ namespace Motk.Client
       Debug.Log("Bootstrap started...");
       var appScope = LifetimeScope.Create(ConfigureAppScope);
       appScope.name = "Application";
-
+      DontDestroyOnLoad(appScope);
       appScope.Container.Resolve<AppScopeState>().AppScope = appScope;
       
       var stateMachine = appScope.Container.Resolve<ApplicationStateMachine>();
@@ -41,22 +41,10 @@ namespace Motk.Client
     
     private void ConfigureAppScope(IContainerBuilder builder)
     {
-      builder.RegisterInstance(FindObjectOfType<NetworkManager>());
+      // todokmo refactor campaign state
+      // builder.RegisterInstance(FindObjectOfType<NetworkManager>());
       builder.Register<AppScopeState>(Lifetime.Singleton);
       builder.Register<InputState>(Lifetime.Singleton);
-
-      RegisterAppStateMachine(builder);
-    }
-
-    private void RegisterAppStateMachine(IContainerBuilder builder)
-    {
-      builder.Register<ApplicationStateMachine>(Lifetime.Singleton);
-      builder.Register<ApplicationStateFactory>(Lifetime.Singleton).As<IStateFactory>();
-
-      builder.Register<BootstrapAppState>(Lifetime.Transient);
-      builder.Register<EnterToLocationAppState>(Lifetime.Transient);
-      builder.Register<CampaignAppState>(Lifetime.Transient);
-      builder.Register<CombatAppState>(Lifetime.Transient);
 
       builder.RegisterInstance(_locationsRegistry);
       builder.RegisterInstance(_charactersRegistry);
@@ -71,6 +59,19 @@ namespace Motk.Client
       builder.Register<GameCameraConfigRegistry>(Lifetime.Singleton);
       
       builder.Register<IConfig, UnityRemoteConfig>(Lifetime.Singleton);
+      
+      RegisterAppStateMachine(builder);
+    }
+
+    private void RegisterAppStateMachine(IContainerBuilder builder)
+    {
+      builder.Register<ApplicationStateMachine>(Lifetime.Singleton);
+      builder.Register<ApplicationStateFactory>(Lifetime.Singleton).As<IStateFactory>();
+
+      builder.Register<BootstrapAppState>(Lifetime.Transient);
+      builder.Register<EnterToLocationAppState>(Lifetime.Transient);
+      builder.Register<CampaignAppState>(Lifetime.Transient);
+      builder.Register<CombatAppState>(Lifetime.Transient);
     }
   }
 }
