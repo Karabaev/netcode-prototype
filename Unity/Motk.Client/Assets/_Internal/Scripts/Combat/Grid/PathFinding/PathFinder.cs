@@ -1,8 +1,9 @@
 ﻿using Motk.Client.Combat.Grid.Hex.Descriptors;
 using Motk.Client.Combat.Grid.Hex.Model;
+using Motk.Client.Combat.Grid.Hex.View;
 using UnityEngine;
 
-namespace Motk.Client.Combat.Grid.Hex.View
+namespace Motk.Client.Combat.Grid.PathFinding
 {
   public class PathFinder : MonoBehaviour
   {

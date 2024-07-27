@@ -21,7 +21,8 @@
         "Unity.Services.RemoteConfig",
         "Unity.Services.Core",
         "Unity.Services.Authentication",
-        "Unity.TextMeshPro"
+        "Unity.TextMeshPro",
+        "Motk.PathFinding"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

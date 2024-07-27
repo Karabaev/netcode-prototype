@@ -3,36 +3,27 @@ using System.Collections.Generic;
 
 namespace Motk.Client.Combat.Grid.Abstract
 {
-  public class Graph<TId, TPayload> where TId : IEquatable<TId>
+  public abstract class Graph<TId, TNode> 
+    where TId : IEquatable<TId>
+    where TNode : IGraphNode
   {
-    private readonly Dictionary<TId, GraphNode<TId, TPayload>> _nodes = new();
+    private readonly Dictionary<TId, TNode> _nodes = new();
 
-    public IReadOnlyDictionary<TId, GraphNode<TId, TPayload>> Nodes => _nodes;
+    public IReadOnlyDictionary<TId, TNode> Nodes => _nodes;
 
-    public GraphNode<TId, TPayload> RequireNode(TId id) => _nodes[id];
+    public TNode RequireNode(TId id) => _nodes[id];
 
-    public bool TryGetNode(TId coordinates, out GraphNode<TId, TPayload>? result)
-    {
-      return _nodes.TryGetValue(coordinates, out result);
-    }
+    public bool TryGetNode(TId coordinates, out TNode? result) => _nodes.TryGetValue(coordinates, out result);
 
-    public void AddNode(TId id, TPayload payload)
-    {
-      _nodes.Add(id, new GraphNode<TId, TPayload>(id, payload));
-    }
+    public void AddNode(TId id, TNode node) => _nodes.Add(id, node);
     
-    public void AddNode(GraphNode<TId, TPayload> node)
-    {
-      _nodes.Add(node.Id, node);
-    }
-
     public void RemoveNode(TId id)
     {
       _nodes.Remove(id, out var removedNode);
 
       foreach (var neighbor in removedNode.Neighbors)
       {
-        ((IMutableGraphNode) neighbor).RemoveNeighbor(removedNode);
+        neighbor.RemoveNeighbor(removedNode);
       }
     }
     
