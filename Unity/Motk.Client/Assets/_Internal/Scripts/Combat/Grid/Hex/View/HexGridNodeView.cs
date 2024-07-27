@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using com.karabaev.utilities.unity;
 using com.karabaev.utilities.unity.GameKit;
+using Motk.Client.Combat.Grid.Hex.Descriptors;
 using TMPro;
 using UnityEngine;
 
-namespace Motk.Client.Combat.Grid
+namespace Motk.Client.Combat.Grid.Hex.View
 {
   public class HexGridNodeView : GameKitComponent
   {
@@ -12,13 +13,22 @@ namespace Motk.Client.Combat.Grid
     private TMP_Text _positionText = null!;
     [SerializeField, HideInInspector, RequireInChildren]
     private MeshFilter _meshFilter = null!;
+    [SerializeField, HideInInspector, Require]
+    private MeshCollider _meshCollider = null!;
+    [SerializeField, HideInInspector, RequireInChild("Highlight")]
+    private Transform _highlight = null!;
 
     private readonly List<Vector3> _vertices = new();
     private readonly List<int> _triangles = new();
 
-    public Vector2Int Position
+    public HexCoordinates Position
     {
-      set => _positionText.text = $"{value.x};{value.y}";
+      set => _positionText.text = value.ToString();
+    }
+
+    public bool Highlighted
+    {
+      set => _highlight.SetActive(value);
     }
 
     private void Awake()
@@ -30,6 +40,8 @@ namespace Motk.Client.Combat.Grid
       _meshFilter.mesh.vertices = _vertices.ToArray();
       _meshFilter.mesh.triangles = _triangles.ToArray();
       _meshFilter.mesh.RecalculateNormals();
+
+      _meshCollider.sharedMesh = _meshFilter.mesh;
     }
 
     private void Triangulate()

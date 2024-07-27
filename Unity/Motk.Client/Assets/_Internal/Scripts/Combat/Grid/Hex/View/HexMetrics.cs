@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-namespace Motk.Client.Combat.Grid
+namespace Motk.Client.Combat.Grid.Hex.View
 {
   public static class HexMetrics
   {
-    public const float OuterRadius = 1f;
+    public const float OuterRadius = 0.5f;
     public const float InnerRadius = OuterRadius * 0.866025404f;
 
     public static readonly Vector3[] Corners =
