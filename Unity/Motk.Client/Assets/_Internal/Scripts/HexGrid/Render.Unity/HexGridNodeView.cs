@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using com.karabaev.utilities.unity;
 using com.karabaev.utilities.unity.GameKit;
-using Motk.Client.Combat.Grid.Hex.Descriptors;
+using Motk.HexGrid.Core.Descriptors;
 using TMPro;
 using UnityEngine;
 
-namespace Motk.Client.Combat.Grid.Hex.View
+namespace Mork.HexGrid.Render.Unity
 {
   public class HexGridNodeView : GameKitComponent
   {
@@ -49,7 +49,7 @@ namespace Motk.Client.Combat.Grid.Hex.View
       var center = transform.localPosition;
       for (var i = 0; i < 6; i++)
       {
-        AddTriangle(center, center + HexMetrics.Corners[i], center + HexMetrics.Corners[i + 1]);
+        AddTriangle(center, center + HexRenderUtils.Corners[i], center + HexRenderUtils.Corners[i + 1]);
       }
     }
 

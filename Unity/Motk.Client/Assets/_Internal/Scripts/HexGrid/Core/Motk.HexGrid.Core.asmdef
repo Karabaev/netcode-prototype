@@ -1,8 +1,8 @@
 {
-    "name": "Motk.PathFinding",
+    "name": "Motk.HexGrid.Core",
     "rootNamespace": "Motk",
     "references": [
-        "GUID:abb2718675c007944b6d4fb764ffa614"
+        "Motk.PathFinding"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -12,5 +12,5 @@
     "autoReferenced": true,
     "defineConstraints": [],
     "versionDefines": [],
-    "noEngineReferences": false
+    "noEngineReferences": true
 }

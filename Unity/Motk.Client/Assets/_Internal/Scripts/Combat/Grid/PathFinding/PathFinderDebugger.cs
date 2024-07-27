@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Motk.Client.Combat.Grid.Hex.Descriptors;
-using Motk.Client.Combat.Grid.Hex.Model;
-using Motk.Client.Combat.Grid.Hex.View;
+using Mork.HexGrid.Render.Unity;
+using Motk.HexGrid;
+using Motk.HexGrid.Core;
+using Motk.HexGrid.Core.Descriptors;
 using Motk.PathFinding.Runtime;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ namespace Motk.Client.Combat.Grid.PathFinding
 {
   public class PathFinderDebugger : MonoBehaviour
   {
-    private HexGrid _grid = null!;
+    private HexGrid.Core.HexGrid _grid = null!;
     private HexCoordinates _currentCoords;
     private HexGridView _gridView = null!;
 
@@ -28,7 +29,7 @@ namespace Motk.Client.Combat.Grid.PathFinding
       var heuristicCalculator = new HexHeuristicCalculator();
       _pathFindingService = new AStarPathFindingService<HexCoordinates>(mapNodeProvider, heuristicCalculator);
 
-      _pawn.transform.position = new HexCoordinates(0, 0).ToWorld(HexMetrics.OuterRadius, 0.0f);
+      _pawn.transform.position = new HexCoordinates(0, 0).ToWorld(0.0f);
     }
     
     private void Update()
@@ -40,9 +41,9 @@ namespace Motk.Client.Combat.Grid.PathFinding
       if (!Physics.Raycast(ray, out var hitInfo))
         return;
 
-      var destination = HexCoordinates.FromWorld(hitInfo.point, HexMetrics.OuterRadius);
+      var destination = HexRenderUtils.FromWorld(hitInfo.point);
 
-      var origin = HexCoordinates.FromWorld(_pawn.position, HexMetrics.OuterRadius);
+      var origin = HexRenderUtils.FromWorld(_pawn.position);
       var path = _pathFindingService.FindPath(origin, destination);
 
       if (path.Count == 0)
@@ -56,7 +57,7 @@ namespace Motk.Client.Combat.Grid.PathFinding
       while (path.TryPop(out var nextCoordinates))
       {
         yield return new WaitForSeconds(0.5f);
-        _pawn.position = nextCoordinates.ToWorld(HexMetrics.OuterRadius, 0.0f);
+        _pawn.position = nextCoordinates.ToWorld(0.0f);
       }
     }
   }

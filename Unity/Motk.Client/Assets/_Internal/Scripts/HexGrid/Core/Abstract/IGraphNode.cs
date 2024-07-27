@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Motk.Client.Combat.Grid.Abstract
+namespace Motk.HexGrid.Core.Abstract
 {
   public interface IGraphNode : IMutableGraphNode
   {

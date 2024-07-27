@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Motk.Client.Combat.Grid.Hex.Descriptors;
+using Motk.HexGrid.Core.Descriptors;
 using Motk.PathFinding.Runtime;
 
-namespace Motk.Client.Combat.Grid.Hex.Model
+namespace Motk.HexGrid.Core
 {
   public class HexGrid
   {

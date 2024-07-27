@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Motk.Client.Combat.Grid.Abstract
+namespace Motk.HexGrid.Core.Abstract
 {
   public abstract class Graph<TId, TNode> 
     where TId : IEquatable<TId>

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Motk.Collections.Collections;
+using Motk.Collections;
 
 namespace Motk.PathFinding.Runtime
 {

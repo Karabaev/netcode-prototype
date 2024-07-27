@@ -1,6 +1,6 @@
 {
     "name": "Motk.Collections",
-    "rootNamespace": "Motk.Collections",
+    "rootNamespace": "Motk",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

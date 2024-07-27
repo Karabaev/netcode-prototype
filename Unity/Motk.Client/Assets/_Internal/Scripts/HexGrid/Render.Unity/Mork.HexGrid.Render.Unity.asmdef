@@ -1,8 +1,10 @@
 {
-    "name": "Motk.PathFinding",
-    "rootNamespace": "Motk",
+    "name": "Mork.HexGrid.Render.Unity",
+    "rootNamespace": "Mork",
     "references": [
-        "GUID:abb2718675c007944b6d4fb764ffa614"
+        "Motk.HexGrid.Core",
+        "com.karabaev.utilities.unity",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

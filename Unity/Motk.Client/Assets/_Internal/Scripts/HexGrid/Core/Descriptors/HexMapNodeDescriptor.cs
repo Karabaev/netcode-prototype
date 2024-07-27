@@ -1,7 +1,8 @@
-using Motk.Client.Combat.Grid.Hex.Model;
+using System;
 
-namespace Motk.Client.Combat.Grid.Hex.Descriptors
+namespace Motk.HexGrid.Core.Descriptors
 {
+  [Serializable]
   public class HexMapNodeDescriptor
   {
     public readonly HexCoordinates Coordinates;

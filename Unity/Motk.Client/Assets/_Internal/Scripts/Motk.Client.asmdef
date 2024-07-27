@@ -22,7 +22,9 @@
         "Unity.Services.Core",
         "Unity.Services.Authentication",
         "Unity.TextMeshPro",
-        "Motk.PathFinding"
+        "Motk.PathFinding",
+        "Motk.HexGrid.Core",
+        "Mork.HexGrid.Render.Unity"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

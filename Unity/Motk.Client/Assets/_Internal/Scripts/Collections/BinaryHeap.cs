@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Motk.Collections.Collections
+namespace Motk.Collections
 {
   public class BinaryHeap<TKey, TItem>
     where TKey : IEquatable<TKey>
