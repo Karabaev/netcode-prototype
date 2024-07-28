@@ -13,7 +13,7 @@ namespace Motk.Client.Combat
   [UsedImplicitly]
   public class EnterToCombatAppState : ApplicationState<DummyStateContext>
   {
-    private readonly HexGridState _gridState;
+    private readonly HexGridVisualState _gridVisualState;
     private readonly HexGrid.Core.HexGrid _grid;
     private readonly InputState _inputState;
     private readonly CombatInputController _;
@@ -23,7 +23,7 @@ namespace Motk.Client.Combat
       // connecting to the server
       
       _grid.Initialize(CreateMapDescriptor());
-      Object.FindObjectOfType<HexGridView>().Construct(_gridState, _grid);
+      Object.FindObjectOfType<HexGridView>().Construct(_gridVisualState, _grid);
       Object.FindObjectOfType<InputController>().Construct(_inputState);
       EnterNextStateAsync<PlayerTeamMoveCombatAppState>().Forget();
       return UniTask.CompletedTask;
@@ -116,10 +116,10 @@ namespace Motk.Client.Combat
       return new HexMapDescriptor(nodes);
     }
     
-    public EnterToCombatAppState(ApplicationStateMachine stateMachine, HexGridState gridState,
+    public EnterToCombatAppState(ApplicationStateMachine stateMachine, HexGridVisualState gridVisualState,
       HexGrid.Core.HexGrid grid, InputState inputState, CombatInputController _) : base(stateMachine)
     {
-      _gridState = gridState;
+      _gridVisualState = gridVisualState;
       _grid = grid;
       _inputState = inputState;
       this._ = _;

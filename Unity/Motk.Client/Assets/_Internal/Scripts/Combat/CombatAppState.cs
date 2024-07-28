@@ -41,7 +41,7 @@ namespace Motk.Client.Combat
 
     private void ConfigureScope(IContainerBuilder builder)
     {
-      builder.Register<HexGridState>(Lifetime.Singleton);
+      builder.Register<HexGridVisualState>(Lifetime.Singleton);
       builder.Register<HexGrid.Core.HexGrid>(Lifetime.Singleton);
       builder.Register<InputState>(Lifetime.Singleton);
       builder.Register<CombatInputState>(Lifetime.Singleton);

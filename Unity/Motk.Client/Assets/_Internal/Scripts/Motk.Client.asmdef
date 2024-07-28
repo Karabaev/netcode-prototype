@@ -24,7 +24,8 @@
         "Unity.TextMeshPro",
         "Motk.HexGrid.Core",
         "Mork.HexGrid.Render.Unity",
-        "Motk.PathFinding.AStar"
+        "Motk.PathFinding.AStar",
+        "Motk.Combat.Shared"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

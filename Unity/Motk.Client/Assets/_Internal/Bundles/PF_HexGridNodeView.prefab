@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4094395979983886696}
   - component: {fileID: 6473628844941589983}
   m_Layer: 3
-  m_Name: Highlight
+  m_Name: Outline
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -187,9 +187,12 @@ MonoBehaviour:
   _meshFilter: {fileID: 1200627782967712720}
   _renderer: {fileID: 9169271279069916713}
   _meshCollider: {fileID: 6935975489481005160}
-  _highlight: {fileID: 5687597636859245524}
+  _outline: {fileID: 6473628844941589983}
   _walkableColor: {r: 1, g: 1, b: 1, a: 1}
   _notWalkableColor: {r: 1, g: 0, b: 0, a: 1}
+  _availableForMoveColor: {r: 1, g: 1, b: 1, a: 1}
+  _availableForAttackColor: {r: 1, g: 0, b: 0, a: 1}
+  _availableForAbilityColor: {r: 0, g: 0, b: 1, a: 1}
 --- !u!64 &6935975489481005160
 MeshCollider:
   m_ObjectHideFlags: 0

@@ -3,6 +3,7 @@ using com.karabaev.utilities.unity;
 using com.karabaev.utilities.unity.GameKit;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Mork.HexGrid.Render.Unity
 {
@@ -16,13 +17,20 @@ namespace Mork.HexGrid.Render.Unity
     private Renderer _renderer = null!;
     [SerializeField, HideInInspector, Require]
     private MeshCollider _meshCollider = null!;
-    [SerializeField, HideInInspector, RequireInChild("Highlight")]
-    private Transform _highlight = null!;
+    [SerializeField, HideInInspector, RequireInChild("Outline")]
+    private Image _outline = null!;
 
     [SerializeField]
     private Color _walkableColor = Color.white;
     [SerializeField]
     private Color _notWalkableColor = Color.red;
+    
+    [SerializeField]
+    private Color _availableForMoveColor = Color.white;
+    [SerializeField]
+    private Color _availableForAttackColor = Color.red;
+    [SerializeField]
+    private Color _availableForAbilityColor = Color.blue;
     
     private readonly List<Vector3> _vertices = new();
     private readonly List<int> _triangles = new();
@@ -45,11 +53,12 @@ namespace Mork.HexGrid.Render.Unity
     public void Construct(HexGridNodeState state)
     {
       _state = state;
-      _state.IsHighlighted.Changed += State_OnIsHighlightedChanged;
+      _state.OutlineVisibility.Changed += State_OnOutlineVisibilityChanged;
 
       _positionText.text = _state.Coordinates.ToString();
-      State_OnIsHighlightedChanged(false, _state.IsHighlighted.Value);
       _renderer.material.color = _state.IsWalkable ? _walkableColor : _notWalkableColor;
+
+      State_OnOutlineVisibilityChanged(GridNodeVisualStateType.None, _state.OutlineVisibility.Value);
     }
 
     private void OnDestroy()
@@ -57,10 +66,27 @@ namespace Mork.HexGrid.Render.Unity
       if (_state == null!)
         return;
       
-      _state.IsHighlighted.Changed -= State_OnIsHighlightedChanged;
+      _state.OutlineVisibility.Changed -= State_OnOutlineVisibilityChanged;
     }
 
-    private void State_OnIsHighlightedChanged(bool oldValue, bool newValue) => _highlight.SetActive(newValue);
+    private void State_OnOutlineVisibilityChanged(GridNodeVisualStateType oldValue, GridNodeVisualStateType newValue)
+    {
+      if (newValue is GridNodeVisualStateType.None)
+      {
+        _outline.SetActive(false);
+        return;
+      }
+      
+      var color = newValue switch
+      {
+        GridNodeVisualStateType.Move => _availableForMoveColor,
+        GridNodeVisualStateType.Attack => _availableForAttackColor,
+        GridNodeVisualStateType.Ability => _availableForAbilityColor,
+      };
+
+      _outline.SetActive(true);
+      _outline.color = color;
+    }
 
     private void Triangulate()
     {

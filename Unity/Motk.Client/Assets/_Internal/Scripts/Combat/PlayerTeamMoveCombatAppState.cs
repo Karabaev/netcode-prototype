@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using com.karabaev.applicationLifeCycle.StateMachine;
+using com.karabaev.utilities.unity;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using Mork.HexGrid.Render.Unity;
@@ -15,6 +18,7 @@ namespace Motk.Client.Combat
   {
     private readonly CombatInputState _combatInputState;
     private readonly AStarPathFindingService<HexCoordinates> _pathFindingService;
+    private readonly HexGridVisualState _gridVisualState;
 
     private GameObject _pawn = null!;
     
@@ -44,18 +48,26 @@ namespace Motk.Client.Combat
 
     private async UniTaskVoid MoveAsync(Stack<HexCoordinates> path)
     {
+      _gridVisualState.VisibleNodes.Clear();
       while (path.TryPop(out var nextCoordinates))
       {
+        var randomNodeVisual = Enum
+          .GetValues(typeof(GridNodeVisualStateType))
+          .OfType<GridNodeVisualStateType>()
+          .Where(t => t != GridNodeVisualStateType.None)
+          .PickRandom();
+        _gridVisualState.VisibleNodes.Add(nextCoordinates, randomNodeVisual);
         await UniTask.Delay(200);
         _pawn.transform.position = nextCoordinates.ToWorld(0.0f);
       }
     }
 
     public PlayerTeamMoveCombatAppState(ApplicationStateMachine stateMachine, CombatInputState combatInputState,
-      AStarPathFindingService<HexCoordinates> pathFindingService) : base(stateMachine)
+      AStarPathFindingService<HexCoordinates> pathFindingService, HexGridVisualState gridVisualState) : base(stateMachine)
     {
       _combatInputState = combatInputState;
       _pathFindingService = pathFindingService;
+      _gridVisualState = gridVisualState;
     }
   }
 }
