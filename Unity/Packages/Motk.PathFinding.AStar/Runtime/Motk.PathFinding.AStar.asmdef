@@ -1,0 +1,16 @@
+{
+    "name": "Motk.PathFinding.AStar",
+    "rootNamespace": "Motk.PathFinding.AStar",
+    "references": [
+        "GUID:abb2718675c007944b6d4fb764ffa614"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

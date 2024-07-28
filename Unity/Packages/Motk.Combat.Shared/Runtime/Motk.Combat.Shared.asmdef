@@ -1,0 +1,16 @@
+{
+    "name": "Motk.Combat.Shared",
+    "rootNamespace": "Motk.Combat.Shared",
+    "references": [
+        "Motk.HexGrid.Core"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

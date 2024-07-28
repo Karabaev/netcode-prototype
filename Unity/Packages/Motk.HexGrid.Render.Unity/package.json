@@ -1,0 +1,7 @@
+{
+  "name": "motk.hexgrid.render.unity",
+  "displayName": "Motk.HexGrid.Render.Unity",
+  "version": "0.0.1",
+  "unity": "2022.3",
+  "author": "Karabaev Maksim"
+}

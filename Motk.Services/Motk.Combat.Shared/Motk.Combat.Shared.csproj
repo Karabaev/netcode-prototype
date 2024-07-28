@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\Unity\Motk.Combat.Shared\Runtime\Motk.Combat.Shared.asmdef">
+        <Link>Runtime\Motk.Combat.Shared.asmdef</Link>
+      </Content>
+      <Content Include="..\..\Unity\Motk.Combat.Shared\Runtime\Motk.Combat.Shared.asmdef.meta">
+        <Link>Runtime\Motk.Combat.Shared.asmdef.meta</Link>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Include="..\..\Unity\Motk.Combat.Shared\Runtime\CombatState.cs">
+        <Link>Runtime\CombatState.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Unity\Motk.Combat.Shared\Runtime\RoundState.cs">
+        <Link>Runtime\RoundState.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Unity\Motk.Combat.Shared\Runtime\TeamState.cs">
+        <Link>Runtime\TeamState.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Unity\Motk.Combat.Shared\Runtime\UnitIdentifier.cs">
+        <Link>Runtime\UnitIdentifier.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Unity\Motk.Combat.Shared\Runtime\UnitState.cs">
+        <Link>Runtime\UnitState.cs</Link>
+      </Compile>
+    </ItemGroup>
+
+</Project>

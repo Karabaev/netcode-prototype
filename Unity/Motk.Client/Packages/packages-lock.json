@@ -400,14 +400,44 @@
       "dependencies": {},
       "hash": "58610810240efebe27b982a3adfb8405c57320a2"
     },
+    "motk.collections": {
+      "version": "file:E:/Projects/MotK/Unity/Packages/Motk.Collections",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
+    "motk.combat.shared": {
+      "version": "file:E:/Projects/MotK/Unity/Packages/Motk.Combat.Shared",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
+    "motk.hexgrid.core": {
+      "version": "file:E:/Projects/MotK/Unity/Packages/Motk.HexGrid.Core",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
+    "motk.hexgrid.render.unity": {
+      "version": "file:E:/Projects/MotK/Unity/Packages/Motk.HexGrid.Render.Unity",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
     "motk.matchmaking": {
-      "version": "file:E:/Projects/MotK/Unity/Motk.Matchmaking",
+      "version": "file:E:/Projects/MotK/Unity/Packages/Motk.Matchmaking",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
+    "motk.pathfinding.astar": {
+      "version": "file:E:/Projects/MotK/Unity/Packages/Motk.PathFinding.AStar",
       "depth": 0,
       "source": "local",
       "dependencies": {}
     },
     "motk.shared": {
-      "version": "file:E:/Projects/MotK/Unity/Motk.Shared",
+      "version": "file:E:/Projects/MotK/Unity/Packages/Motk.Shared",
       "depth": 0,
       "source": "local",
       "dependencies": {}

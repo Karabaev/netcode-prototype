@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 using Mork.HexGrid.Render.Unity;
 using Motk.Client.Combat.InputSystem;
 using Motk.HexGrid.Core.Descriptors;
-using Motk.PathFinding.Runtime;
+using Motk.PathFinding.AStar;
 using UnityEngine;
 
 namespace Motk.Client.Combat

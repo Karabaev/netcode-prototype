@@ -68,3 +68,11 @@ ProjectSettings/AndroidLogcatSettings.asset
 
 RiderFlow.UserData/
 *_clone_*
+
+# For some packages we copy .csproj  manually to the package directory to share in to services solution
+[Oo]bj.meta
+[Tt]emp.meta
+#Motk.Client/*.csproj
+#Motk.CampaignServer/*.csproj
+
+!Packages/**/*.csproj

@@ -86,9 +86,9 @@ namespace Motk.Client.Combat
         new(new HexCoordinates(0, 0), true),
         new(new HexCoordinates(1, 0), true),
         new(new HexCoordinates(2, 0), true),
-        new(new HexCoordinates(3, 0), true),
-        new(new HexCoordinates(4, 0), true),
-        new(new HexCoordinates(5, 0), true),
+        new(new HexCoordinates(3, 0), false),
+        new(new HexCoordinates(4, 0), false),
+        new(new HexCoordinates(5, 0), false),
         new(new HexCoordinates(6, 0), true),
 
         new(new HexCoordinates(1, -1), true),

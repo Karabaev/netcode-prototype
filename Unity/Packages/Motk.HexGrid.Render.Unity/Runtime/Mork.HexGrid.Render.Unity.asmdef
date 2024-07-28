@@ -1,0 +1,20 @@
+{
+    "name": "Mork.HexGrid.Render.Unity",
+    "rootNamespace": "Mork.HexGrid.Render.Unity",
+    "references": [
+        "Motk.HexGrid.Core",
+        "com.karabaev.utilities.unity",
+        "Unity.TextMeshPro",
+        "com.karabaev.reactivetypes",
+        "Motk.PathFinding.AStar"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

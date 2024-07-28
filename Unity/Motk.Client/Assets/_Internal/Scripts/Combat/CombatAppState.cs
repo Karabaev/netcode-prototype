@@ -8,7 +8,7 @@ using Motk.Client.Core;
 using Motk.Client.Core.InputSystem;
 using Motk.HexGrid.Core;
 using Motk.HexGrid.Core.Descriptors;
-using Motk.PathFinding.Runtime;
+using Motk.PathFinding.AStar;
 using Motk.Shared.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;

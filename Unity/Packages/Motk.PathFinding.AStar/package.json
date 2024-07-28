@@ -1,0 +1,7 @@
+{
+  "name": "motk.pathfinding.astar",
+  "displayName": "Motk.PathFinding.AStar",
+  "version": "0.0.1",
+  "unity": "2022.3",
+  "author": "Karabaev Maksim"
+}
