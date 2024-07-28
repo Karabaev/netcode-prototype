@@ -5,7 +5,6 @@ using Motk.Client.Campaign;
 using Motk.Client.Campaign.Actors.Descriptors;
 using Motk.Client.Campaign.Player;
 using Motk.Client.Combat;
-using Motk.Client.Connection;
 using Motk.Client.Core;
 using Motk.Client.Core.InputSystem;
 using Motk.Client.Matchmaking;
@@ -13,7 +12,6 @@ using Motk.Shared.Configuration;
 using Motk.Shared.Core;
 using Motk.Shared.Core.Net;
 using Motk.Shared.Locations;
-using Unity.Netcode;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -41,22 +39,15 @@ namespace Motk.Client
     
     private void ConfigureAppScope(IContainerBuilder builder)
     {
-      // todokmo refactor campaign state
-      // builder.RegisterInstance(FindObjectOfType<NetworkManager>());
       builder.Register<AppScopeState>(Lifetime.Singleton);
-      builder.Register<InputState>(Lifetime.Singleton);
 
       builder.RegisterInstance(_locationsRegistry);
       builder.RegisterInstance(_charactersRegistry);
+      builder.Register<GameCameraConfigRegistry>(Lifetime.Singleton);
+      
       builder.Register<MatchmakingClient>(Lifetime.Singleton);
       
       builder.Register<CurrentPlayerState>(Lifetime.Singleton);
-      
-      builder.Register<ClientMessageSender>(Lifetime.Singleton);
-      builder.Register<ClientMessageReceiver>(Lifetime.Singleton);
-      builder.Register<MessageSerializer>(Lifetime.Singleton);
-      
-      builder.Register<GameCameraConfigRegistry>(Lifetime.Singleton);
       
       builder.Register<IConfig, UnityRemoteConfig>(Lifetime.Singleton);
       
@@ -69,7 +60,7 @@ namespace Motk.Client
       builder.Register<ApplicationStateFactory>(Lifetime.Singleton).As<IStateFactory>();
 
       builder.Register<BootstrapAppState>(Lifetime.Transient);
-      builder.Register<EnterToLocationAppState>(Lifetime.Transient);
+      builder.Register<CampaignAppState>(Lifetime.Transient);
       builder.Register<CampaignAppState>(Lifetime.Transient);
       builder.Register<CombatAppState>(Lifetime.Transient);
     }

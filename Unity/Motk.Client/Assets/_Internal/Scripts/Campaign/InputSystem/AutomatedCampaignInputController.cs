@@ -4,8 +4,8 @@ using com.karabaev.applicationLifeCycle.StateMachine;
 using com.karabaev.utilities.unity;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
-using Motk.Client.Connection;
 using Motk.Shared.Locations;
+using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
 using Vector3 = UnityEngine.Vector3;
@@ -25,16 +25,22 @@ namespace Motk.Client.Campaign.InputSystem
     private readonly LocationsRegistry _locationsRegistry;
     private readonly ApplicationStateMachine _applicationStateMachine;
     private readonly CancellationTokenSource _cts;
+    
     public AutomatedCampaignInputController(CampaignInputState state, LocationsRegistry locationsRegistry, ApplicationStateMachine applicationStateMachine)
     {
       _state = state;
       _locationsRegistry = locationsRegistry;
       _applicationStateMachine = applicationStateMachine;
       _cts = new CancellationTokenSource();
+      
+    }
+
+    public void Start()
+    {
       UniTask.Void(MoveCycle, _cts.Token);
       UniTask.Void(TransitionCycle, _cts.Token);
     }
-
+    
     void IDisposable.Dispose() => _cts.Cancel();
 
     private async UniTaskVoid MoveCycle(CancellationToken cancellationToken)
@@ -51,7 +57,9 @@ namespace Motk.Client.Campaign.InputSystem
 
     private Vector3 GetPassablePoint()
     {
+      const int maxAttempts = 100;
       var pointFound = false;
+      var attemptsCount = 0;
       while (!pointFound)
       {
         var randomPoint = new Vector3(Random.Range(-50, 50), 0, Random.Range(-50, 50));
@@ -60,6 +68,14 @@ namespace Motk.Client.Campaign.InputSystem
         {
           return hit.position;
         }
+
+        if (attemptsCount >= maxAttempts)
+        {
+          Debug.LogWarning("Could not find passable point for automated move");
+          break;
+        }
+
+        attemptsCount++;
       }
 
       return Vector3.zero;
@@ -80,8 +96,8 @@ namespace Motk.Client.Campaign.InputSystem
     private void MoveToRandomLocation()
     {
       var (locationId, _) = _locationsRegistry.Entries.PickRandom();
-      var stateContext = new EnterToLocationAppState.Context(locationId);
-      _applicationStateMachine.EnterAsync<EnterToLocationAppState, EnterToLocationAppState.Context>(stateContext).Forget();
+      var stateContext = new CampaignAppState.Context(locationId);
+      _applicationStateMachine.EnterAsync<CampaignAppState, CampaignAppState.Context>(stateContext).Forget();
     }
   }
 }

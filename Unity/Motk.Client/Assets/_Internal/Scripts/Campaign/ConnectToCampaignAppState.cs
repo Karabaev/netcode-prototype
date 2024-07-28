@@ -2,7 +2,6 @@
 using com.karabaev.applicationLifeCycle.StateMachine;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
-using Motk.Client.Campaign;
 using Motk.Client.Campaign.Player;
 using Motk.Client.Matchmaking;
 using Motk.Matchmaking;
@@ -12,26 +11,25 @@ using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using UnityEngine;
 
-namespace Motk.Client.Connection
+namespace Motk.Client.Campaign
 {
   [UsedImplicitly]
-  public class EnterToLocationAppState : ApplicationState<EnterToLocationAppState.Context>
+  public class ConnectToCampaignAppState : ApplicationState<DummyStateContext>
   {
     private readonly NetworkManager _networkManager;
     private readonly MatchmakingClient _matchmakingClient;
     private readonly CurrentPlayerState _currentPlayerState;
     private readonly ClientMessageSender _clientMessageSender;
     private readonly ClientMessageReceiver _messageReceiver;
+    private readonly CampaignState _campaignState;
 
     private string _userSecret = null!; // todokmo возможно заменить на TicketId?
     private int _matchId = -1;
-    private string _locationId = null!;
     
-    public override async UniTask EnterAsync(Context context)
+    public override async UniTask EnterAsync(DummyStateContext context)
     {
-      Debug.Log($"Enter to location started. UserId={_currentPlayerState.PlayerId}, LocationId={context.LocationId}");
-      _locationId = context.LocationId;
-      var ticketId = await _matchmakingClient.CreateTicketAsync(_currentPlayerState.PlayerId, context.LocationId);
+      Debug.Log($"Enter to location started. UserId={_currentPlayerState.PlayerId}, LocationId={_campaignState.LocationId}");
+      var ticketId = await _matchmakingClient.CreateTicketAsync(_currentPlayerState.PlayerId, _campaignState.LocationId);
       var ticketResponse = await PollTicketAsync(ticketId);
 
       _userSecret = ticketResponse.UserSecret;
@@ -83,8 +81,7 @@ namespace Motk.Client.Connection
 
     private void OnAttachedToMatch(AttachedToMatchCommand _)
     {
-      var context = new CampaignAppState.Context(_locationId);
-      EnterNextStateAsync<CampaignAppState, CampaignAppState.Context>(context).Forget();
+      EnterNextStateAsync<LoadingCampaignAppState>().Forget();
     }
 
     private async UniTask<TicketStatusResponse> PollTicketAsync(Guid ticketId)
@@ -106,18 +103,17 @@ namespace Motk.Client.Connection
       }
     }
 
-    public EnterToLocationAppState(ApplicationStateMachine stateMachine, NetworkManager networkManager,
+    public ConnectToCampaignAppState(ApplicationStateMachine stateMachine, NetworkManager networkManager,
       MatchmakingClient matchmakingClient, CurrentPlayerState currentPlayerState,
       ClientMessageSender clientMessageSender,
-      ClientMessageReceiver messageReceiver) : base(stateMachine)
+      ClientMessageReceiver messageReceiver, CampaignState campaignState) : base(stateMachine)
     {
       _networkManager = networkManager;
       _matchmakingClient = matchmakingClient;
       _currentPlayerState = currentPlayerState;
       _clientMessageSender = clientMessageSender;
       _messageReceiver = messageReceiver;
+      _campaignState = campaignState;
     }
-
-    public record Context(string LocationId);
   }
 }

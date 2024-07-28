@@ -7,13 +7,12 @@ using Motk.Shared.Campaign.Movement;
 using Motk.Shared.Campaign.Movement.Messages;
 using Motk.Shared.Core.Net;
 using UnityEngine;
-using VContainer.Unity;
 
 namespace Motk.Client.Campaign.Movement
 {
   // todokmo логику перенести в стейт?
   [UsedImplicitly]
-  public class LocationMovementController : IStartable, IDisposable
+  public class LocationMovementController : IDisposable
   {
     private readonly ActorMovementLogic _actorMovementLogic;
     private readonly CampaignActorsState _actorsState;
@@ -32,7 +31,7 @@ namespace Motk.Client.Campaign.Movement
       _campaignInputState = campaignInputState;
     }
 
-    void IStartable.Start()
+    public void Start()
     {
       _campaignInputState.GroundClicked.Invoked += State_OnGroundClicked;
       _messageReceiver.RegisterMessageHandler<ActorMoveStartedCommand>(Network_OnActorMoveStarted);

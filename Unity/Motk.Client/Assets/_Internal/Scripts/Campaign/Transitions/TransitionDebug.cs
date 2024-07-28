@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using com.karabaev.applicationLifeCycle.StateMachine;
 using Cysharp.Threading.Tasks;
-using Motk.Client.Connection;
 using Motk.Shared.Locations;
 using UnityEngine;
 
@@ -35,8 +34,8 @@ namespace Motk.Client.Campaign.Transitions
       if (string.IsNullOrEmpty(locationId))
         return;
 
-      var stateContext = new EnterToLocationAppState.Context(locationId);
-      _applicationStateMachine.EnterAsync<EnterToLocationAppState, EnterToLocationAppState.Context>(stateContext).Forget();
+      var stateContext = new CampaignAppState.Context(locationId);
+      _applicationStateMachine.EnterAsync<CampaignAppState, CampaignAppState.Context>(stateContext).Forget();
     }
   }
 }
