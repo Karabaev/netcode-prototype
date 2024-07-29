@@ -6,11 +6,11 @@ using Motk.Client.Campaign.Actors.Descriptors;
 using Motk.Client.Campaign.Player;
 using Motk.Client.Combat;
 using Motk.Client.Core;
-using Motk.Client.Core.InputSystem;
 using Motk.Client.Matchmaking;
+using Motk.Client.Squad;
+using Motk.Client.Units;
 using Motk.Shared.Configuration;
 using Motk.Shared.Core;
-using Motk.Shared.Core.Net;
 using Motk.Shared.Locations;
 using UnityEngine;
 using VContainer;
@@ -43,13 +43,12 @@ namespace Motk.Client
 
       builder.RegisterInstance(_locationsRegistry);
       builder.RegisterInstance(_charactersRegistry);
+      builder.Register<UnitVisualRegistry>(Lifetime.Singleton);
       builder.Register<GameCameraConfigRegistry>(Lifetime.Singleton);
-      
       builder.Register<MatchmakingClient>(Lifetime.Singleton);
-      
       builder.Register<CurrentPlayerState>(Lifetime.Singleton);
-      
       builder.Register<IConfig, UnityRemoteConfig>(Lifetime.Singleton);
+      builder.Register<SquadState>(Lifetime.Singleton);
       
       RegisterAppStateMachine(builder);
     }
@@ -58,9 +57,8 @@ namespace Motk.Client
     {
       builder.Register<ApplicationStateMachine>(Lifetime.Singleton);
       builder.Register<ApplicationStateFactory>(Lifetime.Singleton).As<IStateFactory>();
-
+      
       builder.Register<BootstrapAppState>(Lifetime.Transient);
-      builder.Register<CampaignAppState>(Lifetime.Transient);
       builder.Register<CampaignAppState>(Lifetime.Transient);
       builder.Register<CombatAppState>(Lifetime.Transient);
     }

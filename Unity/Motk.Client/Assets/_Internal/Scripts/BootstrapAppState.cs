@@ -5,10 +5,10 @@ using com.karabaev.descriptors.unity;
 using com.karabaev.utilities.unity;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
-using Motk.Client.Campaign;
 using Motk.Client.Campaign.CameraSystem.Descriptors;
 using Motk.Client.Campaign.Player;
 using Motk.Client.Combat;
+using Motk.Client.Units;
 using Motk.Shared.Configuration;
 using Motk.Shared.Locations;
 using Unity.Services.Authentication;
@@ -24,6 +24,7 @@ namespace Motk.Client
     private readonly CurrentPlayerState _currentPlayerState;
     private readonly GameCameraConfigRegistry _gameCameraConfigRegistry;
     private readonly LocationsRegistry _locationsRegistry;
+    private readonly UnitVisualRegistry _unitVisualRegistry;
 
     public override async UniTask EnterAsync(DummyStateContext context)
     {
@@ -65,19 +66,25 @@ namespace Motk.Client
         },
         new IMutableDescriptorRegistry[]
         {
-          _gameCameraConfigRegistry
+          _gameCameraConfigRegistry,
+          _unitVisualRegistry
         },
-        new DescriptorSourceTypes(new []{ typeof(GameCameraConfigSource) }));
+        new DescriptorSourceTypes(new []
+        {
+          typeof(GameCameraConfigSource),
+          typeof(UnitVisualRegistrySource)
+        }));
       
       return descriptorInitializer.InitializeAsync();
     }
     
     public BootstrapAppState(ApplicationStateMachine stateMachine, CurrentPlayerState currentPlayerState,
-      GameCameraConfigRegistry gameCameraConfigRegistry, LocationsRegistry locationsRegistry) : base(stateMachine)
+      GameCameraConfigRegistry gameCameraConfigRegistry, LocationsRegistry locationsRegistry, UnitVisualRegistry unitVisualRegistry) : base(stateMachine)
     {
       _currentPlayerState = currentPlayerState;
       _gameCameraConfigRegistry = gameCameraConfigRegistry;
       _locationsRegistry = locationsRegistry;
+      _unitVisualRegistry = unitVisualRegistry;
     }
   }
 }

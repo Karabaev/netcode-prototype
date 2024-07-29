@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using Mork.HexGrid.Render.Unity;
 using Motk.Client.Combat.InputSystem;
+using Motk.Client.Combat.Render;
 using Motk.Client.Core;
 using Motk.Client.Core.InputSystem;
 using Motk.HexGrid.Core;
@@ -41,17 +42,23 @@ namespace Motk.Client.Combat
 
     private void ConfigureScope(IContainerBuilder builder)
     {
+      builder.Register<CombatState>(Lifetime.Singleton);
+      
       builder.Register<HexGridVisualState>(Lifetime.Singleton);
       builder.Register<HexGrid.Core.HexGrid>(Lifetime.Singleton);
       builder.Register<InputState>(Lifetime.Singleton);
       builder.Register<CombatInputState>(Lifetime.Singleton);
       builder.Register<CombatInputController>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
+      builder.RegisterInstance(Object.FindObjectOfType<InputController>());
+
       builder.Register<AStarPathFindingService<HexCoordinates>>(Lifetime.Singleton);
       builder.Register<IMapNodeProvider<HexCoordinates>, HexGridMapNodeProvider>(Lifetime.Singleton);
       builder.Register<IHeuristicCalculator<HexCoordinates>, HexHeuristicCalculator>(Lifetime.Singleton);
       
       builder.RegisterInstance(Object.FindObjectOfType<GameCameraView>());
 
+      builder.Register<CombatTeamsVisualController>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
+      
       builder.Register<ApplicationStateMachine>(Lifetime.Singleton);
       builder.Register<ApplicationStateFactory>(Lifetime.Singleton).As<IStateFactory>();
       builder.Register<EnterToCombatAppState>(Lifetime.Transient);

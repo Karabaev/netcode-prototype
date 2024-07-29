@@ -20,6 +20,10 @@ namespace Motk.Client.Combat.InputSystem
       _state = state;
       _inputState = inputState;
       _camera = camera;
+    }
+
+    public void Start()
+    {
       _inputState.MainMouseButtonClicked.Invoked += State_OnInputMainMouseButtonClicked;
     }
     
