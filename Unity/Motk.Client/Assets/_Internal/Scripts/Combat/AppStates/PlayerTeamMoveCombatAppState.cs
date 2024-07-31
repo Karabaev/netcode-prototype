@@ -11,7 +11,7 @@ using Motk.HexGrid.Core.Descriptors;
 using Motk.PathFinding.AStar;
 using UnityEngine;
 
-namespace Motk.Client.Combat
+namespace Motk.Client.Combat.AppStates
 {
   [UsedImplicitly]
   public class PlayerTeamMoveCombatAppState : ApplicationState<DummyStateContext>

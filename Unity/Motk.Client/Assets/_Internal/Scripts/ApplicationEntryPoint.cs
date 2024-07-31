@@ -1,10 +1,12 @@
 using com.karabaev.applicationLifeCycle.StateMachine;
 using com.karabaev.camera.unity.Descriptors;
 using Cysharp.Threading.Tasks;
+using MessagePipe;
 using Motk.Client.Campaign;
 using Motk.Client.Campaign.Actors.Descriptors;
 using Motk.Client.Campaign.Player;
 using Motk.Client.Combat;
+using Motk.Client.Combat.AppStates;
 using Motk.Client.Core;
 using Motk.Client.Matchmaking;
 using Motk.Client.Squad;
@@ -29,7 +31,7 @@ namespace Motk.Client
     {
       Debug.Log("Bootstrap started...");
       var appScope = LifetimeScope.Create(ConfigureAppScope);
-      appScope.name = "Application";
+      appScope.name = "[Application]";
       DontDestroyOnLoad(appScope);
       appScope.Container.Resolve<AppScopeState>().AppScope = appScope;
       
@@ -49,6 +51,9 @@ namespace Motk.Client
       builder.Register<CurrentPlayerState>(Lifetime.Singleton);
       builder.Register<IConfig, UnityRemoteConfig>(Lifetime.Singleton);
       builder.Register<SquadState>(Lifetime.Singleton);
+      
+      builder.RegisterMessagePipe();
+      builder.RegisterBuildCallback(c => GlobalMessagePipe.SetProvider(c.AsServiceProvider()));
       
       RegisterAppStateMachine(builder);
     }

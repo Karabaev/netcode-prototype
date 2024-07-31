@@ -6,12 +6,12 @@ using Mork.HexGrid.Render.Unity;
 using Motk.Client.Combat.InputSystem;
 using Motk.Client.Combat.Network;
 using Motk.Client.Combat.Network.Server;
-using Motk.Client.Combat.Render;
+using Motk.Client.Combat.Units.Core.Controllers;
 using Motk.Client.Core.InputSystem;
 using Motk.HexGrid.Core.Descriptors;
 using UnityEngine;
 
-namespace Motk.Client.Combat
+namespace Motk.Client.Combat.AppStates
 {
   [UsedImplicitly]
   public class EnterToCombatAppState : ApplicationState<DummyStateContext>
@@ -22,7 +22,8 @@ namespace Motk.Client.Combat
     private readonly CombatInputController _combatInputController;
     private readonly InputController _inputController;
     private readonly CombatState _combatState;
-    private readonly CombatTeamsVisualController _combatTeamsVisualController;
+    private readonly SelfCombatState _selfCombatState;
+    private readonly CombatUnitsController _combatUnitsController;
 
     private readonly ServerMock _serverMock = new();
     
@@ -30,6 +31,8 @@ namespace Motk.Client.Combat
     {
       // connecting to the server
 
+      _selfCombatState.TeamId = await _serverMock.GetSelfTeamIdAsync();
+      
       _inputController.Construct(_inputState);
       _combatInputController.Start();
       _grid.Initialize(CreateMapDescriptor());
@@ -38,8 +41,7 @@ namespace Motk.Client.Combat
       var combatStateMessage = await _serverMock.GetCombatStateAsync();
       InitializeState(combatStateMessage);
 
-      _combatTeamsVisualController.Start();
-      
+      _combatUnitsController.Start();
       EnterNextStateAsync<PlayerTeamMoveCombatAppState>().Forget();
     }
 
@@ -145,7 +147,8 @@ namespace Motk.Client.Combat
     
     public EnterToCombatAppState(ApplicationStateMachine stateMachine, HexGridVisualState gridVisualState,
       HexGrid.Core.HexGrid grid, InputState inputState, CombatInputController combatInputController,
-      InputController inputController, CombatState combatState, CombatTeamsVisualController combatTeamsVisualController) : base(stateMachine)
+      InputController inputController, CombatState combatState,
+      SelfCombatState selfCombatState, CombatUnitsController combatUnitsController) : base(stateMachine)
     {
       _gridVisualState = gridVisualState;
       _grid = grid;
@@ -153,7 +156,8 @@ namespace Motk.Client.Combat
       _combatInputController = combatInputController;
       _inputController = inputController;
       _combatState = combatState;
-      _combatTeamsVisualController = combatTeamsVisualController;
+      _selfCombatState = selfCombatState;
+      _combatUnitsController = combatUnitsController;
     }
   }
 }

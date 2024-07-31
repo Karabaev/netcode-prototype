@@ -12,6 +12,11 @@ namespace Motk.Client.Combat.Network
 {
   public class ServerMock
   {
+    public UniTask<ushort> GetSelfTeamIdAsync()
+    {
+      return UniTask.FromResult((ushort) 1);
+    }
+
     public UniTask<CombatStateMessage> GetCombatStateAsync()
     {
       var team1Units = new Dictionary<ushort, CombatUnitDto>

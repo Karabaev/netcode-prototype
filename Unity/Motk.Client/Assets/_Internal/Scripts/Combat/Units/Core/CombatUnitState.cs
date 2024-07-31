@@ -1,8 +1,9 @@
-﻿using com.karabaev.reactivetypes.Property;
+﻿using com.karabaev.reactivetypes.Action;
+using com.karabaev.reactivetypes.Property;
 using Motk.Combat.Shared;
 using Motk.HexGrid.Core.Descriptors;
 
-namespace Motk.Client.Combat.Units
+namespace Motk.Client.Combat.Units.Core
 {
   public class CombatUnitState
   {
@@ -15,6 +16,8 @@ namespace Motk.Client.Combat.Units
     public ReactiveProperty<float> CurrentHp { get; }
     
     public ReactiveProperty<HexCoordinates> Position { get; }
+
+    public ReactiveAction<HexCoordinates[]> MoveIntended { get; } = new();
 
     public CombatUnitState(string descriptorId, CombatUnitIdentifier id, int count, float currentHp, HexCoordinates position)
     {

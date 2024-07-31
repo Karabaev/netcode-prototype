@@ -2,9 +2,12 @@ using com.karabaev.applicationLifeCycle.StateMachine;
 using com.karabaev.camera.unity.Views;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
+using MessagePipe;
 using Mork.HexGrid.Render.Unity;
 using Motk.Client.Combat.InputSystem;
-using Motk.Client.Combat.Render;
+using Motk.Client.Combat.Units.Core.Controllers;
+using Motk.Client.Combat.Units.Core.Services;
+using Motk.Client.Combat.Units.Render;
 using Motk.Client.Core;
 using Motk.Client.Core.InputSystem;
 using Motk.HexGrid.Core;
@@ -16,7 +19,7 @@ using UnityEngine.SceneManagement;
 using VContainer;
 using VContainer.Unity;
 
-namespace Motk.Client.Combat
+namespace Motk.Client.Combat.AppStates
 {
   [UsedImplicitly]
   public class CombatAppState : ApplicationState<CombatAppState.Context>
@@ -28,8 +31,10 @@ namespace Motk.Client.Combat
     public override async UniTask EnterAsync(Context context)
     {
       await SceneManager.LoadSceneAsync("Combat");
-
+      
       _scope = _appScopeState.AppScope.CreateChild(ConfigureScope);
+      _scope.name = "[Combat]";
+
       var stateMachine = _scope.Container.Resolve<ApplicationStateMachine>();
       stateMachine.EnterAsync<EnterToCombatAppState>().Forget();
     }
@@ -43,6 +48,7 @@ namespace Motk.Client.Combat
     private void ConfigureScope(IContainerBuilder builder)
     {
       builder.Register<CombatState>(Lifetime.Singleton);
+      builder.Register<SelfCombatState>(Lifetime.Singleton);
       
       builder.Register<HexGridVisualState>(Lifetime.Singleton);
       builder.Register<HexGrid.Core.HexGrid>(Lifetime.Singleton);
@@ -57,13 +63,16 @@ namespace Motk.Client.Combat
       
       builder.RegisterInstance(Object.FindObjectOfType<GameCameraView>());
 
-      builder.Register<CombatTeamsVisualController>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
+      builder.Register<ICombatUnitFactory, CombatUnitFactory>(Lifetime.Singleton);
+      builder.Register<CombatUnitsController>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
       
       builder.Register<ApplicationStateMachine>(Lifetime.Singleton);
       builder.Register<ApplicationStateFactory>(Lifetime.Singleton).As<IStateFactory>();
       builder.Register<EnterToCombatAppState>(Lifetime.Transient);
       builder.Register<PlayerTeamMoveCombatAppState>(Lifetime.Transient);
       builder.Register<OtherTeamMoveCombatAppState>(Lifetime.Transient);
+      
+      builder.RegisterMessagePipe();
     }
     
     public CombatAppState(ApplicationStateMachine stateMachine, AppScopeState appScopeState) : base(stateMachine)

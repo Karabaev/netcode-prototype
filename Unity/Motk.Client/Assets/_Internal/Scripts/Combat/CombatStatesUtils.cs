@@ -1,4 +1,5 @@
 ﻿using Motk.Client.Combat.Units;
+using Motk.Client.Combat.Units.Core;
 using Motk.Combat.Shared;
 
 namespace Motk.Client.Combat

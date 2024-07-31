@@ -1,6 +1,6 @@
 ﻿using System;
 using com.karabaev.descriptors.abstractions;
-using Motk.Client.Combat.Render;
+using Motk.Client.Combat.Units;
 using UnityEngine;
 
 namespace Motk.Client.Units
@@ -9,6 +9,6 @@ namespace Motk.Client.Units
   public class UnitVisualDescriptor : IDescriptor
   {
     [field: SerializeField]
-    public CombatUnitVisualView CombatPrefab { get; private set; } = null!;
+    public CombatUnitView CombatPrefab { get; private set; } = null!;
   }
 }
