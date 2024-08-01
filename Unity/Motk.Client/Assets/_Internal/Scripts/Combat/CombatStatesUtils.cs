@@ -1,6 +1,6 @@
-﻿using Motk.Client.Combat.Units;
-using Motk.Client.Combat.Units.Core;
+﻿using Motk.Client.Combat.Units.Core;
 using Motk.Combat.Shared;
+using Motk.HexGrid.Core;
 
 namespace Motk.Client.Combat
 {
@@ -17,7 +17,7 @@ namespace Motk.Client.Combat
       foreach (var (unitId, unitDto) in dto.Units)
       {
         var identifier = new CombatUnitIdentifier(teamId, unitId);
-        state.Units.Add(unitId, new CombatUnitState(unitDto.DescriptorId, identifier, unitDto.Count, unitDto.CurrentHp, unitDto.Position));
+        state.Units.Add(unitId, new CombatUnitState(unitDto.DescriptorId, identifier, unitDto.Count, unitDto.CurrentHp, unitDto.Position, HexDirection.NE));
       }
 
       return state;

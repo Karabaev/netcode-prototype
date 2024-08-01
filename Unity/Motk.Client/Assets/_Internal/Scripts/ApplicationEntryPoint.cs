@@ -5,14 +5,12 @@ using MessagePipe;
 using Motk.Client.Campaign;
 using Motk.Client.Campaign.Actors.Descriptors;
 using Motk.Client.Campaign.Player;
-using Motk.Client.Combat;
 using Motk.Client.Combat.AppStates;
 using Motk.Client.Core;
 using Motk.Client.Matchmaking;
 using Motk.Client.Squad;
 using Motk.Client.Units;
 using Motk.Shared.Configuration;
-using Motk.Shared.Core;
 using Motk.Shared.Locations;
 using UnityEngine;
 using VContainer;
@@ -33,7 +31,6 @@ namespace Motk.Client
       var appScope = LifetimeScope.Create(ConfigureAppScope);
       appScope.name = "[Application]";
       DontDestroyOnLoad(appScope);
-      appScope.Container.Resolve<AppScopeState>().AppScope = appScope;
       
       var stateMachine = appScope.Container.Resolve<ApplicationStateMachine>();
       stateMachine.EnterAsync<BootstrapAppState>().Forget();
@@ -41,8 +38,6 @@ namespace Motk.Client
     
     private void ConfigureAppScope(IContainerBuilder builder)
     {
-      builder.Register<AppScopeState>(Lifetime.Singleton);
-
       builder.RegisterInstance(_locationsRegistry);
       builder.RegisterInstance(_charactersRegistry);
       builder.Register<UnitVisualRegistry>(Lifetime.Singleton);

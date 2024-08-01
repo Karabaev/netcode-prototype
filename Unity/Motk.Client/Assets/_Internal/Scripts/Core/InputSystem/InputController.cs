@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using VContainer;
 
 namespace Motk.Client.Core.InputSystem
 {
@@ -39,6 +38,12 @@ namespace Motk.Client.Core.InputSystem
       
       _state.AuxMouseButtonDragAxis = _auxDragging ? MousePosition - _lastDragPosition : Vector2.zero;
       _lastDragPosition = MousePosition;
+      
+      if(Input.GetKeyDown(KeyCode.Space))
+        _state.DefendRaised.Invoke();
+      
+      if(Input.GetKeyDown(KeyCode.W))
+        _state.WaitRaised.Invoke();
     }
     
     private bool IsPointerOverUI()

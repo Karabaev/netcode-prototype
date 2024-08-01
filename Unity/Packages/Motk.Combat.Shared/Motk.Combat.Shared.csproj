@@ -42,11 +42,6 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Runtime\UnitIdentifier.cs" />
-    <Compile Include="Runtime\UnitState.cs" />
-    <Compile Include="Runtime\RoundState.cs" />
-    <Compile Include="Runtime\TeamState.cs" />
-    <Compile Include="Runtime\CombatState.cs" />
     <None Include="Runtime\Motk.Combat.Shared.asmdef" />
     <Reference Include="Unity.Collections.LowLevel.ILSupport">
       <HintPath>E:\Projects\MotK\Unity\Motk.Client\Library\PackageCache\com.unity.collections@2.2.1\Unity.Collections.LowLevel.ILSupport\Unity.Collections.LowLevel.ILSupport.dll</HintPath>
@@ -438,6 +433,21 @@
     <Reference Include="System.Xml.Serialization">
       <HintPath>E:\Tools\UnityEditors\2022.3.14f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Runtime\CombatTeamDto.cs" />
+    <Compile Include="Runtime\CombatUnitDto.cs" />
+    <Compile Include="Runtime\CombatUnitIdentifier.cs" />
+    <Compile Include="Runtime\CombatUnitIdentifierDto.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Motk.HexGrid.Core\Motk.HexGrid.Core.csproj">
+      <Project>{c56b0431-ad7e-c44b-9e00-aadedca723f8}</Project>
+      <Name>Motk.HexGrid.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Runtime\Network" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

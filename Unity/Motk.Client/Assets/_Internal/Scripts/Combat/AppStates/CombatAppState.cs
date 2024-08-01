@@ -5,6 +5,7 @@ using JetBrains.Annotations;
 using MessagePipe;
 using Mork.HexGrid.Render.Unity;
 using Motk.Client.Combat.InputSystem;
+using Motk.Client.Combat.Network.Server;
 using Motk.Client.Combat.Units.Core.Controllers;
 using Motk.Client.Combat.Units.Core.Services;
 using Motk.Client.Combat.Units.Render;
@@ -13,7 +14,6 @@ using Motk.Client.Core.InputSystem;
 using Motk.HexGrid.Core;
 using Motk.HexGrid.Core.Descriptors;
 using Motk.PathFinding.AStar;
-using Motk.Shared.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using VContainer;
@@ -24,27 +24,40 @@ namespace Motk.Client.Combat.AppStates
   [UsedImplicitly]
   public class CombatAppState : ApplicationState<CombatAppState.Context>
   {
-    private readonly AppScopeState _appScopeState;
+    private readonly LifetimeScope _appScope;
     
     private LifetimeScope _scope = null!;
+    private CombatState _combatState = null!;
     
     public override async UniTask EnterAsync(Context context)
     {
       await SceneManager.LoadSceneAsync("Combat");
-      
-      _scope = _appScopeState.AppScope.CreateChild(ConfigureScope);
+      _scope = _appScope.CreateChild(ConfigureScope);
       _scope.name = "[Combat]";
 
+      _combatState = _scope.Container.Resolve<CombatState>();
+      
+      
       var stateMachine = _scope.Container.Resolve<ApplicationStateMachine>();
       stateMachine.EnterAsync<EnterToCombatAppState>().Forget();
     }
-
+    
     public override UniTask ExitAsync()
     {
       _scope.Dispose();
       return UniTask.CompletedTask;
     }
 
+    private void Network_OnCombatRoundStarted(CombatRoundStartedCommand command)
+    {
+      _combatState.RoundIndex.Value = command.Index;
+      _combatState.FirstPhaseTurnsQueue.Clear();
+      foreach (var unitIdDto in command.TurnsQueue)
+        _combatState.FirstPhaseTurnsQueue.Add(CombatStatesUtils.FromDto(unitIdDto));
+      
+      _combatState.SecondPhaseTurnsQueue.Clear();
+    }
+    
     private void ConfigureScope(IContainerBuilder builder)
     {
       builder.Register<CombatState>(Lifetime.Singleton);
@@ -75,9 +88,9 @@ namespace Motk.Client.Combat.AppStates
       builder.RegisterMessagePipe();
     }
     
-    public CombatAppState(ApplicationStateMachine stateMachine, AppScopeState appScopeState) : base(stateMachine)
+    public CombatAppState(ApplicationStateMachine stateMachine, LifetimeScope appScope) : base(stateMachine)
     {
-      _appScopeState = appScopeState;
+      _appScope = appScope;
     }
 
     public record Context(string CombatId);

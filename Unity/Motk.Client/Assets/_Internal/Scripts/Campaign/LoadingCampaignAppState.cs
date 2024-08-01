@@ -4,13 +4,12 @@ using com.karabaev.camera.unity.States;
 using com.karabaev.camera.unity.Views;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
-using Motk.Client.Campaign.InputSystem;
 using Motk.Client.Campaign.Transitions;
 using Motk.Client.Core.InputSystem;
-using Motk.Shared.Core;
 using Motk.Shared.Locations;
 using UnityEngine;
 using VContainer;
+using VContainer.Unity;
 
 namespace Motk.Client.Campaign
 {
@@ -55,7 +54,7 @@ namespace Motk.Client.Campaign
       _gameCameraView.Construct(cameraConfig, _gameCameraState, _inputState);
     }
     
-    public LoadingCampaignAppState(ApplicationStateMachine stateMachine, AppScopeState appScopeState,
+    public LoadingCampaignAppState(ApplicationStateMachine stateMachine, LifetimeScope parentScope,
       LocationsRegistry locationsRegistry, InputController inputController, InputState inputState,
       GameCameraView gameCameraView, GameCameraConfigRegistry cameraConfigRegistry,
       GameCameraState gameCameraState, CampaignState campaignState) : base(stateMachine)
@@ -67,7 +66,7 @@ namespace Motk.Client.Campaign
       _cameraConfigRegistry = cameraConfigRegistry;
       _gameCameraState = gameCameraState;
       _campaignState = campaignState;
-      _globalStateMachine = appScopeState.AppScope.Container.Resolve<ApplicationStateMachine>();
+      _globalStateMachine = parentScope.Parent.Container.Resolve<ApplicationStateMachine>();
     }
   }
 }

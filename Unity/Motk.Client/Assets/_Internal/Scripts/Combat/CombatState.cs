@@ -11,7 +11,9 @@ namespace Motk.Client.Combat
   {
     public ReactiveProperty<ushort> RoundIndex { get; } = new(ushort.MaxValue);
 
-    public ReactiveCollection<CombatUnitIdentifier> TurnsQueue { get; } = new();
+    public ReactiveCollection<CombatUnitIdentifier> FirstPhaseTurnsQueue { get; } = new();
+    
+    public ReactiveCollection<CombatUnitIdentifier> SecondPhaseTurnsQueue { get; } = new();
 
     public ReactiveDictionary<ushort, CombatTeamState> Teams { get; } = new();
   }

@@ -12,7 +12,6 @@ using Motk.Client.Core;
 using Motk.Client.Core.InputSystem;
 using Motk.Shared.Campaign.Actors.States;
 using Motk.Shared.Campaign.Movement;
-using Motk.Shared.Core;
 using Motk.Shared.Core.Net;
 using Unity.Netcode;
 using UnityEngine;
@@ -25,15 +24,15 @@ namespace Motk.Client.Campaign
   [UsedImplicitly]
   public class CampaignAppState : ApplicationState<CampaignAppState.Context>
   {
-    private readonly AppScopeState _appScopeState;
-
+    private readonly LifetimeScope _appScope;
+    
     private LifetimeScope _scope = null!;
     
     public override async UniTask EnterAsync(Context context)
     {
       await SceneManager.LoadSceneAsync("Campaign");
       
-      _scope = _appScopeState.AppScope.CreateChild(ConfigureScope);
+      _scope = _appScope.CreateChild(ConfigureScope);
       _scope.Container.Resolve<CampaignState>().LocationId = context.LocationId;
       var stateMachine = _scope.Container.Resolve<ApplicationStateMachine>();
       stateMachine.EnterAsync<ConnectToCampaignAppState>().Forget();
@@ -85,9 +84,9 @@ namespace Motk.Client.Campaign
       builder.Register<CampaignLoopAppState>(Lifetime.Transient);
     }
     
-    public CampaignAppState(ApplicationStateMachine stateMachine, AppScopeState appScopeState) : base(stateMachine)
+    public CampaignAppState(ApplicationStateMachine stateMachine, LifetimeScope appScope) : base(stateMachine)
     {
-      _appScopeState = appScopeState;
+      _appScope = appScope;
     }
 
     public record Context(string LocationId);

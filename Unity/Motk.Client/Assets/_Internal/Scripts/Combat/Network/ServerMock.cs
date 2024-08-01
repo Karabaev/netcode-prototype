@@ -2,6 +2,7 @@
 using System.Linq;
 using com.karabaev.utilities.unity;
 using Cysharp.Threading.Tasks;
+using Motk.Client.Combat.Network.Client;
 using Motk.Client.Combat.Network.Server;
 using Motk.Combat.Shared;
 using Motk.HexGrid.Core.Descriptors;
@@ -55,6 +56,18 @@ namespace Motk.Client.Combat.Network
       turnsQueue.Shuffle(ref random);
       var message = new CombatStateMessage(0, turnsQueue, teams);
       return UniTask.FromResult(message);
+    }
+
+    public UniTask SendWaitActionAsync()
+    {
+      var command = new WaitActionCommand();
+      return UniTask.CompletedTask;
+    }
+
+    public UniTask SendDefendActionAsync()
+    {
+      var command = new DefendActionCommand();
+      return UniTask.CompletedTask;
     }
   }
 }

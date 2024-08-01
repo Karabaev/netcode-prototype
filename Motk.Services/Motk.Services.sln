@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Motk.HexGrid.Core", "..\Uni
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Motk.PathFinding.AStar", "..\Unity\Packages\Motk.PathFinding.AStar\Motk.PathFinding.AStar.csproj", "{DBE5F51E-A5D3-F418-1E2B-32F519A3EA86}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Combat", "Combat", "{ADC59AE4-D551-4D7A-B4A9-6E24FFC30F33}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{C4B38CC5-0D36-4A49-8279-10F32464CBB4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{35F9F075-8CCB-2B08-688A-A6BB7B2CB97D} = {D75A86A1-FB9F-4CFC-BF14-223D9E60CAF6}
+		{C56B0431-AD7E-C44B-9E00-AADEDCA723F8} = {D75A86A1-FB9F-4CFC-BF14-223D9E60CAF6}
+		{DBE5F51E-A5D3-F418-1E2B-32F519A3EA86} = {D75A86A1-FB9F-4CFC-BF14-223D9E60CAF6}
+		{C4B38CC5-0D36-4A49-8279-10F32464CBB4} = {ADC59AE4-D551-4D7A-B4A9-6E24FFC30F33}
 	EndGlobalSection
 EndGlobal

@@ -13,5 +13,9 @@ namespace Motk.Client.Core.InputSystem
     public float MouseWheelAxis { get; set; }
     
     public Vector2 AuxMouseButtonDragAxis { get; set; }
+    
+    public ReactiveAction WaitRaised { get; } = new();
+
+    public ReactiveAction DefendRaised { get; } = new();
   }
 }

@@ -54,9 +54,9 @@ namespace Motk.Client.Combat.AppStates
     {
       _combatState.RoundIndex.Value = combatStateMessage.RoundIndex;
       
-      _combatState.TurnsQueue.Clear();
+      _combatState.FirstPhaseTurnsQueue.Clear();
       foreach (var unitIdDto in combatStateMessage.TurnsQueue)
-        _combatState.TurnsQueue.Add(CombatStatesUtils.FromDto(unitIdDto));
+        _combatState.FirstPhaseTurnsQueue.Add(CombatStatesUtils.FromDto(unitIdDto));
 
       _combatState.Teams.Clear();
       foreach (var (teamId, teamDto) in combatStateMessage.Teams)
