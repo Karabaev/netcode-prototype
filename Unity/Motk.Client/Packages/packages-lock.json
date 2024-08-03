@@ -462,8 +462,8 @@
       "source": "local",
       "dependencies": {}
     },
-    "motk.matchmaking": {
-      "version": "file:E:/Projects/MotK/Unity/Packages/Motk.Matchmaking",
+    "motk.matchmaking.shared": {
+      "version": "file:E:/Projects/MotK/Unity/Packages/Motk.Matchmaking.Shared",
       "depth": 0,
       "source": "local",
       "dependencies": {}

@@ -1,0 +1,19 @@
+{
+    "name": "Motk.Matchmaking.Shared",
+    "rootNamespace": "Motk.Matchmaking.Shared",
+    "references": [
+        "com.karabaev.reactivetypes",
+        "UniTask",
+        "com.karabaev.utilities",
+        "com.karabaev.utilities.unity"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

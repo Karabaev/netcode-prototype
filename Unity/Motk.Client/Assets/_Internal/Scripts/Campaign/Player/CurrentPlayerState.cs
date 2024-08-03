@@ -1,6 +1,6 @@
 ﻿using JetBrains.Annotations;
 
-namespace Motk.Client.Campaign.Player
+namespace Motk.Campaign.Client.Player
 {
   [UsedImplicitly]
   public class CurrentPlayerState

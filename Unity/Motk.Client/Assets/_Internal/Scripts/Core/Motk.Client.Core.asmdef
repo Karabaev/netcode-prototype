@@ -1,0 +1,20 @@
+{
+    "name": "Motk.Client.Core",
+    "rootNamespace": "Motk.Client.Core",
+    "references": [
+        "com.karabaev.applicationLifeCycle",
+        "VContainer",
+        "com.karabaev.camera.unity",
+        "com.karabaev.reactivetypes",
+        "UniTask"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,10 +1,10 @@
 ﻿using JetBrains.Annotations;
-using Motk.Client.Campaign.Actors.Descriptors;
-using Motk.Client.Campaign.Actors.Views;
+using Motk.Campaign.Client.Actors.Descriptors;
+using Motk.Campaign.Client.Actors.Views;
 using Motk.Shared.Campaign.Actors.States;
 using UnityEngine;
 
-namespace Motk.Client.Campaign.Actors.Services
+namespace Motk.Campaign.Client.Actors.Services
 {
   [UsedImplicitly]
   public class CampaignActorViewFactory

@@ -2,13 +2,14 @@
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using Mork.HexGrid.Render.Unity;
-using Motk.Client.Combat.InputSystem;
-using Motk.Client.Combat.Network;
 using Motk.Client.Core.InputSystem;
+using Motk.Combat.Client.Core;
+using Motk.Combat.Client.Core.InputSystem;
+using Motk.Combat.Client.Core.Network;
 using Motk.HexGrid.Core.Descriptors;
 using Motk.PathFinding.AStar;
 
-namespace Motk.Client.Combat.AppStates
+namespace Motk.Combat.Client.AppStates
 {
   [UsedImplicitly]
   public class PlayerTeamMoveCombatAppState : ApplicationState<DummyStateContext>

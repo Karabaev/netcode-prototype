@@ -1,0 +1,22 @@
+{
+    "name": "Motk.Combat.Client.gRPC",
+    "rootNamespace": "Motk.Combat.Client.gRPC",
+    "references": [
+        "MagicOnion.Abstractions",
+        "MagicOnion.Client",
+        "MagicOnion.Unity",
+        "MagicOnion.Serialization.MessagePack",
+        "MessagePack",
+        "UniTask",
+        "Cysharp.Net.Http.YetAnotherHttpHandler"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

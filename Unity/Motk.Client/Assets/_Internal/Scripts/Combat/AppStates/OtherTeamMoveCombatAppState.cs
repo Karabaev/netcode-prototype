@@ -1,7 +1,7 @@
 ﻿using com.karabaev.applicationLifeCycle.StateMachine;
 using Cysharp.Threading.Tasks;
 
-namespace Motk.Client.Combat.AppStates
+namespace Motk.Combat.Client.AppStates
 {
   public class OtherTeamMoveCombatAppState : ApplicationState<DummyStateContext>
   {

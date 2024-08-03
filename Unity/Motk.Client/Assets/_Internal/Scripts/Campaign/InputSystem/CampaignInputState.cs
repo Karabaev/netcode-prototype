@@ -2,7 +2,7 @@ using com.karabaev.reactivetypes.Action;
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace Motk.Client.Campaign.InputSystem
+namespace Motk.Campaign.Client.InputSystem
 {
   [UsedImplicitly]
   public class CampaignInputState

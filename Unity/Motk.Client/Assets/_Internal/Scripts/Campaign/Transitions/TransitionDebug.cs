@@ -4,7 +4,7 @@ using Cysharp.Threading.Tasks;
 using Motk.Shared.Locations;
 using UnityEngine;
 
-namespace Motk.Client.Campaign.Transitions
+namespace Motk.Campaign.Client.Transitions
 {
   public class TransitionDebug : MonoBehaviour
   {

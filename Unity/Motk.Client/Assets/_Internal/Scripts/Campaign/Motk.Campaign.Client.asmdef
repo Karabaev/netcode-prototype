@@ -1,0 +1,30 @@
+{
+    "name": "Motk.Campaign.Client",
+    "rootNamespace": "Motk.Campaign.Client",
+    "references": [
+        "com.karabaev.descriptors.abstractions",
+        "com.karabaev.descriptors.unity",
+        "VContainer",
+        "UniTask",
+        "Motk.Shared",
+        "com.karabaev.applicationLifeCycle",
+        "Motk.Client.Core",
+        "Unity.Netcode.Runtime",
+        "Unity.Networking.Transport",
+        "com.karabaev.utilities",
+        "com.karabaev.utilities.unity",
+        "com.karabaev.camera.unity",
+        "com.karabaev.reactivetypes",
+        "Motk.Matchmaking.Client",
+        "Motk.Matchmaking.Shared"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

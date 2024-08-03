@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Motk.Client.Campaign
+namespace Motk.Campaign.Client
 {
   public class CampaignState
   {

@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 using Motk.Client.Core.InputSystem;
 using UnityEngine;
 
-namespace Motk.Client.Campaign.InputSystem
+namespace Motk.Campaign.Client.InputSystem
 {
   [UsedImplicitly]
   public class ManualCampaignInputController : IDisposable

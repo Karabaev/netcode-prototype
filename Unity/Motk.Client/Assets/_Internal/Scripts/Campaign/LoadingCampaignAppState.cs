@@ -4,14 +4,14 @@ using com.karabaev.camera.unity.States;
 using com.karabaev.camera.unity.Views;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
-using Motk.Client.Campaign.Transitions;
+using Motk.Campaign.Client.Transitions;
 using Motk.Client.Core.InputSystem;
 using Motk.Shared.Locations;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-namespace Motk.Client.Campaign
+namespace Motk.Campaign.Client
 {
   [UsedImplicitly]
   public class LoadingCampaignAppState : ApplicationState<DummyStateContext>

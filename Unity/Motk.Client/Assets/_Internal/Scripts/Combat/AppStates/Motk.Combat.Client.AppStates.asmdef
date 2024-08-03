@@ -1,0 +1,31 @@
+{
+    "name": "Motk.Combat.Client.AppStates",
+    "rootNamespace": "Motk.Combat.Client.AppStates",
+    "references": [
+        "VContainer",
+        "UniTask",
+        "MessagePipe",
+        "MessagePipe.VContainer",
+        "com.karabaev.applicationLifeCycle",
+        "com.karabaev.camera.unity",
+        "com.karabaev.reactivetypes",
+        "com.karabaev.utilities",
+        "com.karabaev.utilities.unity",
+        "Motk.Combat.Client.Core",
+        "Motk.Combat.Client.Render",
+        "Motk.Combat.Shared",
+        "Motk.HexGrid.Core",
+        "Mork.HexGrid.Render.Unity",
+        "Motk.PathFinding.AStar",
+        "Motk.Client.Core"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

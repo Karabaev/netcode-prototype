@@ -4,10 +4,10 @@ using com.karabaev.camera.unity.Views;
 using com.karabaev.utilities.unity;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
-using Motk.Client.Campaign.Actors.Controllers;
-using Motk.Client.Campaign.Actors.Services;
-using Motk.Client.Campaign.InputSystem;
-using Motk.Client.Campaign.Movement;
+using Motk.Campaign.Client.Actors.Controllers;
+using Motk.Campaign.Client.Actors.Services;
+using Motk.Campaign.Client.InputSystem;
+using Motk.Campaign.Client.Movement;
 using Motk.Client.Core;
 using Motk.Client.Core.InputSystem;
 using Motk.Shared.Campaign.Actors.States;
@@ -19,7 +19,7 @@ using UnityEngine.SceneManagement;
 using VContainer;
 using VContainer.Unity;
 
-namespace Motk.Client.Campaign
+namespace Motk.Campaign.Client
 {
   [UsedImplicitly]
   public class CampaignAppState : ApplicationState<CampaignAppState.Context>

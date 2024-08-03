@@ -1,9 +1,9 @@
 ﻿using System;
-using Motk.Client.Campaign.Actors.Views;
+using Motk.Campaign.Client.Actors.Views;
 using Motk.Shared.Descriptors;
 using UnityEngine;
 
-namespace Motk.Client.Campaign.Actors.Descriptors
+namespace Motk.Campaign.Client.Actors.Descriptors
 {
   [Serializable]
   public class CharacterDescriptor : DescriptorBase

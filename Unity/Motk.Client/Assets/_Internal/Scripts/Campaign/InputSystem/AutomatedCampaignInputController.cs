@@ -10,7 +10,7 @@ using UnityEngine.AI;
 using Random = UnityEngine.Random;
 using Vector3 = UnityEngine.Vector3;
 
-namespace Motk.Client.Campaign.InputSystem
+namespace Motk.Campaign.Client.InputSystem
 {
   [UsedImplicitly]
   public class AutomatedCampaignInputController : IDisposable

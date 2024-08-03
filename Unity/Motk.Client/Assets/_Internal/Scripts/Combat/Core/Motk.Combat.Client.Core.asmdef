@@ -1,0 +1,31 @@
+{
+    "name": "Motk.Combat.Client.Core",
+    "rootNamespace": "Motk.Combat.Client.Core",
+    "references": [
+        "com.karabaev.utilities",
+        "com.karabaev.utilities.unity",
+        "com.karabaev.reactivetypes",
+        "com.karabaev.applicationLifeCycle",
+        "com.karabaev.camera.unity",
+        "UniTask",
+        "VContainer",
+        "MessagePipe",
+        "MessagePipe.VContainer",
+        "Motk.HexGrid.Core",
+        "Mork.HexGrid.Render.Unity",
+        "Motk.PathFinding.AStar",
+        "Motk.Combat.Shared",
+        "Motk.Client.Core",
+        "PrimeTween.Runtime",
+        "Unity.Mathematics"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -2,16 +2,16 @@
 using com.karabaev.applicationLifeCycle.StateMachine;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
-using Motk.Client.Campaign.Player;
-using Motk.Client.Matchmaking;
+using Motk.Campaign.Client.Player;
 using Motk.Matchmaking;
+using Motk.Matchmaking.Client;
 using Motk.Shared.Core.Net;
 using Motk.Shared.Matches;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using UnityEngine;
 
-namespace Motk.Client.Campaign
+namespace Motk.Campaign.Client
 {
   [UsedImplicitly]
   public class ConnectToCampaignAppState : ApplicationState<DummyStateContext>

@@ -1,14 +1,14 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
-using Motk.Client.Campaign.InputSystem;
+using Motk.Campaign.Client.InputSystem;
 using Motk.Shared.Campaign.Actors.States;
 using Motk.Shared.Campaign.Movement;
 using Motk.Shared.Campaign.Movement.Messages;
 using Motk.Shared.Core.Net;
 using UnityEngine;
 
-namespace Motk.Client.Campaign.Movement
+namespace Motk.Campaign.Client.Movement
 {
   // todokmo логику перенести в стейт?
   [UsedImplicitly]

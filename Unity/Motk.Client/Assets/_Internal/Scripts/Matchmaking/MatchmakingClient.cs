@@ -2,11 +2,10 @@
 using System.Net.Http;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
-using Motk.Matchmaking;
 using Motk.Shared.Configuration;
 using Newtonsoft.Json;
 
-namespace Motk.Client.Matchmaking
+namespace Motk.Matchmaking.Client
 {
   [UsedImplicitly]
   public class MatchmakingClient : IDisposable

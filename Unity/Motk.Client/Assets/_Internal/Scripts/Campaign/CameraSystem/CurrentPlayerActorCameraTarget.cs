@@ -3,7 +3,7 @@ using com.karabaev.camera.unity.Views;
 using Motk.Shared.Campaign.Actors.States;
 using UnityEngine;
 
-namespace Motk.Client.Campaign.CameraSystem
+namespace Motk.Campaign.Client.CameraSystem
 {
   public class CurrentPlayerActorCameraTarget : ICameraTarget
   {

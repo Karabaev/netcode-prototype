@@ -1,0 +1,21 @@
+{
+    "name": "Motk.Combat.Client.Render",
+    "rootNamespace": "Motk.Combat.Client.Render",
+    "references": [
+        "Motk.Combat.Client.Core",
+        "UniTask",
+        "com.karabaev.descriptors.abstractions",
+        "com.karabaev.descriptors.unity",
+        "com.karabaev.utilities.unity",
+        "com.karabaev.utilities"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

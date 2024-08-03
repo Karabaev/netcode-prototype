@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using com.karabaev.camera.unity.States;
 using com.karabaev.utilities.unity;
 using JetBrains.Annotations;
-using Motk.Client.Campaign.Actors.Services;
-using Motk.Client.Campaign.Actors.Views;
-using Motk.Client.Campaign.CameraSystem;
-using Motk.Client.Campaign.Player;
+using Motk.Campaign.Client.Actors.Services;
+using Motk.Campaign.Client.Actors.Views;
+using Motk.Campaign.Client.CameraSystem;
+using Motk.Campaign.Client.Player;
 using Motk.Shared.Campaign.Actors.States;
 using VContainer.Unity;
 
-namespace Motk.Client.Campaign.Actors.Controllers
+namespace Motk.Campaign.Client.Actors.Controllers
 {
   [UsedImplicitly]
   public class LocationActorsController : IInitializable, IDisposable

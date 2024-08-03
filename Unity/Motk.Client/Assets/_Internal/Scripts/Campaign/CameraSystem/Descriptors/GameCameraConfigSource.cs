@@ -3,7 +3,7 @@ using com.karabaev.descriptors.abstractions.Initialization;
 using com.karabaev.descriptors.unity;
 using UnityEngine;
 
-namespace Motk.Client.Campaign.CameraSystem.Descriptors
+namespace Motk.Campaign.Client.CameraSystem.Descriptors
 {
   [DescriptorSource("DR_CameraConfig", typeof(ResourcesDescriptorSourceProvider))]
   [CreateAssetMenu(menuName = "Motk/CameraConfigRegistry")]

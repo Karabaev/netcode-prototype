@@ -1,15 +1,15 @@
 ﻿using com.karabaev.applicationLifeCycle.StateMachine;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
-using Motk.Client.Campaign.InputSystem;
-using Motk.Client.Campaign.Movement;
+using Motk.Campaign.Client.InputSystem;
+using Motk.Campaign.Client.Movement;
 using Motk.Shared.Campaign;
 using Motk.Shared.Campaign.Actors.Messages;
 using Motk.Shared.Campaign.Actors.States;
 using Motk.Shared.Core.Net;
 using UnityEngine;
 
-namespace Motk.Client.Campaign
+namespace Motk.Campaign.Client
 {
   [UsedImplicitly]
   public class CampaignLoopAppState : ApplicationState<DummyStateContext>

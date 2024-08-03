@@ -1,12 +1,14 @@
-﻿using MagicOnion;
+﻿using JetBrains.Annotations;
+using MagicOnion;
 using MagicOnion.Client;
 using MessagePack;
 using MessagePack.Resolvers;
-using Motk.Client.Combat.gRPC.Motk.Combat.Server.gRPC;
+using Motk.Combat.Client.gRPC.Motk.Combat.Server.gRPC;
 using UnityEngine;
 
-namespace Motk.Client.Combat.gRPC
+namespace Motk.Combat.Client.gRPC
 {
+  [UsedImplicitly]
   [MagicOnionClientGeneration(typeof(IMyFirstService))]
   public partial class MagicOnionGeneratedClientInitializer { }
 
