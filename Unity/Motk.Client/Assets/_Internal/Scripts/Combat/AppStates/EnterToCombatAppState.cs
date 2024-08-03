@@ -1,8 +1,12 @@
 using System.Collections.Generic;
 using com.karabaev.applicationLifeCycle.StateMachine;
+using Cysharp.Net.Http;
 using Cysharp.Threading.Tasks;
+using Grpc.Net.Client;
 using JetBrains.Annotations;
+using MagicOnion.Client;
 using Mork.HexGrid.Render.Unity;
+using Motk.Client.Combat.gRPC.Motk.Combat.Server.gRPC;
 using Motk.Client.Combat.InputSystem;
 using Motk.Client.Combat.Network;
 using Motk.Client.Combat.Network.Server;
@@ -29,6 +33,14 @@ namespace Motk.Client.Combat.AppStates
     
     public override async UniTask EnterAsync(DummyStateContext context)
     {
+      var channel = GrpcChannel.ForAddress("http://localhost:5001", new GrpcChannelOptions
+      {
+        HttpHandler = new YetAnotherHttpHandler { Http2Only = true }
+      });
+      var client = MagicOnionClient.Create<IMyFirstService>(channel);
+      var result = await client.SumAsync(123, 456);
+      Debug.Log($"Result={result}");
+      
       // connecting to the server
 
       _selfCombatState.TeamId = await _serverMock.GetSelfTeamIdAsync();

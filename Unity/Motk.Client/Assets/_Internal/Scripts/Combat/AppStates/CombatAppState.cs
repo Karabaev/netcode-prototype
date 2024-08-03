@@ -37,7 +37,6 @@ namespace Motk.Client.Combat.AppStates
 
       _combatState = _scope.Container.Resolve<CombatState>();
       
-      
       var stateMachine = _scope.Container.Resolve<ApplicationStateMachine>();
       stateMachine.EnterAsync<EnterToCombatAppState>().Forget();
     }

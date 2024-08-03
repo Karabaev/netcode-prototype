@@ -28,7 +28,13 @@
         "Motk.Combat.Shared",
         "Unity.Mathematics",
         "MessagePipe",
-        "MessagePipe.VContainer"
+        "MessagePipe.VContainer",
+        "MagicOnion.Unity",
+        "MagicOnion.Client",
+        "MessagePack",
+        "MagicOnion.Abstractions",
+        "Cysharp.Net.Http.YetAnotherHttpHandler",
+        "MagicOnion.Serialization.MessagePack"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
