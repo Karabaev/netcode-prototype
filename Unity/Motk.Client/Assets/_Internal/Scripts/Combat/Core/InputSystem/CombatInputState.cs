@@ -8,5 +8,7 @@ namespace Motk.Combat.Client.Core.InputSystem
   public class CombatInputState
   {
     public ReactiveAction<HexCoordinates> HexClicked { get; } = new();
+
+    public ReactiveAction ReadyToBattleRaised { get; } = new();
   }
 }

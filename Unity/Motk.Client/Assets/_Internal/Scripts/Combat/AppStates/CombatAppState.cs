@@ -2,8 +2,6 @@ using com.karabaev.applicationLifeCycle.StateMachine;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using Motk.Combat.Client.Core;
-using Motk.Combat.Client.Core.Network.Server;
-using Motk.Combat.Client.gRPC;
 using UnityEngine.SceneManagement;
 using VContainer;
 using VContainer.Unity;
@@ -25,8 +23,6 @@ namespace Motk.Combat.Client.AppStates
       _scope.name = "[Combat]";
 
       _combatState = _scope.Container.Resolve<CombatState>();
-
-      new GrpcClient().Start();
       
       var stateMachine = _scope.Container.Resolve<ApplicationStateMachine>();
       stateMachine.EnterAsync<EnterToCombatAppState>().Forget();
@@ -38,20 +34,15 @@ namespace Motk.Combat.Client.AppStates
       return UniTask.CompletedTask;
     }
 
-    private void Network_OnCombatRoundStarted(CombatRoundStartedCommand command)
-    {
-      _combatState.RoundIndex.Value = command.Index;
-      _combatState.FirstPhaseTurnsQueue.Clear();
-      foreach (var unitIdDto in command.TurnsQueue)
-        _combatState.FirstPhaseTurnsQueue.Add(CombatStatesUtils.FromDto(unitIdDto));
-      
-      _combatState.SecondPhaseTurnsQueue.Clear();
-    }
-    
-    private void ConfigureScope(IContainerBuilder builder)
-    {
-
-    }
+    // private void Network_OnCombatRoundStarted(CombatRoundStartedCommand command)
+    // {
+    //   _combatState.RoundIndex.Value = command.Index;
+    //   _combatState.FirstPhaseTurnsQueue.Clear();
+    //   foreach (var unitIdDto in command.TurnsQueue)
+    //     _combatState.FirstPhaseTurnsQueue.Add(CombatStatesUtils.FromDto(unitIdDto));
+    //   
+    //   _combatState.SecondPhaseTurnsQueue.Clear();
+    // }
     
     public CombatAppState(ApplicationStateMachine stateMachine, LifetimeScope appScope) : base(stateMachine)
     {

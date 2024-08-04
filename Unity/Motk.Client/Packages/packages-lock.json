@@ -456,6 +456,12 @@
       "source": "local",
       "dependencies": {}
     },
+    "motk.combat.shared.messages": {
+      "version": "file:E:/Projects/MotK/Unity/Packages/Motk.Combat.Shared.Messages",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
     "motk.hexgrid.core": {
       "version": "file:E:/Projects/MotK/Unity/Packages/Motk.HexGrid.Core",
       "depth": 0,

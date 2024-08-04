@@ -1,6 +1,6 @@
 ﻿namespace Motk.HexGrid.Core
 {
-  public enum HexDirection : ushort
+  public enum HexDirection : byte
   {
     NE = 0, // 30
     E = 1, // 90
@@ -14,7 +14,7 @@
   {
     public static HexDirection Opposite(this HexDirection source)
     {
-      return (ushort) source < 3 ? source + 3 : source - 3;
+      return (byte) source < 3 ? source + 3 : source - 3;
     }
   }
 }

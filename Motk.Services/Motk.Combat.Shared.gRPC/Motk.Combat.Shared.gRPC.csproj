@@ -6,13 +6,21 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Include="..\..\Unity\Packages\Motk.Combat.Shared.gRPC\Runtime\IMyFirstService.cs">
-        <Link>IMyFirstService.cs</Link>
+      <PackageReference Include="MagicOnion.Server" Version="6.1.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Include="..\..\Unity\Packages\Motk.Combat.Shared.gRPC\Runtime\Services\ICombatHub.cs">
+        <Link>Services\ICombatHub.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Unity\Packages\Motk.Combat.Shared.gRPC\Runtime\Services\ICombatHubReceiver.cs">
+        <Link>Services\ICombatHubReceiver.cs</Link>
       </Compile>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="MagicOnion.Server" Version="6.1.4" />
+      <ProjectReference Include="..\..\Unity\Packages\Motk.HexGrid.Core\Motk.HexGrid.Core.csproj" />
+      <ProjectReference Include="..\Motk.Combat.Shared.Messages\Motk.Combat.Shared.Messages.csproj" />
     </ItemGroup>
 
 </Project>

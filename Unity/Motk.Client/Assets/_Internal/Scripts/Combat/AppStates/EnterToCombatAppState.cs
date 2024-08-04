@@ -1,14 +1,17 @@
 using System.Collections.Generic;
 using com.karabaev.applicationLifeCycle.StateMachine;
+using Cysharp.Net.Http;
 using Cysharp.Threading.Tasks;
+using Grpc.Net.Client;
 using JetBrains.Annotations;
 using Mork.HexGrid.Render.Unity;
 using Motk.Client.Core.InputSystem;
 using Motk.Combat.Client.Core;
 using Motk.Combat.Client.Core.InputSystem;
 using Motk.Combat.Client.Core.Network;
-using Motk.Combat.Client.Core.Network.Server;
 using Motk.Combat.Client.Core.Units.Controllers;
+using Motk.Combat.Client.gRPC;
+using Motk.Combat.Shared.Messages.Dto;
 using Motk.HexGrid.Core.Descriptors;
 using UnityEngine;
 
@@ -25,43 +28,53 @@ namespace Motk.Combat.Client.AppStates
     private readonly CombatState _combatState;
     private readonly SelfCombatState _selfCombatState;
     private readonly CombatUnitsController _combatUnitsController;
-
-    private readonly ServerMock _serverMock = new();
+    private readonly ICombatMessageSender _combatMessageSender;
+    private readonly ICombatMessageReceiver _combatMessageReceiver;
+    private readonly GrpcChannelState _grpcChannelState;
     
     public override async UniTask EnterAsync(DummyStateContext context)
     {
-      // connecting to the server
-
-      _selfCombatState.TeamId = await _serverMock.GetSelfTeamIdAsync();
+      // todokmo get connection data from matchmaking
+      _grpcChannelState.GrpcChannel = GrpcChannel.ForAddress("https://localhost:7037", new GrpcChannelOptions
+      {
+        HttpHandler = new YetAnotherHttpHandler
+        { 
+          Http2Only = true,
+          SkipCertificateVerification = true
+        }
+      });
       
+      await _combatMessageSender.ConnectAsync();
+      _combatMessageReceiver.TeamJoined += Network_OnTeamJoined;
+      _combatMessageReceiver.TeamLeft += Network_OnTeamLeft;
+
+      _combatUnitsController.Start();
+
       _inputController.Construct(_inputState);
       _combatInputController.Start();
       _grid.Initialize(CreateMapDescriptor());
       Object.FindObjectOfType<HexGridView>().Construct(_gridVisualState, _grid);
-
-      var combatStateMessage = await _serverMock.GetCombatStateAsync();
-      InitializeState(combatStateMessage);
-
-      _combatUnitsController.Start();
-      EnterNextStateAsync<PlayerTeamMoveCombatAppState>().Forget();
+      
+      _selfCombatState.TeamId = await _combatMessageSender.JoinRoomAsync("roomId", "secret");
+      EnterNextStateAsync<PrepareCombatAppState>().Forget();
     }
-
+    
     public override UniTask ExitAsync()
     {
+      _combatMessageReceiver.TeamJoined -= Network_OnTeamJoined;
+      _combatMessageReceiver.TeamLeft -= Network_OnTeamLeft;
       return UniTask.CompletedTask;
     }
 
-    private void InitializeState(CombatStateMessage combatStateMessage)
+    private void Network_OnTeamJoined(in CombatTeamDto payload)
     {
-      _combatState.RoundIndex.Value = combatStateMessage.RoundIndex;
-      
-      _combatState.FirstPhaseTurnsQueue.Clear();
-      foreach (var unitIdDto in combatStateMessage.TurnsQueue)
-        _combatState.FirstPhaseTurnsQueue.Add(CombatStatesUtils.FromDto(unitIdDto));
+      var newTeam = CombatStatesUtils.FromDto(in payload);
+      _combatState.Teams.Add(payload.TeamId, newTeam);
+    }
 
-      _combatState.Teams.Clear();
-      foreach (var (teamId, teamDto) in combatStateMessage.Teams)
-        _combatState.Teams.Add(teamId, CombatStatesUtils.FromDto(teamId, teamDto));
+    private void Network_OnTeamLeft(in ushort teamId)
+    {
+      _combatState.Teams.Remove(teamId);
     }
     
     private HexMapDescriptor CreateMapDescriptor()
@@ -149,7 +162,8 @@ namespace Motk.Combat.Client.AppStates
     public EnterToCombatAppState(ApplicationStateMachine stateMachine, HexGridVisualState gridVisualState,
       HexGrid.Core.HexGrid grid, InputState inputState, CombatInputController combatInputController,
       InputController inputController, CombatState combatState,
-      SelfCombatState selfCombatState, CombatUnitsController combatUnitsController) : base(stateMachine)
+      SelfCombatState selfCombatState, CombatUnitsController combatUnitsController,
+      ICombatMessageSender combatMessageSender, GrpcChannelState grpcChannelState, ICombatMessageReceiver combatMessageReceiver) : base(stateMachine)
     {
       _gridVisualState = gridVisualState;
       _grid = grid;
@@ -159,6 +173,9 @@ namespace Motk.Combat.Client.AppStates
       _combatState = combatState;
       _selfCombatState = selfCombatState;
       _combatUnitsController = combatUnitsController;
+      _combatMessageSender = combatMessageSender;
+      _grpcChannelState = grpcChannelState;
+      _combatMessageReceiver = combatMessageReceiver;
     }
   }
 }

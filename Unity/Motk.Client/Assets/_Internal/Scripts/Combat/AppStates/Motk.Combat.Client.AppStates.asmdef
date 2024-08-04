@@ -15,10 +15,13 @@
         "Motk.Combat.Client.Render",
         "Motk.Combat.Client.gRPC",
         "Motk.Combat.Shared",
+        "Motk.Combat.Shared.Messages",
+        "Motk.Combat.Shared.gRPC",
         "Motk.HexGrid.Core",
         "Mork.HexGrid.Render.Unity",
         "Motk.PathFinding.AStar",
-        "Motk.Client.Core"
+        "Motk.Client.Core",
+        "Cysharp.Net.Http.YetAnotherHttpHandler"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

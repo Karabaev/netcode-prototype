@@ -2,7 +2,10 @@
     "name": "Motk.Combat.Shared.gRPC",
     "rootNamespace": "Motk.Combat.Shared.gRPC",
     "references": [
-        "MagicOnion.Abstractions"
+        "MagicOnion.Abstractions",
+        "MessagePack.Annotations",
+        "Motk.HexGrid.Core",
+        "Motk.Combat.Shared.Messages"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

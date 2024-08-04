@@ -9,7 +9,11 @@
         "MessagePack",
         "UniTask",
         "Cysharp.Net.Http.YetAnotherHttpHandler",
-        "Motk.Combat.Shared.gRPC"
+        "Motk.Combat.Shared.gRPC",
+        "Motk.Combat.Client.Core",
+        "Motk.Client.Core",
+        "Motk.Combat.Shared.Messages",
+        "Motk.HexGrid.Core"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

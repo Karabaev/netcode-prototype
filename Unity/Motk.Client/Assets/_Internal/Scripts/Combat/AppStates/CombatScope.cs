@@ -1,4 +1,5 @@
-﻿using com.karabaev.applicationLifeCycle.StateMachine;
+﻿using System;
+using com.karabaev.applicationLifeCycle.StateMachine;
 using com.karabaev.camera.unity.Views;
 using MessagePipe;
 using Mork.HexGrid.Render.Unity;
@@ -6,8 +7,10 @@ using Motk.Client.Core;
 using Motk.Client.Core.InputSystem;
 using Motk.Combat.Client.Core;
 using Motk.Combat.Client.Core.InputSystem;
+using Motk.Combat.Client.Core.Network;
 using Motk.Combat.Client.Core.Units.Controllers;
 using Motk.Combat.Client.Core.Units.Services;
+using Motk.Combat.Client.gRPC;
 using Motk.Combat.Client.Render.Units;
 using Motk.HexGrid.Core;
 using Motk.HexGrid.Core.Descriptors;
@@ -39,10 +42,17 @@ namespace Motk.Combat.Client.AppStates
 
       builder.Register<ICombatUnitFactory, CombatUnitFactory>(Lifetime.Singleton);
       builder.Register<CombatUnitsController>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
+
+      builder.Register<CombatHubClient>(Lifetime.Singleton)
+        .As<ICombatMessageReceiver>()
+        .As<ICombatMessageSender>()
+        .As<IDisposable>();
+      builder.Register<GrpcChannelState>(Lifetime.Singleton);
       
       builder.Register<ApplicationStateMachine>(Lifetime.Singleton);
-      builder.Register<ApplicationStateFactory>(Lifetime.Singleton).As<IStateFactory>();
+      builder.Register<IStateFactory, ApplicationStateFactory>(Lifetime.Singleton);
       builder.Register<EnterToCombatAppState>(Lifetime.Transient);
+      builder.Register<PrepareCombatAppState>(Lifetime.Transient);
       builder.Register<PlayerTeamMoveCombatAppState>(Lifetime.Transient);
       builder.Register<OtherTeamMoveCombatAppState>(Lifetime.Transient);
       

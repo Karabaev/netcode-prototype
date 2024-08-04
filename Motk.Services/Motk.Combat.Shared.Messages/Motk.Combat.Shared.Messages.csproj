@@ -1,0 +1,56 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Include="..\..\Unity\Packages\Motk.Combat.Shared.Messages\Runtime\Client\AttackActionCommand.cs">
+        <Link>Client\AttackActionCommand.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Unity\Packages\Motk.Combat.Shared.Messages\Runtime\Client\DefendActionCommand.cs">
+        <Link>Client\DefendActionCommand.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Unity\Packages\Motk.Combat.Shared.Messages\Runtime\Client\MoveActionCommand.cs">
+        <Link>Client\MoveActionCommand.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Unity\Packages\Motk.Combat.Shared.Messages\Runtime\Client\SpellBookActionCommand.cs">
+        <Link>Client\SpellBookActionCommand.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Unity\Packages\Motk.Combat.Shared.Messages\Runtime\Client\UnitSkillActionCommand.cs">
+        <Link>Client\UnitSkillActionCommand.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Unity\Packages\Motk.Combat.Shared.Messages\Runtime\Client\WaitActionCommand.cs">
+        <Link>Client\WaitActionCommand.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Unity\Packages\Motk.Combat.Shared.Messages\Runtime\Dto\CombatTeamDto.cs">
+        <Link>Dto\CombatTeamDto.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Unity\Packages\Motk.Combat.Shared.Messages\Runtime\Dto\CombatUnitDto.cs">
+        <Link>Dto\CombatUnitDto.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Unity\Packages\Motk.Combat.Shared.Messages\Runtime\Dto\CombatUnitIdentifierDto.cs">
+        <Link>Dto\CombatUnitIdentifierDto.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Unity\Packages\Motk.Combat.Shared.Messages\Runtime\Dto\HexCoordinatesDto.cs">
+        <Link>Dto\HexCoordinatesDto.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Unity\Packages\Motk.Combat.Shared.Messages\Runtime\Server\CombatStartedMessage.cs">
+        <Link>Server\CombatStartedMessage.cs</Link>
+      </Compile>
+      <Compile Include="..\..\Unity\Packages\Motk.Combat.Shared.Messages\Runtime\Server\NewRoundMessage.cs">
+        <Link>Server\NewRoundMessage.cs</Link>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MessagePack.Annotations" Version="2.5.172" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Unity\Packages\Motk.HexGrid.Core\Motk.HexGrid.Core.csproj" />
+    </ItemGroup>
+
+</Project>

@@ -15,6 +15,7 @@
         "Mork.HexGrid.Render.Unity",
         "Motk.PathFinding.AStar",
         "Motk.Combat.Shared",
+        "Motk.Combat.Shared.Messages",
         "Motk.Client.Core",
         "PrimeTween.Runtime",
         "Unity.Mathematics"

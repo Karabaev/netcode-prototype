@@ -2,13 +2,13 @@
 using MagicOnion.Client;
 using MessagePack;
 using MessagePack.Resolvers;
-using Motk.Combat.Shared.gRPC;
+using Motk.Combat.Shared.gRPC.Services;
 using UnityEngine;
 
 namespace Motk.Combat.Client.gRPC
 {
   [UsedImplicitly]
-  [MagicOnionClientGeneration(typeof(IMyFirstService))]
+  [MagicOnionClientGeneration(typeof(ICombatHubReceiver))]
   public partial class MagicOnionGeneratedClientInitializer { }
 
   public static class RegisterResolvers

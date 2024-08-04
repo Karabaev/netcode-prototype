@@ -43,6 +43,7 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Runtime\HexDirection.cs" />
     <Compile Include="Runtime\HexGridNode.cs" />
     <Compile Include="Runtime\Descriptors\HexCoordinates.cs" />
     <Compile Include="Runtime\HexGridMapNodeProvider.cs" />

@@ -47,8 +47,18 @@ namespace MessagePack.Resolvers
 
         static GeneratedResolverGetFormatterHelper()
         {
-            lookup = new global::System.Collections.Generic.Dictionary<global::System.Type, int>(0)
+            lookup = new global::System.Collections.Generic.Dictionary<global::System.Type, int>(10)
             {
+                { typeof(global::Motk.Combat.Shared.Messages.Dto.CombatTeamDto[]), 0 },
+                { typeof(global::Motk.Combat.Shared.Messages.Dto.CombatUnitDto[]), 1 },
+                { typeof(global::Motk.Combat.Shared.Messages.Dto.CombatUnitIdentifierDto[]), 2 },
+                { typeof(global::Motk.HexGrid.Core.HexDirection), 3 },
+                { typeof(global::Motk.Combat.Shared.Messages.Dto.CombatTeamDto), 4 },
+                { typeof(global::Motk.Combat.Shared.Messages.Dto.CombatUnitDto), 5 },
+                { typeof(global::Motk.Combat.Shared.Messages.Dto.CombatUnitIdentifierDto), 6 },
+                { typeof(global::Motk.Combat.Shared.Messages.Dto.HexCoordinatesDto), 7 },
+                { typeof(global::Motk.Combat.Shared.Messages.Server.CombatStartedMessage), 8 },
+                { typeof(global::Motk.Combat.Shared.Messages.Server.NewRoundMessage), 9 },
             };
         }
 
@@ -62,6 +72,16 @@ namespace MessagePack.Resolvers
 
             switch (key)
             {
+                case 0: return new global::MessagePack.Formatters.ArrayFormatter<global::Motk.Combat.Shared.Messages.Dto.CombatTeamDto>();
+                case 1: return new global::MessagePack.Formatters.ArrayFormatter<global::Motk.Combat.Shared.Messages.Dto.CombatUnitDto>();
+                case 2: return new global::MessagePack.Formatters.ArrayFormatter<global::Motk.Combat.Shared.Messages.Dto.CombatUnitIdentifierDto>();
+                case 3: return new MessagePack.Formatters.Motk.HexGrid.Core.HexDirectionFormatter();
+                case 4: return new MessagePack.Formatters.Motk.Combat.Shared.Messages.Dto.CombatTeamDtoFormatter();
+                case 5: return new MessagePack.Formatters.Motk.Combat.Shared.Messages.Dto.CombatUnitDtoFormatter();
+                case 6: return new MessagePack.Formatters.Motk.Combat.Shared.Messages.Dto.CombatUnitIdentifierDtoFormatter();
+                case 7: return new MessagePack.Formatters.Motk.Combat.Shared.Messages.Dto.HexCoordinatesDtoFormatter();
+                case 8: return new MessagePack.Formatters.Motk.Combat.Shared.Messages.Server.CombatStartedMessageFormatter();
+                case 9: return new MessagePack.Formatters.Motk.Combat.Shared.Messages.Server.NewRoundMessageFormatter();
                 default: return null;
             }
         }
