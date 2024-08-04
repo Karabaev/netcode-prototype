@@ -1,6 +1,4 @@
-﻿using Motk.Combat.Shared;
-
-namespace Motk.Combat.Server.Core;
+﻿namespace Motk.Combat.Server.Core;
 
 public class CombatService
 {

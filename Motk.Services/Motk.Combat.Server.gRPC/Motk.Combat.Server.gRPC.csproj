@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
@@ -9,6 +9,11 @@
     <ItemGroup>
       <PackageReference Include="Grpc.AspNetCore" Version="2.65.0" />
       <PackageReference Include="MagicOnion.Server" Version="6.1.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Motk.Combat.Server.Core\Motk.Combat.Server.Core.csproj" />
+      <ProjectReference Include="..\Motk.Combat.Shared.gRPC\Motk.Combat.Shared.gRPC.csproj" />
     </ItemGroup>
 
 </Project>

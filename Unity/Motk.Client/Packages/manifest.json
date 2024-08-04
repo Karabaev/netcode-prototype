@@ -45,6 +45,7 @@
     "jp.hadashikick.vcontainer": "https://github.com/hadashiA/VContainer.git?path=VContainer/Assets/VContainer#1.15.4",
     "motk.collections": "file:E:/Projects/MotK/Unity/Packages/Motk.Collections",
     "motk.combat.shared": "file:E:/Projects/MotK/Unity/Packages/Motk.Combat.Shared",
+    "motk.combat.shared.grpc": "file:E:/Projects/MotK/Unity/Packages/Motk.Combat.Shared.gRPC",
     "motk.hexgrid.core": "file:E:/Projects/MotK/Unity/Packages/Motk.HexGrid.Core",
     "motk.hexgrid.render.unity": "file:E:/Projects/MotK/Unity/Packages/Motk.HexGrid.Render.Unity",
     "motk.matchmaking.shared": "file:E:/Projects/MotK/Unity/Packages/Motk.Matchmaking.Shared",

@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Include="..\..\Unity\Packages\Motk.Combat.Shared.gRPC\Runtime\IMyFirstService.cs">
+        <Link>IMyFirstService.cs</Link>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MagicOnion.Server" Version="6.1.4" />
+    </ItemGroup>
+
+</Project>

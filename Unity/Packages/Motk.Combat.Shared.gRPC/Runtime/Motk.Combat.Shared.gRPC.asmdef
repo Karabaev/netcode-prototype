@@ -1,0 +1,16 @@
+{
+    "name": "Motk.Combat.Shared.gRPC",
+    "rootNamespace": "Motk.Combat.Shared.gRPC",
+    "references": [
+        "MagicOnion.Abstractions"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

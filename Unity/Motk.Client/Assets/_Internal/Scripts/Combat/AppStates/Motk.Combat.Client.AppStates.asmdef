@@ -13,6 +13,7 @@
         "com.karabaev.utilities.unity",
         "Motk.Combat.Client.Core",
         "Motk.Combat.Client.Render",
+        "Motk.Combat.Client.gRPC",
         "Motk.Combat.Shared",
         "Motk.HexGrid.Core",
         "Mork.HexGrid.Render.Unity",

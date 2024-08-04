@@ -1,12 +1,8 @@
 using MagicOnion;
 using MagicOnion.Server;
+using Motk.Combat.Shared.gRPC;
 
 namespace Motk.Combat.Server.gRPC;
-
-public interface IMyFirstService : IService<IMyFirstService>
-{
-  UnaryResult<int> SumAsync(int x, int y);
-}
 
 public class MyFirstService : ServiceBase<IMyFirstService>, IMyFirstService
 {

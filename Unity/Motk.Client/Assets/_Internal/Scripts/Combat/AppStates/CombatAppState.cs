@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using Motk.Combat.Client.Core;
 using Motk.Combat.Client.Core.Network.Server;
+using Motk.Combat.Client.gRPC;
 using UnityEngine.SceneManagement;
 using VContainer;
 using VContainer.Unity;
@@ -24,6 +25,8 @@ namespace Motk.Combat.Client.AppStates
       _scope.name = "[Combat]";
 
       _combatState = _scope.Container.Resolve<CombatState>();
+
+      new GrpcClient().Start();
       
       var stateMachine = _scope.Container.Resolve<ApplicationStateMachine>();
       stateMachine.EnterAsync<EnterToCombatAppState>().Forget();

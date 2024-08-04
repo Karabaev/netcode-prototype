@@ -8,7 +8,8 @@
         "MagicOnion.Serialization.MessagePack",
         "MessagePack",
         "UniTask",
-        "Cysharp.Net.Http.YetAnotherHttpHandler"
+        "Cysharp.Net.Http.YetAnotherHttpHandler",
+        "Motk.Combat.Shared.gRPC"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

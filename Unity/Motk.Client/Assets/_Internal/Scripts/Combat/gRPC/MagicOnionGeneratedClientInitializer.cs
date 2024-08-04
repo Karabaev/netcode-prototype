@@ -1,9 +1,8 @@
 ﻿using JetBrains.Annotations;
-using MagicOnion;
 using MagicOnion.Client;
 using MessagePack;
 using MessagePack.Resolvers;
-using Motk.Combat.Client.gRPC.Motk.Combat.Server.gRPC;
+using Motk.Combat.Shared.gRPC;
 using UnityEngine;
 
 namespace Motk.Combat.Client.gRPC
@@ -25,14 +24,6 @@ namespace Motk.Combat.Client.gRPC
 
       var options = MessagePackSerializer.DefaultOptions.WithResolver(StaticCompositeResolver.Instance);
       MessagePackSerializer.DefaultOptions = options;
-    }
-  }
-  
-  namespace Motk.Combat.Server.gRPC
-  {
-    public interface IMyFirstService : IService<IMyFirstService>
-    {
-      UnaryResult<int> SumAsync(int x, int y);
     }
   }
 }

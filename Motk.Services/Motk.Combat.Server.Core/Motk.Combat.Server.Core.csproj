@@ -6,8 +6,4 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\..\Unity\Packages\Motk.Combat.Shared\Motk.Combat.Shared.csproj" />
-    </ItemGroup>
-
 </Project>

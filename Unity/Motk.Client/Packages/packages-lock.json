@@ -450,6 +450,12 @@
       "source": "local",
       "dependencies": {}
     },
+    "motk.combat.shared.grpc": {
+      "version": "file:E:/Projects/MotK/Unity/Packages/Motk.Combat.Shared.gRPC",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
     "motk.hexgrid.core": {
       "version": "file:E:/Projects/MotK/Unity/Packages/Motk.HexGrid.Core",
       "depth": 0,
