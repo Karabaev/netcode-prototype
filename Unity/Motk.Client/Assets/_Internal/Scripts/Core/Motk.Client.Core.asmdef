@@ -6,7 +6,9 @@
         "VContainer",
         "com.karabaev.camera.unity",
         "com.karabaev.reactivetypes",
-        "UniTask"
+        "UniTask",
+        "Unity.Addressables",
+        "Motk.Descriptors"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -1,0 +1,43 @@
+﻿{
+  "Map": [
+    {
+      "Coordinates": { "q": 0, "r": 0 },
+      "IsWalkable": true,
+      "IsHighGround": false
+    }
+  ],
+  "TeamPlacements": [
+    {
+      "StartPlacements": [
+        {
+          "Position": { "q": 1, "r": 1 },
+          "Direction": "ne"
+        },
+        {
+          "Position": { "q": 1, "r": 2 },
+          "Direction": "ne"
+        },
+        {
+          "Position": { "q": 1, "r": 3 },
+          "Direction": "ne"
+        }
+      ]
+    },
+    {
+      "StartPlacements": [
+        {
+          "Position": { "q": 5, "r": 1 },
+          "Direction": "sw"
+        },
+        {
+          "Position": { "q": 5, "r": 2 },
+          "Direction": "sw"
+        },
+        {
+          "Position": { "q": 5, "r": 3 },
+          "Direction": "sw"
+        }
+      ]
+    }
+  ]
+}

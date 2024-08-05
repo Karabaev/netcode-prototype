@@ -1,0 +1,13 @@
+﻿{
+  "ArenaPrefab": "",
+  "HeroPlacements": [
+    {
+      "Position": { "x":  0, "y": 0, "z": 0 },
+      "Rotation": { "x":  0, "y": 0, "z": 0 }
+    },
+    {
+      "Position": { "x":  5, "y": 5, "z": 5 },
+      "Rotation": { "x":  0, "y": 0, "z": 0 }
+    }
+  ]
+}

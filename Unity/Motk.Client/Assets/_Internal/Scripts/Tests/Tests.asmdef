@@ -5,7 +5,9 @@
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "Motk.HexGrid.Core",
-        "Mork.HexGrid.Render.Unity"
+        "Mork.HexGrid.Render.Unity",
+        "Motk.Descriptors",
+        "Motk.Client.Core"
     ],
     "includePlatforms": [
         "Editor"

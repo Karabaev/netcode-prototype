@@ -20,9 +20,9 @@ namespace Motk.HexGrid.Core
 
     public IEnumerable<HexGridNode> Nodes => _graph.Nodes.Values;
 
-    public void Initialize(HexMapDescriptor descriptor)
+    public void Initialize(IReadOnlyList<HexMapNodeDescriptor> map)
     {
-      foreach (var nodeDescription in descriptor.Nodes)
+      foreach (var nodeDescription in map)
       {
         var node = new HexGridNode(nodeDescription.Coordinates, new MapNodeInfo(nodeDescription.IsWalkable, 1.0f));
         _graph.AddNode(nodeDescription.Coordinates, node);

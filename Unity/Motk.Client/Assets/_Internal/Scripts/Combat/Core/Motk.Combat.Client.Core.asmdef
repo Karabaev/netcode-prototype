@@ -18,7 +18,8 @@
         "Motk.Combat.Shared.Messages",
         "Motk.Client.Core",
         "PrimeTween.Runtime",
-        "Unity.Mathematics"
+        "Unity.Mathematics",
+        "com.karabaev.descriptors.abstractions"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

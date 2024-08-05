@@ -1,3 +1,4 @@
+using System.Text.Json;
 using com.karabaev.applicationLifeCycle.StateMachine;
 using com.karabaev.camera.unity.Descriptors;
 using Cysharp.Threading.Tasks;
@@ -6,8 +7,13 @@ using Motk.Campaign.Client;
 using Motk.Campaign.Client.Actors.Descriptors;
 using Motk.Campaign.Client.Player;
 using Motk.Client.Core;
+using Motk.Client.Core.Descriptors;
+using Motk.Client.Core.Descriptors.Serialization;
 using Motk.Combat.Client.AppStates;
 using Motk.Combat.Client.Render.Units.Descriptors;
+using Motk.Descriptors;
+using Motk.Descriptors.FileSystem;
+using Motk.Descriptors.Serialization;
 using Motk.Matchmaking.Client;
 using Motk.Shared.Configuration;
 using Motk.Shared.Locations;
@@ -47,6 +53,16 @@ namespace Motk.Client.Bootstrap
       
       builder.RegisterMessagePipe();
       builder.RegisterBuildCallback(c => GlobalMessagePipe.SetProvider(c.AsServiceProvider()));
+
+      builder.RegisterInstance(new JsonDescriptorSerializer(new JsonSerializerOptions())).As<IDescriptorSerializer>();
+      builder.Register<DescriptorsBootstrapper>(Lifetime.Singleton);
+      builder.Register<IDescriptorLoader, DescriptorLoaderFromFileSystem>(Lifetime.Singleton);
+#if UNITY_EDITOR
+      builder.Register<IDescriptorsRootDirectoryProvider, EditorDescriptorsRootDirectoryProvider>(Lifetime.Singleton);
+#else
+      builder.Register<IDescriptorsRootDirectoryProvider, StandaloneDescriptorRootDirectoryProvider>(Lifetime.Singleton);
+#endif
+      builder.Register<IFileSystemOperations, FileSystemOperations>(Lifetime.Singleton);
       
       RegisterAppStateMachine(builder);
     }

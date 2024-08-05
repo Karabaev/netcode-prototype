@@ -1,0 +1,19 @@
+{
+    "name": "Motk.Editor",
+    "rootNamespace": "Motk.Editor",
+    "references": [
+        "GUID:d70e687bec266e24fa0d158133eb7324",
+        "GUID:db1f6c81087b0a2429e31628f912804b"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

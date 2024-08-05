@@ -18,6 +18,7 @@ namespace Motk.HexGrid.Core.Descriptors
 
     public override bool Equals(object? obj) => obj is HexCoordinates other && Equals(other);
 
+    // todokmo check if HashCode.Combine returns difference value with swapped Q and R
     public override int GetHashCode() => HashCode.Combine(Q, R);
 
     public static HexCoordinates operator +(HexCoordinates a, HexCoordinates b)

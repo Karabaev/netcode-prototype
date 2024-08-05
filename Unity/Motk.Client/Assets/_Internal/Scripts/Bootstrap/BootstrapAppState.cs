@@ -1,4 +1,5 @@
-﻿using com.karabaev.applicationLifeCycle.StateMachine;
+﻿using System.Threading;
+using com.karabaev.applicationLifeCycle.StateMachine;
 using com.karabaev.camera.unity.Descriptors;
 using com.karabaev.descriptors.abstractions.Initialization;
 using com.karabaev.descriptors.unity;
@@ -9,6 +10,7 @@ using Motk.Campaign.Client.CameraSystem.Descriptors;
 using Motk.Campaign.Client.Player;
 using Motk.Combat.Client.AppStates;
 using Motk.Combat.Client.Render.Units.Descriptors;
+using Motk.Descriptors;
 using Motk.Shared.Configuration;
 using Motk.Shared.Locations;
 using Unity.Services.Authentication;
@@ -25,12 +27,19 @@ namespace Motk.Client.Bootstrap
     private readonly GameCameraConfigRegistry _gameCameraConfigRegistry;
     private readonly LocationsRegistry _locationsRegistry;
     private readonly UnitVisualRegistry _unitVisualRegistry;
+    private readonly DescriptorsBootstrapper _descriptorsBootstrapper;
 
+    private CancellationTokenSource _cts = null!;
+    
     public override async UniTask EnterAsync(DummyStateContext context)
     {
+      _cts = new CancellationTokenSource();
       Application.targetFrameRate = 60;
       _currentPlayerState.PlayerId = RandomUtils.RandomString();
       await FetchConfigAsync();
+
+      await _descriptorsBootstrapper.BootstrapAsync(_cts.Token);
+      
       await LoadDescriptorsAsync();
 
       var combatContext = new CombatAppState.Context("");
@@ -42,6 +51,8 @@ namespace Motk.Client.Bootstrap
 
     public override UniTask ExitAsync()
     {
+      _cts.Cancel();
+      _cts.Dispose();
       return UniTask.CompletedTask;
     }
 
@@ -79,12 +90,14 @@ namespace Motk.Client.Bootstrap
     }
     
     public BootstrapAppState(ApplicationStateMachine stateMachine, CurrentPlayerState currentPlayerState,
-      GameCameraConfigRegistry gameCameraConfigRegistry, LocationsRegistry locationsRegistry, UnitVisualRegistry unitVisualRegistry) : base(stateMachine)
+      GameCameraConfigRegistry gameCameraConfigRegistry, LocationsRegistry locationsRegistry,
+      UnitVisualRegistry unitVisualRegistry, DescriptorsBootstrapper descriptorsBootstrapper) : base(stateMachine)
     {
       _currentPlayerState = currentPlayerState;
       _gameCameraConfigRegistry = gameCameraConfigRegistry;
       _locationsRegistry = locationsRegistry;
       _unitVisualRegistry = unitVisualRegistry;
+      _descriptorsBootstrapper = descriptorsBootstrapper;
     }
   }
 }

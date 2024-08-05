@@ -2,7 +2,8 @@
     "name": "Motk.Combat.Shared",
     "rootNamespace": "Motk.Combat.Shared",
     "references": [
-        "Motk.HexGrid.Core"
+        "Motk.HexGrid.Core",
+        "com.karabaev.descriptors.abstractions"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

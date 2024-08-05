@@ -3,15 +3,9 @@ using System;
 namespace Motk.HexGrid.Core.Descriptors
 {
   [Serializable]
-  public class HexMapNodeDescriptor
+  public class HexMapNodeDescriptor // todokmo заменить
   {
-    public readonly HexCoordinates Coordinates;
-    public readonly bool IsWalkable;
-
-    public HexMapNodeDescriptor(HexCoordinates coordinates, bool isWalkable)
-    {
-      Coordinates = coordinates;
-      IsWalkable = isWalkable;
-    }
+    public HexCoordinates Coordinates;
+    public bool IsWalkable;
   }
 }
