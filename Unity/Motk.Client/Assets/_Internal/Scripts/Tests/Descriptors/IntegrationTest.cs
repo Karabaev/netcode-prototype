@@ -9,7 +9,7 @@ namespace Motk.Client.Tests.Descriptors
   public class DescriptorsIntegrationTest
   {
     [Test]
-    public void DescriptorsDirectoryExistsTest()
+    public void DescriptorsDirectoryExists()
     {
       var provider = new EditorDescriptorsRootDirectoryProvider();
       var path = provider.GetRootDirectory();

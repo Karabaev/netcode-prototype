@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using com.karabaev.descriptors.abstractions;
 using Motk.HexGrid.Core;
 using Motk.HexGrid.Core.Descriptors;
 
 namespace Motk.Combat.Shared.Descriptors
 {
   [Serializable]
-  public class CombatArenaDescriptor : IDescriptor
+  public class CombatArenaDescriptor
   {
-    public IReadOnlyList<HexMapNode> Map = null!;
-    public IReadOnlyList<TeamStartPlacements> TeamPlacements = null!;
+    public HexMapNode[] Map = null!;
+    public TeamStartPlacements[] TeamPlacements = null!;
   }
 
   [Serializable]
@@ -25,7 +23,7 @@ namespace Motk.Combat.Shared.Descriptors
   [Serializable]
   public class TeamStartPlacements
   {
-    public IReadOnlyList<HexGridPlacement> StartPlacements = null!;
+    public HexGridPlacement[] StartPlacements = null!;
   }
 
   [Serializable]

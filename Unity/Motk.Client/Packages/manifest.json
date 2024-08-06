@@ -54,7 +54,7 @@
     "motk.shared": "file:E:/Projects/MotK/Unity/Packages/Motk.Shared",
     "org.nuget.grpc.net.client": "2.57.0",
     "org.nuget.scriban": "2.1.0",
-    "org.nuget.system.text.json": "4.6.0",
+    "org.nuget.system.text.json": "8.0.4",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
     "com.unity.modules.animation": "1.0.0",

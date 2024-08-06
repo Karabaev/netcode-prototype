@@ -15,13 +15,12 @@ namespace Motk.Descriptors.FileSystem
     /// </summary>
     private Dictionary<string, Dictionary<string, List<DescriptorData>>> _descriptors = new();
 
-    public Task LoadAsync(CancellationToken ct)
+    public async Task LoadAsync(CancellationToken ct)
     {
       var rootDirectory = _rootDirectoryProvider.GetRootDirectory();
       var descriptorFiles = _fileSystemOperations
         .EnumerateFiles(rootDirectory, "*.descriptor", SearchOption.AllDirectories);
 
-      var tasks = new List<Task>();
       foreach (var file in descriptorFiles)
       {
         var directory = _fileSystemOperations.GetParentFullName(file)!;
@@ -39,14 +38,10 @@ namespace Motk.Descriptors.FileSystem
           typedDescriptors = new List<DescriptorData>();
           categoryDescriptors[descriptorType] = typedDescriptors;
         }
-        
-        // todokmo possible multiple write operations
-        var task = LoadDescriptorDataAsync(file, ct)
-          .ContinueWith(data => typedDescriptors.Add(data.Result), ct);
-        tasks.Add(task);
-      }
 
-      return Task.WhenAll(tasks);
+        var data = await LoadDescriptorDataAsync(file, ct);
+        typedDescriptors.Add(data);
+      }
     }
 
     public Task<IReadOnlyList<DescriptorData>> GetDescriptorsAsync(string category, string type, CancellationToken ct)

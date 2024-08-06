@@ -20,13 +20,13 @@ namespace Motk.Client.Core.Descriptors.Serialization
 
     public object? Deserialize(byte[] bytes, Type type) => JsonSerializer.Deserialize(bytes, type, _options);
     
-    public ValueTask<T> DeserializeAsync<T>(string str)
+    public ValueTask<T?> DeserializeAsync<T>(string str)
     {
       using var stream = new MemoryStream(Encoding.UTF8.GetBytes(str));
       return JsonSerializer.DeserializeAsync<T>(stream, _options);
     }
 
-    public ValueTask<T> DeserializeAsync<T>(byte[] bytes)
+    public ValueTask<T?> DeserializeAsync<T>(byte[] bytes)
     {
       using var stream = new MemoryStream(bytes);
       return JsonSerializer.DeserializeAsync<T>(stream, _options);
@@ -34,7 +34,7 @@ namespace Motk.Client.Core.Descriptors.Serialization
 
     public ValueTask<object?> DeserializeAsync(byte[] bytes, Type type)
     {
-      using var stream = new MemoryStream(bytes);
+        using var stream = new MemoryStream(bytes);
       return JsonSerializer.DeserializeAsync(stream, type, _options);
     }
 
@@ -44,8 +44,16 @@ namespace Motk.Client.Core.Descriptors.Serialization
     {
       using var stream = new MemoryStream();
       await JsonSerializer.SerializeAsync(stream, obj, _options);
+      stream.Seek(0, SeekOrigin.Begin);
       using var reader = new StreamReader(stream);
       return await reader.ReadToEndAsync();
+    }
+
+    public async ValueTask<byte[]> SerializeToBytesAsync(object obj)
+    {
+      using var stream = new MemoryStream();
+      await JsonSerializer.SerializeAsync(stream, obj, _options);
+      return stream.ToArray();
     }
 
     public byte[] SerializeToBytes(object obj) => JsonSerializer.SerializeToUtf8Bytes(obj, _options);
