@@ -10,6 +10,18 @@ namespace Motk.Editor.CombatArenaEditor
   {
     [field: SerializeField]
     public VisualTreeAsset EditorWindowTree { get; private set; } = null!;
+
+    [field: SerializeField]
+    public GameObject CameraPrefab { get; private set; } = null!;
+
+    [field: SerializeField]
+    public GameObject[] UnitPrefabs { get; private set; } = null!;
+
+    [field: SerializeField]
+    public GameObject[] HeroPrefabs { get; private set; } = null!;
+
+    [field: SerializeField]
+    public SceneAsset EditorScene { get; private set; } = null!;
     
     private static CombatArenaEditorPreferences? _instance;
 
@@ -20,7 +32,7 @@ namespace Motk.Editor.CombatArenaEditor
         if (_instance != null)
           return _instance;
 
-        var foundAssets = AssetDatabase.FindAssets($"{nameof(CombatArenaEditorPreferences)}");
+        var foundAssets = AssetDatabase.FindAssets($"t:{nameof(CombatArenaEditorPreferences)}");
         if (foundAssets.Length == 0)
           throw new NullReferenceException($"{nameof(CombatArenaEditorPreferences)} not found in the project");
 

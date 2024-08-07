@@ -3,6 +3,7 @@ using com.karabaev.camera.unity.Views;
 using com.karabaev.utilities.unity;
 using JetBrains.Annotations;
 using Mork.HexGrid.Render.Unity;
+using Mork.HexGrid.Render.Unity.Functions;
 using Motk.Client.Core.InputSystem;
 using UnityEngine;
 using VContainer.Unity;
@@ -15,12 +16,15 @@ namespace Motk.Combat.Client.Core.InputSystem
     private readonly InputState _inputState;
     private readonly CombatInputState _state;
     private readonly GameCameraView _camera;
+    private readonly IHexGridFunctions _hexGridFunctions;
     
-    public CombatInputController(CombatInputState state, InputState inputState, GameCameraView camera)
+    public CombatInputController(CombatInputState state, InputState inputState, GameCameraView camera,
+      IHexGridFunctions hexGridFunctions)
     {
       _state = state;
       _inputState = inputState;
       _camera = camera;
+      _hexGridFunctions = hexGridFunctions;
     }
 
     public void Start()
@@ -47,7 +51,7 @@ namespace Motk.Combat.Client.Core.InputSystem
       
       if (Physics.Raycast(ray, out var hitInfo, float.MaxValue, LayerMask.GetMask("Ground")))
       {
-        _state.HexClicked.Invoke(hitInfo.point.ToAxialCoordinates());
+        _hexGridFunctions.ToHexCoordinates(hitInfo.point, HexRenderUtils.OuterRadius);
       }
     }
   }

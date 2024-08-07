@@ -2,6 +2,12 @@
 {
   public enum HexDirection : byte
   {
+    // N = 0,
+    // NE = 1,
+    // SE = 2,
+    // S = 3,
+    // SW = 4,
+    // NW = 5
     NE = 0, // 30
     E = 1, // 90
     SE = 2, // 150

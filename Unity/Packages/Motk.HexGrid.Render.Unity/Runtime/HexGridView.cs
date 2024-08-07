@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Mork.HexGrid.Render.Unity.Functions;
 using Motk.HexGrid.Core;
 using Motk.HexGrid.Core.Descriptors;
 using UnityEngine;
@@ -9,15 +10,17 @@ namespace Mork.HexGrid.Render.Unity
   {
     [SerializeField]
     private HexGridNodeView _nodePrefab = null!;
-    
+
+    private IHexGridFunctions _hexGridFunctions = null!;
     private Motk.HexGrid.Core.HexGrid _grid = null!;
 
     private HexGridVisualState _visualState = null!;
     private readonly Dictionary<HexCoordinates, HexGridNodeState> _nodeStates = new();
     private readonly Dictionary<HexCoordinates, HexGridNodeView> _nodeViews = new();
 
-    public void Construct(HexGridVisualState visualState, Motk.HexGrid.Core.HexGrid grid)
+    public void Construct(HexGridVisualState visualState, Motk.HexGrid.Core.HexGrid grid, IHexGridFunctions hexGridFunctions)
     {
+      _hexGridFunctions = hexGridFunctions;
       _visualState = visualState;
       _grid = grid;
       
@@ -63,7 +66,7 @@ namespace Mork.HexGrid.Render.Unity
     private HexGridNodeView CreateNodeView(HexGridNode node, HexGridNodeState nodeState)
     {
       var nodeView = Instantiate(_nodePrefab, transform);
-      var position = node.Coordinates.ToWorld(0.0f);
+      var position = _hexGridFunctions.ToLocal(node.Coordinates, HexRenderUtils.OuterRadius);
       nodeView.transform.localPosition = position;
       nodeView.Construct(nodeState);
       return nodeView;

@@ -1,9 +1,11 @@
 using System;
+using Motk.Editor.CombatArenaEditor.Window;
 using UnityEditor;
 using UnityEditor.SceneManagement;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Motk.Editor.CombatArenaEditor
+namespace Motk.Editor.CombatArenaEditor.EntryPoint
 {
   public class CombatArenaEditorController : IDisposable
   {
@@ -22,9 +24,8 @@ namespace Motk.Editor.CombatArenaEditor
       EditorSceneManager.sceneClosed += OnSceneClosed;
 
       _editorWindow = EditorWindow.GetWindow<CombatArenaEditorWindow>("Combat arena editor");
-      _editorWindow.Initialize(_preferences.EditorWindowTree);
       _editorPresenter?.Dispose();
-      _editorPresenter = new CombatArenaEditorPresenter();
+      _editorPresenter = new CombatArenaEditorPresenter(_editorModel, _editorWindow, _preferences);
       _editorModel.ErrorOccured.Invoked -= State_OnErrorOccured;
       _editorModel.ErrorOccured.Invoked += State_OnErrorOccured;
       _editorPresenter.Initialize();
@@ -43,10 +44,13 @@ namespace Motk.Editor.CombatArenaEditor
       EditorUtility.DisplayDialog("Error!", errorText, "Got it");
     }
 
+    private void OnAssemblyReloaded() => Dispose();
+
     public void Dispose()
     {
       EditorSceneManager.sceneOpened -= OnSceneOpened;
       EditorSceneManager.sceneClosed -= OnSceneClosed;
+      AssemblyReloadEvents.afterAssemblyReload -= OnAssemblyReloaded;
       _editorPresenter?.Dispose();
       _editorPresenter = null;
       // ReSharper disable once Unity.NoNullPropagation
@@ -60,9 +64,9 @@ namespace Motk.Editor.CombatArenaEditor
     {
       _sceneName = sceneName;
       _preferences = preferences;
-      _editorModel = new CombatArenaEditorModel();
-      
+      _editorModel = new CombatArenaEditorModel(1.0f, Vector3.zero, 0);
       EditorSceneManager.sceneOpened += OnSceneOpened;
+      AssemblyReloadEvents.afterAssemblyReload += OnAssemblyReloaded;
     }
   }
 }

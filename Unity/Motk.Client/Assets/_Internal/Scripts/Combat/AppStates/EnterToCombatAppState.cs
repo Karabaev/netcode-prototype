@@ -5,6 +5,7 @@ using Cysharp.Threading.Tasks;
 using Grpc.Net.Client;
 using JetBrains.Annotations;
 using Mork.HexGrid.Render.Unity;
+using Mork.HexGrid.Render.Unity.Functions;
 using Motk.Client.Core.InputSystem;
 using Motk.Combat.Client.Core;
 using Motk.Combat.Client.Core.InputSystem;
@@ -31,6 +32,7 @@ namespace Motk.Combat.Client.AppStates
     private readonly ICombatMessageSender _combatMessageSender;
     private readonly ICombatMessageReceiver _combatMessageReceiver;
     private readonly GrpcChannelState _grpcChannelState;
+    private readonly IHexGridFunctions _hexGridFunctions;
     
     public override async UniTask EnterAsync(DummyStateContext context)
     {
@@ -53,7 +55,7 @@ namespace Motk.Combat.Client.AppStates
       _inputController.Construct(_inputState);
       _combatInputController.Start();
       _grid.Initialize(CreateMapDescriptor());
-      Object.FindObjectOfType<HexGridView>().Construct(_gridVisualState, _grid);
+      Object.FindObjectOfType<HexGridView>().Construct(_gridVisualState, _grid, _hexGridFunctions);
       
       _selfCombatState.TeamId = await _combatMessageSender.JoinRoomAsync("roomId", "secret");
       EnterNextStateAsync<PrepareCombatAppState>().Forget();
@@ -163,7 +165,8 @@ namespace Motk.Combat.Client.AppStates
       HexGrid.Core.HexGrid grid, InputState inputState, CombatInputController combatInputController,
       InputController inputController, CombatState combatState,
       SelfCombatState selfCombatState, CombatUnitsController combatUnitsController,
-      ICombatMessageSender combatMessageSender, GrpcChannelState grpcChannelState, ICombatMessageReceiver combatMessageReceiver) : base(stateMachine)
+      ICombatMessageSender combatMessageSender, GrpcChannelState grpcChannelState,
+      ICombatMessageReceiver combatMessageReceiver, IHexGridFunctions hexGridFunctions) : base(stateMachine)
     {
       _gridVisualState = gridVisualState;
       _grid = grid;
@@ -176,6 +179,7 @@ namespace Motk.Combat.Client.AppStates
       _combatMessageSender = combatMessageSender;
       _grpcChannelState = grpcChannelState;
       _combatMessageReceiver = combatMessageReceiver;
+      _hexGridFunctions = hexGridFunctions;
     }
   }
 }

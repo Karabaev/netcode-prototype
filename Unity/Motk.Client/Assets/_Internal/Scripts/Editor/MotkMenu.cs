@@ -1,4 +1,5 @@
 using Motk.Editor.CombatArenaEditor;
+using Motk.Editor.CombatArenaEditor.EntryPoint;
 using UnityEditor;
 using UnityEngine;
 

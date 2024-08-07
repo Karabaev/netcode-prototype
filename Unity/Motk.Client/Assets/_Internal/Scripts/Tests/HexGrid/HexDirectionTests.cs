@@ -6,7 +6,7 @@ using Motk.HexGrid.Core.Descriptors;
 using NUnit.Framework;
 using UnityEngine;
 
-namespace Motk.Client.Tests
+namespace Motk.Client.Tests.HexGrid
 {
   public class HexDirectionTests
   {

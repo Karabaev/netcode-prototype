@@ -8,7 +8,8 @@
         "com.karabaev.descriptors.unity",
         "com.karabaev.utilities.unity",
         "com.karabaev.utilities",
-        "Unity.Addressables"
+        "Unity.Addressables",
+        "Mork.HexGrid.Render.Unity"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

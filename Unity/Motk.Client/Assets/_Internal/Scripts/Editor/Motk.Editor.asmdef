@@ -3,7 +3,11 @@
     "rootNamespace": "Motk.Editor",
     "references": [
         "GUID:d70e687bec266e24fa0d158133eb7324",
-        "GUID:db1f6c81087b0a2429e31628f912804b"
+        "GUID:f3925cd02101b0444b55066faabe45d7",
+        "GUID:db1f6c81087b0a2429e31628f912804b",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:bfb5881717f86994a853f842c18da00f",
+        "GUID:ac1ccf834ef322549b06a8bb6f5983af"
     ],
     "includePlatforms": [
         "Editor"

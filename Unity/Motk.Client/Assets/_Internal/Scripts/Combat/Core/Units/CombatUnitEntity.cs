@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Mork.HexGrid.Render.Unity;
+using Mork.HexGrid.Render.Unity.Functions;
 using Motk.HexGrid.Core;
 using Motk.HexGrid.Core.Descriptors;
 using PrimeTween;
@@ -16,9 +17,11 @@ namespace Motk.Combat.Client.Core.Units
     
     private readonly CombatUnitState _state;
     private readonly ICombatUnitView _view;
+    private readonly IHexGridFunctions _hexGridFunctions;
 
-    public CombatUnitEntity(CombatUnitState state, ICombatUnitView view)
+    public CombatUnitEntity(CombatUnitState state, ICombatUnitView view, IHexGridFunctions hexGridFunctions)
     {
+      _hexGridFunctions = hexGridFunctions;
       _state = state;
       _view = view;
     }
@@ -26,7 +29,7 @@ namespace Motk.Combat.Client.Core.Units
     public void Start()
     {
       _state.MoveIntended.Invoked += State_OnMoveIntended;
-      _view.Position = _state.Position.Value.ToWorld(0.0f);
+      _view.Position = _hexGridFunctions.ToLocal(_state.Position.Value, HexRenderUtils.OuterRadius);
       _view.Rotation = _state.Direction.Value.ToWorld();
     }
 
@@ -56,8 +59,8 @@ namespace Motk.Combat.Client.Core.Units
       float duration)
     {
       // todokmo нужен механизм, который бы снаппил по Y
-      var originWorld = origin.ToWorld(0.0f);
-      var destinationWorld = destination.ToWorld(0.0f);
+      var originWorld = _hexGridFunctions.ToLocal(origin, HexRenderUtils.OuterRadius);
+      var destinationWorld = _hexGridFunctions.ToLocal(destination, HexRenderUtils.OuterRadius);
 
       var startRotation = _state.Direction.Value.ToWorld();
       var endRotation = nextDirection.ToWorld();

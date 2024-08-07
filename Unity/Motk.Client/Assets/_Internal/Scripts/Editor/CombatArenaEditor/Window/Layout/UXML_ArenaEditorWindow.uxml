@@ -1,0 +1,48 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:Template name="UXML_ArenaEditorWindowSideRow" src="project://database/Assets/Internal/Editor/UI/UXML_ArenaEditorWindowSideRow.uxml?fileID=9197481963319205126&amp;guid=447afe880d69bce4b8d6a6ab1b8e7264&amp;type=3#UXML_ArenaEditorWindowSideRow" />
+    <Style src="project://database/Assets/Internal/Editor/UI/USS_ArenaEditorWindow.uss?fileID=7433441132597879392&amp;guid=2170a999867110e429377614bdd42ae2&amp;type=3#USS_ArenaEditorWindow" />
+    <ui:VisualElement name="root" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); margin-left: 2%; margin-right: 2%; margin-top: 2%; margin-bottom: 2%; justify-content: flex-start; width: 96%; height: 96%;">
+        <ui:TextField picking-mode="Ignore" label="Id" name="id-field" style="-unity-font-style: bold;" />
+        <uie:ObjectField label="Arena" name="arenaPrefab-field" allow-scene-objects="false" />
+        <ui:VisualElement name="tabs-header" style="flex-grow: initial; background-color: rgba(0, 0, 0, 0); flex-direction: row; flex-shrink: 1; height: 50px; width: auto; align-self: auto; align-items: center; justify-content: center;">
+            <ui:Button text="None" display-tooltip-when-elided="true" name="none-tabButton" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; width: 80px;" />
+            <ui:Button text="Grid" display-tooltip-when-elided="true" name="grid-tabButton" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; width: 80px;" />
+            <ui:Button text="Sides" display-tooltip-when-elided="true" name="sides-tabButton" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; width: 80px;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="tabs-content" style="flex-grow: initial; background-color: rgba(0, 0, 0, 0);">
+            <ui:VisualElement name="grid-content" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); height: auto; visibility: visible; overflow: visible; display: none;">
+                <ui:Vector2Field label="Offset" focusable="true" name="offset-field" style="transition-property: all; transition-duration: 0s; transition-timing-function: ease; transition-delay: 0s;" />
+                <ui:FloatField label="Node size" value="2" name="nodeSize-field" style="width: auto;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="sides-content" style="flex-grow: initial; display: flex; height: auto;">
+                <ui:VisualElement name="sides-panel" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
+                    <ui:VisualElement name="labels-panel" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row; margin-left: 54px;">
+                        <ui:Label tabindex="-1" text="Active?" display-tooltip-when-elided="true" name="active-label" style="width: auto; -unity-font-style: bold; font-size: 10px; -unity-text-align: middle-center;" />
+                        <ui:Label tabindex="-1" text="Boss?" display-tooltip-when-elided="true" name="boss-label" style="-unity-text-align: middle-center; font-size: 10px; -unity-font-style: bold;" />
+                    </ui:VisualElement>
+                    <ui:Instance template="UXML_ArenaEditorWindowSideRow" name="side-row1">
+                        <AttributeOverrides element-name="name-label" text="Side0" />
+                    </ui:Instance>
+                    <ui:Instance template="UXML_ArenaEditorWindowSideRow" name="side-row2">
+                        <AttributeOverrides element-name="name-label" text="Side1" />
+                    </ui:Instance>
+                    <ui:Instance template="UXML_ArenaEditorWindowSideRow" name="side-row3">
+                        <AttributeOverrides element-name="name-label" text="Side2" />
+                    </ui:Instance>
+                    <ui:Instance template="UXML_ArenaEditorWindowSideRow" name="side-row4">
+                        <AttributeOverrides element-name="name-label" text="Side3" />
+                    </ui:Instance>
+                </ui:VisualElement>
+                <ui:VisualElement name="sidesModes-panel" style="flex-grow: initial; background-color: rgba(0, 0, 0, 0); flex-direction: row; height: 50px; justify-content: center; align-items: center;">
+                    <ui:Button text="Edit units" display-tooltip-when-elided="true" name="unitMode-button" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; width: 70px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="buttons-panel" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-shrink: 0; flex-basis: auto; flex-direction: row; justify-content: center; align-self: auto; align-items: center;">
+            <ui:Button text="Load from clipboard" display-tooltip-when-elided="true" name="load-button" style="width: 136px; align-self: center;" />
+            <ui:Button text="Save" display-tooltip-when-elided="true" name="save-button" style="width: 114px; align-self: center;" />
+        </ui:VisualElement>
+        <ui:Label tabindex="-1" display-tooltip-when-elided="true" name="message-label" style="margin-top: 10px;" />
+    </ui:VisualElement>
+    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);" />
+</ui:UXML>

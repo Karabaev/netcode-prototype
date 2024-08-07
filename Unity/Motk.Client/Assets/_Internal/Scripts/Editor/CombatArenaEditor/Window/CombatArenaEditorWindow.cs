@@ -1,16 +1,13 @@
 using UnityEditor;
 using UnityEngine.UIElements;
 
-namespace Motk.Editor.CombatArenaEditor
+namespace Motk.Editor.CombatArenaEditor.Window
 {
   public class CombatArenaEditorWindow : EditorWindow
   {
     private VisualTreeAsset _visualTree = null!;
 
-    public void Initialize(VisualTreeAsset visualTree)
-    {
-      _visualTree = visualTree;
-    }
+    private void Awake() => _visualTree = CombatArenaEditorPreferences.Instance.EditorWindowTree;
 
     private void CreateGUI()
     {

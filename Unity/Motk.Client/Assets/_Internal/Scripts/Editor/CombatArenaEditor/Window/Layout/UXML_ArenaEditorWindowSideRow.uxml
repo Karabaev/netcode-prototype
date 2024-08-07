@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Internal/Editor/UI/USS_ArenaEditorWindow.uss?fileID=7433441132597879392&amp;guid=2170a999867110e429377614bdd42ae2&amp;type=3#USS_ArenaEditorWindow" />
+    <ui:VisualElement name="root" class="sideRow" style="flex-grow: 1; flex-direction: row; align-items: center; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;">
+        <ui:Label tabindex="-1" text="Side1" display-tooltip-when-elided="true" name="name-label" style="margin-right: 2px; width: 50px;" />
+        <ui:Toggle name="active-toggle" style="margin-left: 10px; margin-right: 10px;" />
+        <ui:Toggle name="boss-toggle" style="margin-left: 10px; margin-right: 10px;" />
+    </ui:VisualElement>
+</ui:UXML>
